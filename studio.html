@@ -11249,14 +11249,18 @@ function toonFxMenu(i, x, y) {
     m.style.left = Math.min(x, window.innerWidth - m.offsetWidth - 8) + 'px';
     m.style.top = Math.min(y - b.top, window.innerHeight - m.offsetHeight - 8 - b.top) + 'px';
     setTimeout(() => {
-        const weg = (e) => { if (!m.contains(e.target)) { sluitPadMenu(); document.removeEventListener('mousedown', weg); } };
+        // Een oude wegklik-luisteraar van een vorig menu zou het nieuwe menu meteen sluiten: eerst opruimen.
+        if (padMenuWeg) document.removeEventListener('mousedown', padMenuWeg);
+        const weg = (e) => { if (!m.contains(e.target)) { sluitPadMenu(); } };
+        padMenuWeg = weg;
         document.addEventListener('mousedown', weg);
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') sluitPadMenu(); }, { once: true });
     }, 0);
 }
 
 // Rechtermuisknop op een pad: een menu voor alle gekozen pads tegelijk.
-function sluitPadMenu() { const m = document.getElementById('padMenu'); if (m) m.remove(); }
+let padMenuWeg = null;
+function sluitPadMenu() { const m = document.getElementById('padMenu'); if (m) m.remove(); if (padMenuWeg) { document.removeEventListener('mousedown', padMenuWeg); padMenuWeg = null; } }
 function toonPadMenu(x, y) {
     sluitPadMenu();
     const doelen = gekozenPads();
@@ -11343,7 +11347,10 @@ function toonPadMenu(x, y) {
     m.style.left = Math.min(x, window.innerWidth - m.offsetWidth - 8) + 'px';
     m.style.top = Math.min(y - b.top, window.innerHeight - m.offsetHeight - 8 - b.top) + 'px';
     setTimeout(() => {
-        const weg = (e) => { if (!m.contains(e.target)) { sluitPadMenu(); document.removeEventListener('mousedown', weg); } };
+        // Een oude wegklik-luisteraar van een vorig menu zou het nieuwe menu meteen sluiten: eerst opruimen.
+        if (padMenuWeg) document.removeEventListener('mousedown', padMenuWeg);
+        const weg = (e) => { if (!m.contains(e.target)) { sluitPadMenu(); } };
+        padMenuWeg = weg;
         document.addEventListener('mousedown', weg);
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') sluitPadMenu(); }, { once: true });
     }, 0);
