@@ -1944,6 +1944,8 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .kop .linkrij{display:flex;flex-wrap:wrap;gap:8px 28px;margin:14px 0 0;position:relative;z-index:1}
 .kop .linkrij .lees{margin-top:0;border-bottom:1px solid var(--inkt);color:var(--inkt);font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
 .gitaarveld .gitaarvast{position:absolute;right:14px;top:12px;z-index:5;font-size:9px;padding:4px 10px}
+.cianikast .ckijk{margin:4px 14px 6px}
+.cianikast .ckijk .gitaarkijk{padding:2px 0}
 </style>
 </head>
 <body>
@@ -4538,14 +4540,14 @@ function maakKraakLus() {
     for (let i = 0; i < lengte; i++) {
         const ruw = Math.random() * 2 - 1;
         vorig = vorig * 0.72 + ruw * 0.28;
-        d[i] = vorig * 0.05;
+        d[i] = vorig * 0.12;
     }
 
     // tikjes: korte uitschieters die snel uitdempen, zoals stof in een groef
-    const aantal = Math.floor(lengte / sr * 26);
+    const aantal = Math.floor(lengte / sr * 40);
     for (let k = 0; k < aantal; k++) {
         const plek = Math.floor(Math.random() * (lengte - 600));
-        const kracht = 0.15 + Math.random() * 0.5;
+        const kracht = 0.3 + Math.random() * 0.7;
         const duur = 40 + Math.floor(Math.random() * 220);
         for (let i = 0; i < duur; i++) {
             const af = Math.pow(1 - i / duur, 3);
@@ -4575,7 +4577,7 @@ function zetKraak(aan) {
     laag.type = 'lowpass'; laag.frequency.value = 7800;
 
     kraakNiveau = ctx.createGain();
-    kraakNiveau.gain.value = kraakSterkte * 0.5;
+    kraakNiveau.gain.value = kraakSterkte * 1.2;
 
     kraakBron.connect(hoog); hoog.connect(laag); laag.connect(kraakNiveau);
     kraakNiveau.connect(uitgang());
@@ -4612,6 +4614,50 @@ function eigenHout() {
     img.src = 'fotos/kast.jpg';
 }
 
+// De plaat van de uitgang: de compressor met zijn knoppen, het eindvolume en de
+// kraakjes, in een kast zoals de andere plugins. Het rek eronder is verborgen,
+// dus dit is de enige plek waar je aan de compressor draait.
+let uitgangModal = null;
+function openUitgang() {
+    if (uitgangModal) { uitgangModal.remove(); uitgangModal = null; }
+    zorgCtx(); uitgang(); if (ctx.state === 'suspended') ctx.resume();
+    const modal = document.createElement('div'); modal.id = 'uitgangModal'; modal.className = 'synthmodal';
+    const kast = document.createElement('div'); kast.className = 'kast synthkast'; kast.style.width = 'min(760px,100%)';
+    const plaat = document.createElement('div'); plaat.className = 'plaat synthplaat';
+    plaat.innerHTML = '<span class="schroef lb"></span><span class="schroef rb"></span><span class="schroef lo"></span><span class="schroef ro"></span>' +
+        '<div class="plaatkop"><span class="merk">Sisters with Transistors</span><span class="model">Uitgang &middot; Compressor</span><span class="naar">Alles wat je hoort gaat hierdoorheen: eerst de compressor, dan het eindvolume</span><button class="sluitknop" title="Sluiten">&times;</button></div>';
+    const knoppen = document.createElement('div'); knoppen.className = 'knoppenplaat'; knoppen.style.padding = '10px 14px';
+    const elementen = [];
+    COMPSCHUIVEN.forEach(c => {
+        const k = maakKnop({ label: c.label, min: c.min, max: c.max, stap: c.stap, standaard: comp[c.sleutel], e: c.eenheid }, comp[c.sleutel], (v) => { comp[c.sleutel] = v; zetCompressor(); });
+        elementen.push([c, k]); knoppen.appendChild(k);
+    });
+    plaat.appendChild(knoppen);
+    const meter = document.createElement('p'); meter.className = 'uitleg'; meter.style.margin = '0 14px 6px';
+    const meterTimer = setInterval(() => { if (!compressor) return; const r = compressor.reduction; meter.textContent = 'De compressor houdt nu ' + (Math.abs(r) < 0.05 ? '0,0' : (-r).toFixed(1).replace('.', ',')) + ' dB tegen' + (comp.aan ? '' : ' (staat uit)') + '.'; }, 120);
+    plaat.appendChild(meter);
+    const voet = document.createElement('div'); voet.className = 'plaatvoet';
+    const aan = document.createElement('button'); aan.textContent = comp.aan ? 'Compressor aan' : 'Compressor uit'; aan.classList.toggle('aan', comp.aan);
+    aan.onclick = () => { document.getElementById('compAan').click(); aan.textContent = comp.aan ? 'Compressor aan' : 'Compressor uit'; aan.classList.toggle('aan', comp.aan); };
+    voet.appendChild(aan);
+    const kraak = document.createElement('button'); kraak.textContent = kraakAan ? 'Kraakjes aan' : 'Kraakjes'; kraak.classList.toggle('aan', kraakAan);
+    kraak.onclick = () => { document.getElementById('kraakKnop').click(); setTimeout(() => { kraak.textContent = kraakAan ? 'Kraakjes aan' : 'Kraakjes'; kraak.classList.toggle('aan', kraakAan); }, 50); };
+    voet.appendChild(kraak);
+    const terug = document.createElement('button'); terug.textContent = 'Standaard';
+    terug.onclick = () => { Object.assign(comp, { drempel: -20, ratio: 4, knie: 12, aanslag: 8, loslaten: 180, volume: 1.0 }); zetCompressor(); elementen.forEach(([c, k]) => k.zet(comp[c.sleutel])); };
+    voet.appendChild(terug);
+    const uitleg = document.createElement('span'); uitleg.className = 'uitleg';
+    uitleg.textContent = 'Drempel is vanaf welk niveau hij ingrijpt, verhouding hoe hard, knie hoe geleidelijk, aanslag hoe snel hij reageert en loslaten hoe snel hij weer loslaat. Sleep een knop omhoog of omlaag, dubbelklik zet hem terug.';
+    voet.appendChild(uitleg);
+    plaat.appendChild(voet);
+    kast.appendChild(plaat); modal.appendChild(kast); document.body.appendChild(modal);
+    const sluit = () => { clearInterval(meterTimer); modal.remove(); uitgangModal = null; };
+    plaat.querySelector('.sluitknop').onclick = sluit;
+    modal.addEventListener('mousedown', (e) => { if (e.target === modal) sluit(); });
+    document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape' && uitgangModal) { sluit(); document.removeEventListener('keydown', esc); } });
+    uitgangModal = modal;
+}
+
 function knoopKraak() {
     const k = document.getElementById('kraakKnop');
     k.onclick = async () => {
@@ -4619,12 +4665,14 @@ function knoopKraak() {
         if (ctx && ctx.state === 'suspended') await ctx.resume();
         zetKraak(!kraakAan);
         k.classList.toggle('aan', kraakAan);
-        document.getElementById('kraakTekst').textContent = kraakAan ? 'aan' : 'uit';
+        k.textContent = kraakAan ? 'Kraakjes aan' : 'Kraakjes';
+        document.getElementById('kraakTekst').textContent = (kraakAan ? 'aan' : 'uit') + ' \u00b7 ' + Math.round(kraakSterkte * 100) + '%';
     };
 
     document.getElementById('kraakVolume').addEventListener('input', (e) => {
         kraakSterkte = parseFloat(e.target.value);
-        if (kraakNiveau) kraakNiveau.gain.value = kraakSterkte * 0.5;
+        if (kraakNiveau) kraakNiveau.gain.value = kraakSterkte * 1.2;
+        const kt = document.getElementById('kraakTekst'); if (kt) kt.textContent = (kraakAan ? 'aan' : 'uit') + ' \u00b7 ' + Math.round(kraakSterkte * 100) + '%';
     });
 }
 
@@ -9004,7 +9052,9 @@ function bouwTransport() {
     // De lus is weg uit de balk (Anne: nooit begrepen). Het vak blijft in de DOM, verborgen, zodat de code die eraan hangt niets mist.
     const lusVak = document.getElementById('tvakLus'); if (lusVak) { lusVak.hidden = true; lusVak.style.display = 'none'; }
     zet('tvakMix', ['mixKnop', 'mixTijd', 'mixBeluister', 'mixWav']);
-    zet('tvakUit', ['compAan', 'compMeter', 'kraakKnop', 'kraakVolume']);
+    zet('tvakUit', ['compAan', 'compMeter', 'kraakKnop', 'kraakVolume', 'kraakTekst']);
+    const uitVak = document.getElementById('tvakUit');
+    if (uitVak) { const ik = document.createElement('button'); ik.id = 'knopUitgang'; ik.textContent = 'Instellen'; ik.title = 'De plaat van de uitgang: drempel, verhouding, knie, aanslag, loslaten en eindvolume'; ik.onclick = openUitgang; uitVak.insertBefore(ik, document.getElementById('compMeter').nextSibling); }
     const bpm = document.getElementById('bpm'); if (bpm) bpm.title = 'Tempo in slagen per minuut';
     const rek = document.querySelector('.kast.rek'); if (rek) rek.hidden = true;
     const kv = document.getElementById('kraakVolume'); if (kv) kv.title = 'Hoeveel kraakjes';
@@ -10149,12 +10199,12 @@ function openGitaar() {
         const sp = document.createElement('div'); sp.className = 'gitaarrij'; const spl = document.createElement('span'); spl.className = 'gitaarlabel'; spl.textContent = 'Stijl'; sp.appendChild(spl); sp.appendChild(stijlen);
         const ak = document.createElement('div'); ak.className = 'gitaarrij'; const akl = document.createElement('span'); akl.className = 'gitaarlabel'; akl.textContent = 'Akkoord'; ak.appendChild(akl); ak.appendChild(akkoorden);
         rij.remove();
-        blok('Speelwijze', '1', [sp, ak]);
+        blok('Wat je speelt', '1', [kijk], true);
+        blok('Speelwijze', '2', [sp, ak]);
         const zr = document.createElement('div'); zr.className = 'gitaarrij'; const zl = document.createElement('span'); zl.className = 'gitaarlabel'; zl.textContent = 'Stem'; zr.appendChild(zl); zr.appendChild(zingKnop); zr.appendChild(vocKnop); zr.appendChild(vocVrij);
-        blok('Klank', '2', [prij, zr], true);
-        blok('Licks', '3', [lrij]);
-        blok('Effecten', '4', [srij]);
-        blok('Wat je speelt', '5', [kijk], true);
+        blok('Klank', '3', [prij, zr], true);
+        blok('Licks', '4', [lrij]);
+        blok('Effecten', '5', [srij]);
     })();
     const kijkAn = ctx.createAnalyser(); kijkAn.fftSize = 1024; eind.connect(kijkAn); const golfBuf = new Float32Array(1024);
     const sg = scoop.getContext('2d'), rg = rol.getContext('2d');
@@ -10645,7 +10695,8 @@ function openCiani() {
         [B.sin, B.zaag].forEach(o => o.frequency.setTargetAtTime(st.oscB.freq, t, 0.008));
         fmGain.gain.setTargetAtTime(st.fm * st.oscA.freq * 4, t, 0.02);
     };
-    const aanslag = (halve, t) => { zetNoot(halve, t); vuur(st.fg1, FG1, t); if (!st.fg2.cyclisch) vuur(st.fg2, FG2, t); flits(halve, t); };
+    st.gespeeld = []; st.rolStart = 0;
+    const aanslag = (halve, t) => { zetNoot(halve, t); vuur(st.fg1, FG1, t); if (!st.fg2.cyclisch) vuur(st.fg2, FG2, t); flits(halve, t); st.gespeeld.push({ t, noot: st.grond + halve }); };
     // sequencer op de klok van de studio
     let seqTimer = null, seqVolgende = 0;
     const seqLus = () => {
@@ -10880,6 +10931,67 @@ function openCiani() {
     demoKnop.title = 'Een rondleiding van ruim een minuut langs alle modules, met geluid en bewegende knoppen';
     demoKnop.onclick = () => { if (demoLoopt) stopDemo(); else startDemo(); };
     plaat.querySelector('.plaatkop').insertBefore(demoKnop, plaat.querySelector('.sluitknop'));
+    // ---- Wat je speelt: oscilloscoop, de noten van de laatste 8 maten, en opnemen naar een pad ----
+    const kijkBlok = document.createElement('div'); kijkBlok.className = 'cmod ckijk';
+    kijkBlok.innerHTML = '<div class="ckop"><b>&#9673;</b><span>Wat je speelt</span></div>';
+    const kijk = document.createElement('div'); kijk.className = 'gitaarrij gitaarkijk';
+    const scoop = document.createElement('canvas'); scoop.className = 'gitaarscoop'; scoop.width = 300; scoop.height = 70; kijk.appendChild(scoop);
+    const rol = document.createElement('canvas'); rol.className = 'gitaarrol'; rol.width = 600; rol.height = 70; kijk.appendChild(rol);
+    const rolKnoppen = document.createElement('div'); rolKnoppen.className = 'knoppen';
+    const kijkAn = ctx.createAnalyser(); kijkAn.fftSize = 1024; uit.connect(kijkAn); galm.connect(kijkAn); const golfBuf = new Float32Array(1024);
+    // opnemen: alles wat de kast maakt, tot je op stop drukt; daarna op een pad met de noten als pianorol
+    let opname = null;
+    const opKnop = document.createElement('button'); opKnop.className = 'mini'; opKnop.textContent = 'Opnemen naar pad';
+    opKnop.title = 'Neemt op wat de kast maakt (speel op het vlak of laat de sequencer lopen) en zet dat op het eerste lege pad, met de gespeelde noten als pianorol';
+    const stopOpname = () => {
+        if (!opname) return;
+        const o = opname; opname = null;
+        try { o.tap.disconnect(); o.proc.disconnect(); } catch (e) {}
+        opKnop.textContent = 'Opnemen naar pad'; opKnop.classList.remove('aan');
+        const totaal = o.stukken.reduce((n, x) => n + x.length, 0); if (totaal < 1000) return;
+        const data = new Float32Array(totaal); let p = 0; o.stukken.forEach(x => { data.set(x, p); p += x.length; });
+        const buf = ctx.createBuffer(1, totaal, ctx.sampleRate); buf.copyToChannel(data, 0);
+        const noten = st.gespeeld.filter(n => n.t >= o.start && n.t <= o.eind);
+        let md = null;
+        if (noten.length) {
+            const T = slagDuur() / 4; const t0 = o.start; const maten = Math.min(8, Math.max(1, Math.ceil((noten[noten.length - 1].t - t0) / (T * 16) + 0.01)));
+            md = { maten, noten: noten.map((n, k) => { const stap = Math.round((n.t - t0) / T); const volgende = noten[k + 1] ? Math.round((noten[k + 1].t - t0) / T) : stap + 4; return { stap, noot: n.noot - st.grond, lengte: Math.max(1, Math.min(16, volgende - stap)), kracht: 1 }; }).filter(n => n.stap < maten * 16) };
+        }
+        let j = -1; for (let n = 0; n < AANTAL; n++) if (!pads[n].buffer) { j = n; break; } if (j < 0) j = doelPad();
+        pads[j].buffer = buf; pads[j].naam = 'Ciani ' + new Date().toTimeString().slice(0, 5); pads[j].midi = md; pads[j].keten = []; pads[j].effect = 'geen'; pads[j].bewaard = null; pads[j].pitch = 0;
+        gekozen = j; tekenAlles(); bewaarAlles();
+        document.getElementById('padHint').textContent = 'Opname van de Ciani-kast staat op pad ' + (j + 1) + (md ? ', met ' + md.noten.length + ' noten in de pianorol' : '') + '.';
+    };
+    opKnop.onclick = () => {
+        if (opname) { opname.eind = ctx.currentTime; stopOpname(); return; }
+        const tap = ctx.createGain(); uit.connect(tap); galm.connect(tap);
+        const proc = ctx.createScriptProcessor(4096, 1, 1); const stukken = [];
+        proc.onaudioprocess = (e) => { if (opname && opname.proc === proc) stukken.push(new Float32Array(e.inputBuffer.getChannelData(0))); };
+        tap.connect(proc); proc.connect(ctx.destination);
+        opname = { tap, proc, stukken, start: ctx.currentTime, eind: 0 };
+        opKnop.textContent = 'Stop, naar pad'; opKnop.classList.add('aan');
+    };
+    rolKnoppen.appendChild(opKnop);
+    const wisKnop = document.createElement('button'); wisKnop.className = 'mini'; wisKnop.textContent = 'Rol leeg'; wisKnop.onclick = () => { st.gespeeld = []; st.rolStart = ctx.currentTime; }; rolKnoppen.appendChild(wisKnop);
+    kijk.appendChild(rolKnoppen); kijkBlok.appendChild(kijk); plaat.appendChild(kijkBlok);
+    const sg = scoop.getContext('2d'), rg = rol.getContext('2d');
+    let kijkLoop = null;
+    const tekenKijk = () => {
+        if (!ciani) { kijkLoop = null; return; }
+        kijkAn.getFloatTimeDomainData(golfBuf); const W = scoop.width, H = scoop.height;
+        sg.fillStyle = '#0b1a14'; sg.fillRect(0, 0, W, H); sg.strokeStyle = 'rgba(120,200,160,.16)'; for (let x = 0; x <= W; x += W / 8) { sg.beginPath(); sg.moveTo(x + 0.5, 0); sg.lineTo(x + 0.5, H); sg.stroke(); } sg.beginPath(); sg.moveTo(0, H / 2 + 0.5); sg.lineTo(W, H / 2 + 0.5); sg.stroke();
+        sg.save(); sg.shadowColor = '#4dff9a'; sg.shadowBlur = 6; sg.strokeStyle = '#7dffb0'; sg.lineWidth = 1.4; sg.beginPath(); for (let x = 0; x < W; x++) { const v = golfBuf[Math.floor(x / W * golfBuf.length)]; const y = H / 2 - v * H * 0.45; if (x === 0) sg.moveTo(x, y); else sg.lineTo(x, y); } sg.stroke(); sg.restore();
+        sg.fillStyle = 'rgba(244,239,228,.6)'; sg.font = '9px "Segoe UI", Helvetica, Arial'; sg.fillText('WAVE' + (opname ? ' \u00b7 opname loopt' : ''), 6, 11);
+        const RW = rol.width, RH = rol.height; const venster = slagDuur() * 4 * 8; const nu = ctx.currentTime;
+        rg.fillStyle = '#f3ead6'; rg.fillRect(0, 0, RW, RH);
+        const maat = slagDuur() * 4; for (let m = 0; m < 9; m++) { const tt = nu - venster + (Math.floor((nu - venster) / maat) + m + 1) * maat - (nu - venster); const x = ((tt) / venster) * RW; rg.strokeStyle = 'rgba(59,42,30,.35)'; rg.beginPath(); rg.moveTo(Math.round(x) + 0.5, 0); rg.lineTo(Math.round(x) + 0.5, RH); rg.stroke(); }
+        st.gespeeld = st.gespeeld.filter(n => n.t > nu - venster - 5);
+        st.gespeeld.forEach((n, k) => { const x = RW - ((nu - n.t) / venster) * RW; const eindT = st.gespeeld[k + 1] ? Math.min(st.gespeeld[k + 1].t, n.t + 2) : Math.min(nu, n.t + 2); const w = Math.max(3, ((eindT - n.t) / venster) * RW); const y = RH - ((n.noot - st.grond + 12) / 36) * RH; rg.fillStyle = '#9a5b41'; rg.fillRect(x, Math.max(2, Math.min(RH - 6, y)), w, 4); });
+        rg.fillStyle = '#5a4a2c'; rg.font = '9px "Segoe UI", Helvetica, Arial'; rg.fillText('MIDI \u00b7 laatste 8 maten', 6, 11); if (st.gespeeld.length) rg.fillText(nootNaam(st.gespeeld[st.gespeeld.length - 1].noot), RW - 30, 11);
+        kijkLoop = requestAnimationFrame(tekenKijk);
+    };
+    kijkLoop = requestAnimationFrame(tekenKijk);
+
     const voet = document.createElement('div'); voet.className = 'plaatvoet';
     const uitleg = document.createElement('span'); uitleg.className = 'uitleg';
     uitleg.textContent = 'Vereenvoudigd: de kabels liggen vast (osc A naar gate 1, osc B naar gate 2, functie 1 naar gate 1, functie 2 naar gate 2 of naar de FM, de sequencer naar de toonhoogte) en je draait de hoeveelheid. Het bongo-achtige plukje komt van gate op "beide" met een korte functie; belachtige klanken van FM omhoog; een langzame FG2 op cyclisch geeft de ademende beweging. Opnemen wat je hoort neemt het op.';
@@ -10917,6 +11029,8 @@ function openCiani() {
     };
     document.addEventListener('keydown', toets);
     const sluit = () => {
+        if (opname) { opname.eind = ctx.currentTime; stopOpname(); }
+        if (kijkLoop) cancelAnimationFrame(kijkLoop); kijkLoop = null;
         demoLoopt = false; zetSeq(false); clearInterval(cyclTimer);
         document.removeEventListener('keydown', toets); window.removeEventListener('resize', tekenKabels);
         try { A.sin.stop(); A.zaag.stop(); B.sin.stop(); B.zaag.stop(); FG1.stop(); FG2.stop(); ruis.stop(); } catch (e) {}
@@ -11089,6 +11203,7 @@ function toonFxMenu(i, x, y) {
     item('Improviseren / solo', () => openSolo(gekozenPads().length > 1 ? gekozenPads() : [i]), 'Dit pad (of de gekozen pads) op een klavier bespelen, of de studio laten improviseren');
     item('MIDI / pianorol', () => openPianorol(i), 'De noten van dit pad: tekenen, verschuiven, verlagen, verlengen, en als MIDI-bestand bewaren');
     item('Uitgang: compressor en volume', () => {
+        openUitgang(); return;
         const blok = Array.from(document.querySelectorAll('.rek .blok')).find(b => /Uitgang/.test((b.querySelector('h2') || {}).textContent || ''));
         if (blok) { blok.classList.add('open'); try { localStorage.setItem('swt-open', JSON.stringify(Array.from(document.querySelectorAll('.rek .blok.open')).map(b => b.dataset.blok || b.querySelector('h2').textContent))); } catch (e) {} blok.scrollIntoView({ behavior: 'smooth', block: 'start' }); blok.classList.add('licht'); setTimeout(() => blok.classList.remove('licht'), 1600); }
     }, 'De compressor en het eindvolume, voor alles wat je hoort');
