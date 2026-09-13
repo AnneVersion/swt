@@ -2031,6 +2031,7 @@ input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%
 .nulijst .nuchip{padding:3px 9px;border-radius:999px;background:#0f6b3f;color:#e8ffe8;font:700 10px "Segoe UI",Helvetica,Arial,sans-serif;letter-spacing:.04em;text-transform:none;box-shadow:0 0 8px rgba(46,224,138,.7), inset 0 1px 0 rgba(255,255,255,.3)}
 .nulijst .nuchip.beat{background:#8a3814;box-shadow:0 0 8px rgba(226,87,76,.6)}
 .nulijst .nuleeg{opacity:.6}
+.bouwnr{margin-left:auto;font-family:var(--vijftig);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#8a7b66}
 /* het label van een vak in de transportbalk stond op de knoppen */
 .tvak{padding-top:32px !important}
 .tvak .tlabel{top:2px;font-size:15px;line-height:1.3}
@@ -2082,6 +2083,7 @@ input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%
       <span id="recTijd" class="rectijd">alles wat klinkt</span>
       <canvas id="nuScoop" width="260" height="40" title="Wat er nu uit de uitgang komt"></canvas>
       <div id="nuLijst" class="nulijst"><span class="nuleeg">Nu klinkt: niets</span></div>
+      <span class="bouwnr" title="Zie je een lager nummer dan verwacht, laad de pagina opnieuw met Ctrl+F5">bouw 119</span>
     </div>
     <div class="rooster" id="rooster"></div>
     <div class="wang rechts"></div>
@@ -2605,7 +2607,9 @@ function beatLus() {
             const extra = (p !== null && o.dichtheid > 1) ? Math.min(o.dichtheid - 1, Math.floor(p * o.dichtheid + 0.0001)) : 0;   // extra slagen per stap
             const halve = (p !== null && o.toon) ? p * o.toon : 0;
             const slaOp = (i, tt) => { flitsLamp(n, tt); speel(i, tt, { halveTonen: halve }); legVast(i, tt); if (extra > 0) for (let e = 1; e <= extra; e++) speel(i, tt + stap * e / (extra + 1), { halveTonen: halve, volume: 0.8 }); };
-            if (g.modus === 'patroon') {
+            // ritme-stand met een leeg ritme (niets getekend, geen ketting met inhoud): dan willekeurig, anders hoor je niets
+            const ritmeLeeg = g.modus === 'patroon' && !ritmeHeeftIets(g) && !(g.kettingAan && kettingLijst(g).some(v => g.ritmes && g.ritmes[v] && ritmeHeeftIets({ ritme: g.ritmes[v] })));
+            if (g.modus === 'patroon' && !ritmeLeeg) {
                 // het getekende ritme (of het ritme uit de ketting): stap k, op de klok van de studio
                 const per = stappenPerMaat(g);
                 let stapNr = Math.round((t - klokNul) / stap);
@@ -8307,7 +8311,10 @@ function tekenGroepKoppen() {
                 const met = padsVanGroep(n).filter(i => pads[i].buffer);
                 const hint = document.getElementById('padHint');
                 if (aan && !met.length) hint.textContent = 'Beat aan in ' + gg.naam + ', maar er staat geen geluid op de pads van deze groep, dus je hoort niets.';
-                else if (aan) hint.textContent = 'Beat aan in ' + gg.naam + ': ' + met.length + (met.length === 1 ? ' pad' : ' pads') + ', ' + (gg.modus === 'patroon' ? 'het getekende ritme' : 'willekeurig op elk maatdeel') + (met.every(i => pads[i].stil) ? '. Alle rijen staan op mute' : '') + '.';
+                else if (aan) {
+                    const leeg = gg.modus === 'patroon' && !ritmeHeeftIets(gg);
+                    hint.textContent = 'Beat aan in ' + gg.naam + ': ' + met.length + (met.length === 1 ? ' pad' : ' pads') + ', ' + (gg.modus === 'patroon' ? (leeg ? 'het ritme is nog leeg, dus willekeurig; klik op Ritme en teken slagen of kies een ritme' : 'het getekende ritme') : 'willekeurig op elk maatdeel') + (met.every(i => pads[i].stil) ? '. Alle rijen staan op mute' : '') + '.';
+                }
                 else hint.textContent = 'Beat uit in ' + gg.naam + '.';
             };
             kop.appendChild(b);
@@ -10218,11 +10225,11 @@ const GITAARRITMES = {
     // Baslijnen in de stijl van de dansplaten van Michael Jackson en The Jacksons. Eigen riffs in die stijl,
     // geen transcripties: [stap in zestienden, halve tonen boven de grondtoon van het akkoord, lengte in zestienden].
     basBillie: { naam: 'Bas: Billie', uitleg: 'Strakke, herhalende mineurlijn in achtsten met kwint en septiem, zoals de bas onder Billie Jean', sw: false, pat: '................',
-                 bas: [[0, 0, 2], [2, 12, 1], [4, 10, 2], [6, 7, 1], [8, 0, 1], [9, 0, 1], [10, 5, 1], [12, 7, 2], [14, 10, 1], [15, 12, 1]] },
+                 bas: [[0, 0, 2], [2, 7, 2], [4, 12, 2], [6, 10, 2], [8, 7, 2], [10, 5, 2], [12, 3, 2], [14, 7, 2]] },
     basWall:   { naam: 'Bas: Off the Wall', uitleg: 'Disco-funk met octaafsprongen en korte slap-tikken, zoals de bas op Off the Wall', sw: false, pat: '................',
-                 bas: [[0, 0, 1], [1, 12, 1], [2, 0, 1], [4, 12, 1], [5, 0, 1], [7, 12, 1], [8, 10, 1], [9, 12, 1], [11, 7, 1], [12, 0, 1], [13, 12, 1], [14, 0, 1], [15, 3, 1]] },
+                 bas: [[0, 0, 2], [2, 12, 1], [3, 12, 1], [4, 0, 2], [6, 12, 2], [8, 10, 2], [10, 12, 1], [11, 10, 1], [12, 7, 2], [14, 3, 1], [15, 5, 1]] },
     basBoogie: { naam: 'Bas: Boogie', uitleg: 'Boogie-disco: octaafstuiter met een opstapje aan het eind van de maat, zoals de bas onder Blame It on the Boogie', sw: false, pat: '................',
-                 bas: [[0, 0, 1], [2, 12, 1], [4, 0, 1], [6, 12, 1], [8, 0, 1], [10, 12, 1], [12, 7, 1], [13, 9, 1], [14, 10, 1], [15, 11, 1]] }
+                 bas: [[0, 0, 2], [2, 12, 2], [4, 0, 2], [6, 12, 2], [8, 0, 1], [9, 0, 1], [10, 12, 2], [12, 7, 1], [13, 9, 1], [14, 10, 1], [15, 11, 1]] }
 };
 
 const GITAARLICKS = [
@@ -10353,6 +10360,13 @@ function maakGitaarMotor(c, doel) {
         if (opties.gate) { g.gain.setValueAtTime(opties.volume || 1, wanneer + opties.gate); g.gain.exponentialRampToValueAtTime(0.001, wanneer + opties.gate + 0.04); b.stop(wanneer + opties.gate + 0.1); }
         else b.stop(wanneer + (opties.duur || 2.5));
         st.bronnen.push(b); b.onended = () => { st.bronnen = st.bronnen.filter(x => x !== b); if (st.leadBron === b) st.leadBron = null; };
+        if (opties.sub) {
+            // de ronde onderkant van een basgitaar: een sinus een octaaf lager, met dezelfde lengte
+            const o = c.createOscillator(); o.type = 'sine'; o.frequency.value = 440 * Math.pow(2, (midi - 12 - 69) / 12) * b.playbackRate.value;
+            const og = c.createGain(); const eindT = wanneer + (opties.gate || opties.duur || 0.5);
+            og.gain.setValueAtTime(0, wanneer); og.gain.linearRampToValueAtTime((opties.volume || 1) * 0.7, wanneer + 0.008); og.gain.setValueAtTime((opties.volume || 1) * 0.7, Math.max(wanneer + 0.01, eindT - 0.03)); og.gain.linearRampToValueAtTime(0.0001, eindT + 0.02);
+            o.connect(og); og.connect(inGain); o.start(wanneer); o.stop(eindT + 0.05);
+        }
         if ((!opties.dun || opties.noteer) && st.gespeeld) st.gespeeld.push({ t: wanneer, noot: midi, kracht: opties.volume || 1, auto: !!opties.noteer });
         if (!opties.gate && !opties.dun) {
             // de tweede snaar: dezelfde noot, zeven cent hoger en acht milliseconden later, dat maakt hem dik
@@ -10530,7 +10544,7 @@ function openGitaar() {
                 if (r.bas) {
                     // een baslijn: dikke, donkere noten een octaaf onder de grondtoon, elke noot precies zo lang als het riff zegt
                     const grond = noten[0] - 12;
-                    r.bas.forEach(([i, iv, len]) => { const d = len * stapT; pluk(grond + iv, ritmeVolgende + i * stapT, { demp: 0.996, helder: 0.28, volume: 1, duur: d + 0.15, gate: Math.max(0.06, d * 0.85), dun: true, zonderOctaaf: true, noteer: true }); });
+                    r.bas.forEach(([i, iv, len]) => { const d = len * stapT; pluk(grond + iv, ritmeVolgende + i * stapT, { demp: 0.998, helder: 0.16, volume: 1.1, duur: d + 0.15, gate: Math.max(0.06, d * 0.9), dun: true, zonderOctaaf: true, noteer: true, sub: true }); });
                     ritmeVolgende += maat; continue;
                 }
                 for (let i = 0; i < stappen; i++) {
