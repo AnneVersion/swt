@@ -1141,7 +1141,7 @@ kbd{border-radius:0}
 .padsynth .pitchrij span{width:80px;font-family:"Courier New",monospace;font-size:10px;text-align:right}
 .padsynth .synthvoet{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
 .kast.rek[hidden]{display:none}
-.transport{display:grid;grid-template-columns:1.2fr 1.6fr 1fr 1fr .8fr;gap:6px;margin:12px 0 0;min-width:0}
+.transport{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.1fr;gap:6px;margin:12px 0 0;min-width:0}
 .tvak{position:relative;min-width:0;padding:18px 8px 8px;border:1px solid #6d6960;color:#2a2723;
   background:
     linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,0) 14%, rgba(0,0,0,.03) 78%, rgba(0,0,0,.12)),
@@ -1941,6 +1941,8 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 #rondleidingBak .rltekst{margin:0 0 10px;font-size:14px;line-height:1.45;color:#2a2723}
 #rondleidingBak .rlknoppen{display:flex;gap:6px;align-items:center}
 #rondleidingBak .rltel{font-family:"Courier New",monospace;font-size:10px;color:#4a453d;margin-right:auto}
+.kop .linkrij{display:flex;flex-wrap:wrap;gap:8px 28px;margin:14px 0 0;position:relative;z-index:1}
+.kop .linkrij .lees{margin-top:0;border-bottom:1px solid var(--inkt);color:var(--inkt);font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
 </style>
 </head>
 <body>
@@ -1973,11 +1975,9 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 
       <p>De documentaire <a href="https://sisterswithtransistors.com" target="_blank" rel="noopener"><b>Sisters with Transistors</b></a> uit 2020, geregisseerd door Lisa Rovner en verteld door Laurie Anderson, portretteert deze tien pioniers. Kijk hem, en luister daarna nog een keer naar wat je dacht te kennen.</p>
 
-      <p class="leesregel"><a class="lees" href="index.html">Lees wie zij waren</a></p>
-      <p>Met deze plek willen we muzikale creativiteit aanwakkeren, voor iedereen. Voor meisjes, voor jongens en voor iedereen daartussen. Je hebt geen studio nodig en geen dure apparatuur, alleen je stem en je handen. Neem op, verdraai, stapel, en maak iets wat er nog niet was. <a href="#" class="lees" id="startRondleiding">Bekijk deze animatie om snel te beginnen</a>. En in het verlengde van Sophie Straat herhalen wij haar oproep: witte mannen, doe een stap terug en maak ruimte voor je medemens. Witte mannen mogen zeker meedoen, maar wel volgens onze menselijke normen en waarden en op basis van wederzijds respect. Ik verwacht dat het kaf zich dan vanzelf van het koren scheidt.</p>
-
-
+      <p>Met deze plek willen we muzikale creativiteit aanwakkeren, voor iedereen. Voor meisjes, voor jongens en voor iedereen daartussen. Je hebt geen studio nodig en geen dure apparatuur, alleen je stem en je handen. Neem op, verdraai, stapel, en maak iets wat er nog niet was. En in het verlengde van Sophie Straat herhalen wij haar oproep: witte mannen, doe een stap terug en maak ruimte voor je medemens. Witte mannen mogen zeker meedoen, maar wel volgens onze menselijke normen en waarden en op basis van wederzijds respect. Ik verwacht dat het kaf zich dan vanzelf van het koren scheidt.</p>
     </div>
+    <p class="leesregel linkrij"><a class="lees" href="index.html">Lees wie zij waren</a><a class="lees" href="#" id="startRondleiding">Bekijk deze animatie om snel te beginnen</a><a class="lees" href="#" id="startDemoBeat">Bekijk hoe je een beat met een melodie maakt</a></p>
   </header>
 
 <div class="werkvlak">
@@ -8985,6 +8985,8 @@ function bouwTransport() {
         });
     };
     rijen('tvakLus', [['knopLus', 'knopLusOp'], ['maten', 'knopLusTerug'], ['knopLusWis'], ['lusBalk']]);
+    // De lus is weg uit de balk (Anne: nooit begrepen). Het vak blijft in de DOM, verborgen, zodat de code die eraan hangt niets mist.
+    const lusVak = document.getElementById('tvakLus'); if (lusVak) { lusVak.hidden = true; lusVak.style.display = 'none'; }
     zet('tvakMix', ['mixKnop', 'mixTijd', 'mixBeluister', 'mixWav']);
     zet('tvakUit', ['compAan', 'compMeter', 'kraakKnop', 'kraakVolume']);
     const bpm = document.getElementById('bpm'); if (bpm) bpm.title = 'Tempo in slagen per minuut';
@@ -11029,7 +11031,7 @@ function openPianorol(i) {
     modal.addEventListener('keydown', (e) => e.stopPropagation());
     document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape' && pianorol) { sluit(); document.removeEventListener('keydown', esc); } });
     window.addEventListener('resize', teken); requestAnimationFrame(teken);
-    pianorol = { sluit, teken, st };
+    pianorol = { sluit, teken, st, start, stop };
 }
 
 // De Fx-knop: eerst kiezen wat je wilt, dan opent het juiste deel.
@@ -12128,7 +12130,6 @@ const RONDLEIDING = [
     ['.zijkant.vrij', 'Vrije geluiden, allemaal vrij te gebruiken. Pad zet er een op een pad, Alles naar groep zet een heel instrument klaar in een eigen groep.'],
     ['.groepvak', 'Een groep. Beat laat de pads van de groep een ritme spelen op het tempo van de studio. Ritme kiest welk ritme, Opbouw laat het groeien.'],
     ['#tvakMaat', 'Tempo en raster. Quantize laat alles wat je speelt op de tel vallen.'],
-    ['#tvakLus', 'De lus: start hem en speel erin, elke ronde komt erbij.'],
     ['#tvakSolo', 'De grote instrumenten: Gitaarsolo, Woorden en de Ciani-kast. Elk met een eigen kast en plugins van de pioniers.'],
     ['#tvakMix', 'Opnemen wat je hoort maakt er een wav van. Die kun je bewaren, of naar ons mailen.'],
     ['#creatie', 'Helemaal onderaan: stuur je creatie. Ik luister graag.']
@@ -12148,18 +12149,71 @@ function startRondleiding(e) {
         document.addEventListener('keydown', (ev) => { if (rondleidingStap >= 0 && ev.key === 'Escape') stopRondleiding(); });
     }
     document.getElementById('rondleidingBak').classList.add('aan');
+    rondleidingStappen = RONDLEIDING;
     toonRondleiding(0);
 }
-function toonRondleiding(n, stil) {
+
+// De demo: een beat uit vier vrije geluiden, en een gitaarmelodie erbij die op
+// dezelfde klok loopt. Elke stap doet het echt, in jouw studio.
+function startDemoBeat(e) {
+    if (e) e.preventDefault();
+    zorgCtx(); if (ctx.state === 'suspended') ctx.resume();
+    const d = { nBeat: -1, nGit: -1, iGit: -1 };
+    const vrij = () => biblio.filter(r => r.bron !== 'set' && isVrij(r));
+    const eerste = (instr) => vrij().find(r => (instrumentVan(r) || '') === instr);
+    const vak = (n) => document.querySelector('.groepvak[data-groep="' + n + '"]');
+    const stappen = [
+        { sel: '.zijkant.vrij', tekst: 'We pakken vier vrije geluiden: een kick, een snare, een clap en een djembe. Ze gaan samen in een nieuwe groep, Beat.',
+          doe: async () => {
+              const rijen = ['Kick', 'Snare', 'Clap en snap', 'Djembe'].map(eerste).filter(Boolean);
+              if (!rijen.length) throw new Error('geen vrije geluiden');
+              d.nBeat = nieuweGroep('Beat'); knoopGroepen();
+              await naarGroep(rijen, d.nBeat);
+          } },
+        { sel: () => vak(d.nBeat), tekst: 'De groep Beat. We openen het ritme en kiezen Afrobeat uit de bibliotheek: elke rij is een pad.',
+          doe: () => { const g = groepBij(d.nBeat); g.open = true; tekenRitme(d.nBeat); const r = RITMEBIB.find(x => /^Afrobeat/.test(x.naam)) || RITMEBIB[0]; pasRitmeToe(d.nBeat, r); } },
+        { sel: () => vak(d.nBeat) && vak(d.nBeat).querySelector('.beatknop'), tekst: 'Beat aan: de groep speelt het ritme op het tempo van de studio. Dit blijft lopen.',
+          doe: () => zetBeat(d.nBeat, true) },
+        { sel: '.zijkant.vrij', tekst: 'Nu een tweede groep, Gitaar, met het C-akkoord van een akoestische gitaar.',
+          doe: async () => {
+              const rij = vrij().find(r => /AcousticGuitar-C-Chord/i.test(r.bestand || '')) || eerste('Gitaar');
+              if (!rij) throw new Error('geen gitaar');
+              d.nGit = nieuweGroep('Gitaar'); knoopGroepen();
+              await naarGroep([rij], d.nGit);
+              d.iGit = padsVanGroep(d.nGit)[0];
+          } },
+        { sel: () => document.querySelector('[data-pad="' + d.iGit + '"]'), tekst: 'Het akkoord staat op dit pad. We openen de pianorol en zetten er een melodie in: elke noot is het akkoord hoger of lager.',
+          doe: () => {
+              openPianorol(d.iGit);
+              const md = padMidi(d.iGit); md.maten = 2;
+              md.noten = [[0, 0], [4, 4], [8, 7], [12, 12], [16, 7], [20, 4], [24, 0], [28, -5]].map(([stap, noot]) => ({ stap, noot, lengte: 3, kracht: 1 }));
+              if (pianorol) pianorol.teken();
+              bewaarAlles();
+          } },
+        { sel: '#pianorolModal .pianorolplaat', tekst: 'Speel: de melodie loopt in een lus op dezelfde klok als de beat, dus ze vallen samen op de maat.',
+          doe: () => { if (pianorol) pianorol.start(); } },
+        { sel: '#pianorolModal .pianorolplaat', tekst: 'Beat en melodie spelen samen. Verschuif noten, zet ze lager, maak ze langer, en bewaar alles met Project bewaren. Veel plezier.', wacht: 9000 }
+    ];
+    if (!document.getElementById('rondleidingBak')) startRondleiding();
+    stopRondleiding();
+    document.getElementById('rondleidingBak').classList.add('aan');
+    rondleidingStappen = stappen;
+    toonRondleiding(0);
+}
+document.getElementById('startDemoBeat').addEventListener('click', startDemoBeat);
+let rondleidingStappen = RONDLEIDING;
+async function toonRondleiding(n, stil) {
     clearTimeout(rondleidingTimer);
-    if (n >= RONDLEIDING.length) { stopRondleiding(); return; }
+    if (n >= rondleidingStappen.length) { stopRondleiding(); return; }
     rondleidingStap = n;
-    const [sel, tekst] = RONDLEIDING[n];
-    const el = document.querySelector(sel);
+    const stap = rondleidingStappen[n];
+    const sel = Array.isArray(stap) ? stap[0] : stap.sel, tekst = Array.isArray(stap) ? stap[1] : stap.tekst;
+    if (!stil && stap.doe) { try { await stap.doe(); } catch (e) { console.warn('demo stap mislukt', e); } if (rondleidingStap !== n) return; }
+    const el = typeof sel === 'function' ? sel() : document.querySelector(sel);
     const bak = document.getElementById('rondleidingBak');
     const vlek = bak.querySelector('.rlvlek'), ballon = bak.querySelector('.rlballon');
     bak.querySelector('.rltekst').textContent = tekst;
-    bak.querySelector('.rltel').textContent = (n + 1) + ' van ' + RONDLEIDING.length;
+    bak.querySelector('.rltel').textContent = (n + 1) + ' van ' + rondleidingStappen.length;
     if (!el) { rondleidingTimer = setTimeout(() => toonRondleiding(n + 1), 400); return; }
     if (!stil) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     const zet = () => {
@@ -12171,7 +12225,7 @@ function toonRondleiding(n, stil) {
         ballon.style.left = Math.max(10, Math.min(window.innerWidth - 380, r.left)) + 'px';
     };
     setTimeout(zet, stil ? 0 : 450); zet();
-    rondleidingTimer = setTimeout(() => toonRondleiding(n + 1), 6500);
+    rondleidingTimer = setTimeout(() => toonRondleiding(n + 1), stap.wacht || 6500);
 }
 function stopRondleiding() {
     clearTimeout(rondleidingTimer); rondleidingStap = -1;
