@@ -1,0 +1,161 @@
+/* Sisters with Transistors, pioniersbladen.
+   Look: de voorkant van een analoge synthesizer. Licht geborsteld aluminium,
+   gegraveerde letters, een oranje knopwijzer en blauwe patchsnoeren. */
+
+:root{
+  --papier:#dedad3;
+  --vlek:#edeae4;
+  --inkt:#282520;
+  --zacht:#5f5a52;
+  --rand:#c0bbb2;
+  --rood:#9a5b41;      /* gedempt roestbruin */
+  --blauw:#5f6f6b;     /* gedempt grijsgroen */
+  --geel:#8a7b5c;      /* vaal messing */
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--papier);color:var(--inkt);
+  font:16px/1.62 "Helvetica Neue",Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+/* geborsteld metaal, achter de inhoud: de tekst moet scherp blijven */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:repeating-linear-gradient(90deg,
+    rgba(255,255,255,.5) 0 1px, rgba(0,0,0,.035) 1px 2px, transparent 2px 3px);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.5), rgba(0,0,0,.05) 60%, rgba(0,0,0,.10)),
+    radial-gradient(50% 35% at 12% 4%, rgba(226,86,31,.06), transparent 70%),
+    radial-gradient(45% 30% at 90% 16%, rgba(43,127,147,.06), transparent 70%);
+}
+
+a{color:var(--rood)}
+a:hover{background:var(--geel);color:var(--inkt);text-decoration:none}
+
+.balk{background:#262825;color:#e7e7e2;padding:10px 22px;border-bottom:3px solid var(--rood);
+      display:flex;gap:18px;align-items:baseline;flex-wrap:wrap;
+      position:relative;z-index:1}
+.balk a{color:var(--papier);text-decoration:none;font-size:11px;
+        letter-spacing:.2em;text-transform:uppercase}
+.balk a:hover{background:var(--rood);color:var(--papier)}
+.balk .merk{font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+            font-weight:700;color:var(--geel)}
+
+main{max-width:1180px;margin:0 auto;padding:0 26px 90px;position:relative;z-index:1}
+.balk{position:relative;z-index:1}
+
+.kop{padding:40px 0 20px;border-bottom:3px solid var(--inkt)}
+.jaren{font-family:"Courier New",monospace;font-size:13px;letter-spacing:.2em;
+       color:var(--zacht);margin:0 0 6px}
+h1{
+  font-family:"Haettenschweiler","Arial Narrow Bold","Impact",sans-serif;
+  font-size:clamp(42px,10vw,96px);line-height:.88;margin:0;
+  text-transform:uppercase;letter-spacing:.01em;font-weight:900;color:#2a2c29;
+  /* gegraveerd in metaal */
+  text-shadow:0 1px 0 rgba(255,255,255,.85), 0 -1px 0 rgba(0,0,0,.25);
+}
+.tagline{margin:14px 0 0;font-size:18px;max-width:70ch;color:var(--zacht)}
+
+h2{font-size:12px;letter-spacing:.26em;text-transform:uppercase;margin:40px 0 12px;
+   padding-bottom:6px;border-bottom:2px solid var(--inkt);font-weight:700}
+h3{font-size:15px;margin:24px 0 6px;letter-spacing:.02em}
+p{margin:0 0 14px}
+ul{margin-right:0}
+li{margin-bottom:6px}
+
+.leidend{font-size:19px;line-height:1.55;border-left:4px solid var(--rood);
+         padding-left:16px;margin:26px 0}
+
+blockquote{margin:26px 0;padding:0;font-size:26px;line-height:1.25;
+           font-weight:700;max-width:24ch;transform:rotate(-1deg)}
+blockquote span{background:none;color:var(--inkt);
+                box-shadow:inset 0 -.34em 0 rgba(154,91,65,.22);padding:0 2px}
+blockquote cite{display:block;margin-top:10px;font-size:11px;font-style:normal;
+                letter-spacing:.16em;text-transform:uppercase;color:var(--zacht);
+                transform:rotate(1deg);font-weight:400}
+
+.plaatje{margin:26px 0;border:1px solid var(--rand);background:var(--vlek);padding:10px}
+.plaatje img{width:100%;height:auto;display:block;filter:sepia(.18) contrast(1.05)}
+.plaatje figcaption{font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+                    color:var(--zacht);padding-top:8px}
+.geenfoto{border:1px dashed #a9aca8;padding:16px;margin:26px 0;background:var(--vlek)}
+.geenfoto p{font-size:13px;color:var(--zacht);margin:0}
+.geenfoto b{color:var(--inkt)}
+
+.plugin{border:1px solid #a9aca8;padding:16px 18px;margin:30px 0;border-radius:2px;
+        background:linear-gradient(180deg,#fbfbf9,#e6e7e3);
+        box-shadow:0 2px 6px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.9)}
+.plugin h3{margin:0 0 8px;font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+.plugin p{margin:0;font-size:15px}
+.plugin .knoppen{margin-top:10px;font-family:"Courier New",monospace;font-size:13px;
+                 color:var(--zacht)}
+
+.eerlijk{background:#2b2823;color:#e6e1d8;padding:20px 22px;margin:30px 0;
+         border-left:4px solid var(--rood)}
+.eerlijk h2{color:var(--papier);border-bottom-color:var(--rood);margin-top:0}
+.eerlijk p{color:#ded9d0}
+.eerlijk b{color:var(--geel)}
+
+.bron{font-family:"Courier New",monospace;font-size:12px}
+.bron li{margin-bottom:8px;word-break:break-word}
+.twijfel{background:none;color:var(--inkt);font-weight:600;
+         box-shadow:inset 0 -.3em 0 rgba(138,123,92,.30);padding:0 2px}
+
+.verder{display:flex;flex-wrap:wrap;gap:8px;margin:34px 0 0;padding-top:20px;
+        border-top:3px solid var(--inkt)}
+.verder a{display:inline-block;border:1px solid #9ea19d;padding:7px 10px;border-radius:2px;
+          background:linear-gradient(180deg,#fbfbf9,#e6e7e3);
+          font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+          text-decoration:none;color:var(--inkt)}
+.verder a:hover{background:var(--inkt);color:var(--papier)}
+.verder a.hier{background:var(--rood);color:var(--papier);border-color:var(--rood)}
+
+.voet{margin-top:40px;padding-top:16px;border-top:1px solid var(--rand);
+      font-size:12px;color:var(--zacht)}
+@media (max-width:640px){ blockquote{font-size:21px;max-width:100%} }
+
+
+/* --------------------------------------------------------------- video */
+.videodoos{border:1px solid var(--rand);background:var(--vlek);padding:14px 16px;margin:16px 0}
+.videotitel{margin:0;font-size:16px;font-weight:700}
+.videobij{margin:4px 0 10px;font-size:12px;color:var(--zacht);
+          font-family:Helvetica,Arial,sans-serif;letter-spacing:.04em}
+.videovak{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.videovak button{font-family:Helvetica,Arial,sans-serif;font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;border:1px solid var(--inkt);background:none;color:var(--inkt);
+  padding:7px 12px;cursor:pointer}
+.videovak button:hover{background:var(--inkt);color:var(--papier)}
+.videovak a{font-size:12px}
+.videodoos iframe{width:100%;max-width:640px;aspect-ratio:16/9;height:auto;display:block;
+                  border:1px solid var(--rand)}
+
+
+/* Achtergrond van de pionierspagina's: een echte foto van apparatuur uit die
+   jaren, vaag en ontkleurd. De tekst ligt erboven en blijft scherp. */
+.fotolaag{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.fotolaag i{position:absolute;inset:-18px;display:block;
+  background:url("../fotos/achtergrond-2.jpg") center/cover no-repeat;
+  filter:grayscale(.84) sepia(.16) contrast(.86) brightness(1.16) blur(3px);
+  opacity:.30}
+.fotolaag::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(222,218,211,.78), rgba(222,218,211,.90))}
+body>.balk,body>main{position:relative;z-index:1}
+.achtergrondbron{margin:10px 0 0;font-size:10px;letter-spacing:.06em;color:#6b645c}
+.achtergrondbron a{color:inherit}
+
+/* Een verwijzing om iets te beluisteren. */
+.luister{border-left:2px solid var(--inkt);padding:10px 0 10px 14px;margin:18px 0;
+  background:rgba(255,255,255,.35)}
+.luister a{color:inherit}
+
+/* Wat zij zelf zei: per interview een blokje met de vindplaats als kop */
+.inleiding{color:var(--zacht)}
+.gesprek{border-left:3px solid var(--rand);padding:2px 0 2px 14px;margin:0 0 18px}
+.gesprekkop{font-family:"Courier New",monospace;font-size:12px;letter-spacing:.06em;
+            color:var(--zacht);margin:0 0 4px}
+.gesprek p:last-child{margin-bottom:0}
