@@ -1622,7 +1622,7 @@ kbd{border-radius:0}
 .pad .golfbak{background:#0b1a14 padding-box, var(--groenmetaal) border-box !important;border:3px solid transparent !important;border-radius:9px !important;
   box-shadow:inset 0 0 12px rgba(0,0,0,.8), 0 0 0 1px rgba(0,40,30,.4) !important;overflow:hidden}
 .pad .golfbak canvas{display:block;border-radius:6px}
-.pad .kop{background:#d8ffe8 !important;box-shadow:0 0 8px #4dff9a, 0 0 2px #fff !important;width:2px}
+.pad .kop{background:#d8ffe8 !important;box-shadow:0 0 10px #4dff9a, 0 0 3px #fff, -40px 0 30px -10px rgba(77,255,154,.35) !important;width:3px}
 .pad .padmix{align-items:center;gap:6px !important}
 .pad .padmix .knop.klein{gap:3px}
 .pad .padmix .vu{width:60px;height:32px;margin-left:auto;flex:0 0 auto;border:3px solid transparent;border-radius:8px;
@@ -2018,6 +2018,19 @@ input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%
 .ritmemute{font:700 10px "Segoe UI",Helvetica,Arial,sans-serif !important;color:#5a4a2c !important}
 .ritmemute.aan{background:linear-gradient(180deg,#f7a89e,#e2574c 45%,#b83a30) padding-box, var(--knopring) border-box !important;color:#fff !important}
 .ritmenaam.stil{opacity:.45;text-decoration:line-through}
+/* De balk bovenin de kast: één grote REC-knop voor alles wat klinkt, een scoop van de uitgang en de pads die nu klinken */
+.nubalk{position:relative;z-index:2;display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:14px 8px 6px;padding:8px 14px;border:4px solid transparent;border-radius:14px;
+  background:var(--lakvlek), linear-gradient(180deg,var(--room),var(--room2)) padding-box, var(--groenmetaal) border-box;box-shadow:inset 0 1px 0 #fff, 0 0 0 1px rgba(0,40,30,.4), 0 2px 6px rgba(0,0,0,.3)}
+.recalles{font:700 13px "Segoe UI",Helvetica,Arial,sans-serif !important;letter-spacing:.12em;padding:9px 18px !important;border:3px solid transparent !important;border-radius:999px !important;color:#fff !important;text-shadow:0 1px 0 rgba(0,0,0,.4);
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0) 50%) padding-box, linear-gradient(180deg,#f7a89e,#e2574c 50%,#b83a30 52%,#d04a3d) padding-box, var(--knopring) border-box !important;box-shadow:0 2px 5px rgba(0,0,0,.45) !important}
+.recalles.aan{animation:recpuls .7s ease-in-out infinite alternate;background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,0) 50%) padding-box, linear-gradient(180deg,#ff6a5c,#e01f12 50%,#9c130b 52%,#c8261b) padding-box, var(--knopring) border-box !important;box-shadow:0 0 14px rgba(255,59,47,.9), 0 2px 5px rgba(0,0,0,.45) !important}
+.rectijd{font-family:var(--vijftig);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#5a4a2c;min-width:110px}
+.rectijd.aan{color:#b31d12;font-weight:700}
+#nuScoop{width:260px;height:40px;border:3px solid transparent;border-radius:8px;background:#0b1a14 padding-box, var(--groenmetaal) border-box;box-shadow:inset 0 0 10px rgba(0,0,0,.8)}
+.nulijst{display:flex;align-items:center;flex-wrap:wrap;gap:5px;flex:1;min-width:160px;font-family:var(--vijftig);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5a4a2c}
+.nulijst .nuchip{padding:3px 9px;border-radius:999px;background:#0f6b3f;color:#e8ffe8;font:700 10px "Segoe UI",Helvetica,Arial,sans-serif;letter-spacing:.04em;text-transform:none;box-shadow:0 0 8px rgba(46,224,138,.7), inset 0 1px 0 rgba(255,255,255,.3)}
+.nulijst .nuchip.beat{background:#8a3814;box-shadow:0 0 8px rgba(226,87,76,.6)}
+.nulijst .nuleeg{opacity:.6}
 /* het label van een vak in de transportbalk stond op de knoppen */
 .tvak{padding-top:32px !important}
 .tvak .tlabel{top:2px;font-size:15px;line-height:1.3}
@@ -2064,6 +2077,12 @@ input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%
 
   <div class="kast" id="kast">
     <div class="wang links"></div>
+    <div class="nubalk" id="nuBalk">
+      <button id="recAlles" class="recalles" title="Neemt alles op wat klinkt: pads, beats, gitaar, synth, effecten. Nog eens klikken stopt; beluisteren en de wav staan onderaan bij Opnemen wat je hoort">&#9679; REC</button>
+      <span id="recTijd" class="rectijd">alles wat klinkt</span>
+      <canvas id="nuScoop" width="260" height="40" title="Wat er nu uit de uitgang komt"></canvas>
+      <div id="nuLijst" class="nulijst"><span class="nuleeg">Nu klinkt: niets</span></div>
+    </div>
     <div class="rooster" id="rooster"></div>
     <div class="wang rechts"></div>
     <div class="plaatje-naam">Soundbites &middot; Model 16</div>
@@ -4318,7 +4337,9 @@ function tekenKoppen() {
 
             const verstreken = ctx.currentTime - p.speelStart;
             const padEl = el.parentElement && el.parentElement.parentElement;
-            if (verstreken < 0 || verstreken > p.speelKaal) {
+            // een slag die nog moet komen (de beat plant vooruit): even wachten, niet wissen
+            if (verstreken < 0) { bezig = true; el.classList.remove('zichtbaar'); continue; }
+            if (verstreken > p.speelKaal) {
                 el.classList.remove('zichtbaar');
                 p.speelStart = 0;
                 if (padEl && padEl.vu && padEl.vuNaald > 0.005) { padEl.vuNaald *= 0.85; tekenVU(padEl.vu, padEl.vuNaald); bezig = true; }
@@ -12851,6 +12872,42 @@ function stopRondleiding() {
     const bak = document.getElementById('rondleidingBak'); if (bak) bak.classList.remove('aan');
 }
 document.getElementById('startRondleiding').addEventListener('click', startRondleiding);
+
+// De balk bovenin: REC voor alles wat klinkt (dezelfde opname als Opnemen wat je hoort),
+// een scoop van de uitgang, en de pads en beats die op dit moment klinken.
+(function nuBalk() {
+    const rec = document.getElementById('recAlles'), tijd = document.getElementById('recTijd'), scoop = document.getElementById('nuScoop'), lijst = document.getElementById('nuLijst');
+    if (!rec) return;
+    rec.onclick = () => { const k = document.getElementById('mixKnop'); if (k) k.click(); };
+    let an = null, anCtx = null; const g2 = scoop.getContext('2d'); const W = scoop.width, H = scoop.height;
+    let vorige = '';
+    const tik = () => {
+        // de REC-knop volgt de opname van Opnemen wat je hoort
+        rec.classList.toggle('aan', !!mixBezig); tijd.classList.toggle('aan', !!mixBezig);
+        if (mixBezig) { const t = document.getElementById('mixTijd'); tijd.textContent = 'opname ' + (t ? t.textContent : ''); }
+        else { const kl = document.getElementById('mixBeluister'); tijd.textContent = (kl && !kl.disabled) ? 'opname klaar, zie onderaan' : 'alles wat klinkt'; }
+        // de scoop
+        g2.fillStyle = '#0b1a14'; g2.fillRect(0, 0, W, H);
+        g2.strokeStyle = 'rgba(77,255,154,.12)'; g2.lineWidth = 1; for (let x = 0; x < W; x += 26) { g2.beginPath(); g2.moveTo(x, 0); g2.lineTo(x, H); g2.stroke(); } g2.beginPath(); g2.moveTo(0, H / 2); g2.lineTo(W, H / 2); g2.stroke();
+        if (ctx && (!an || anCtx !== ctx)) { try { uitgang(); an = ctx.createAnalyser(); an.fftSize = 1024; (master || eindVolume).connect(an); anCtx = ctx; } catch (e) { an = null; } }
+        if (an) {
+            const d = new Float32Array(an.fftSize); an.getFloatTimeDomainData(d);
+            g2.strokeStyle = '#4dff9a'; g2.lineWidth = 1.5; g2.shadowColor = '#4dff9a'; g2.shadowBlur = 4; g2.beginPath();
+            for (let x = 0; x < W; x++) { const v = d[Math.floor(x / W * d.length)]; const y = H / 2 - v * (H / 2 - 2); if (x === 0) g2.moveTo(x, y); else g2.lineTo(x, y); }
+            g2.stroke(); g2.shadowBlur = 0;
+        }
+        // wat klinkt nu: pads waarvan de laatste aanslag nog loopt, en groepen met de beat aan
+        const nu = ctx ? ctx.currentTime : 0; const delen = [];
+        groepen.forEach((g, n) => { if (g.beat) delen.push({ t: 'Beat ' + g.naam + (g.modus === 'patroon' ? ' · ' + (g.ritmeVak || 'A') : ''), k: 'beat' }); });
+        if (losGroep.beat) delen.push({ t: 'Beat Los', k: 'beat' });
+        pads.forEach((p, i) => { if (p.buffer && p.speelStart !== undefined && nu >= p.speelStart && nu < p.speelStart + Math.min(6, p.speelTotaal || 0)) delen.push({ t: p.naam || ('pad ' + (i + 1)), k: 'klinkt' }); });
+        if (gitaar) delen.push({ t: 'Gitaarsolo', k: 'klinkt' });
+        const sleutel = delen.map(x => x.t).join('|');
+        if (sleutel !== vorige) { vorige = sleutel; lijst.innerHTML = delen.length ? '<span>Nu klinkt:</span>' + delen.map(x => '<span class="nuchip ' + x.k + '">' + x.t.replace(/[<>&]/g, '') + '</span>').join('') : '<span class="nuleeg">Nu klinkt: niets</span>'; }
+        requestAnimationFrame(tik);
+    };
+    requestAnimationFrame(tik);
+})();
 </script>
 <div class="vraagbak" id="vraagbak" hidden>
   <div class="vraag">
