@@ -223,8 +223,8 @@ label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--z
           box-shadow:0 0 6px rgba(255,212,0,.8);display:none;pointer-events:none}
 .pad .kop.zichtbaar{display:block}
 .venster{position:relative}
-.venster .kop{position:absolute;top:6px;bottom:26px;width:2px;background:#ffd400;
-              display:none;pointer-events:none}
+.venster .kop{position:absolute;top:6px;bottom:26px;width:3px;background:#ffd400;padding:0 !important;
+              box-shadow:0 0 8px rgba(255,212,0,.9),0 0 2px #fff;display:none;pointer-events:none}
 .venster .kop.zichtbaar{display:block}
 .pad .regel{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.1em;
             text-transform:uppercase;color:var(--zacht);margin-top:auto}
@@ -1947,12 +1947,12 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
     <p class="ode">Een ode aan <b>Clara Rockmore</b> &middot; <b>Daphne Oram</b> &middot; <b>Bebe Barron</b> &middot; <b>Delia Derbyshire</b> &middot; <b>&Eacute;liane Radigue</b> &middot; <b>Maryanne Amacher</b> &middot; <b>Pauline Oliveros</b> &middot; <b>Wendy Carlos</b> &middot; <b>Laurie Spiegel</b> &middot; <b>Suzanne Ciani</b></p>
 
     <div class="manifest">
-      <p>Deze plek is een ode aan de echte pioniers van de elektronische muziek: <b>Clara Rockmore</b>, <b>Daphne Oram</b>, <b>Bebe Barron</b>, <b>Delia Derbyshire</b>, <b>&Eacute;liane Radigue</b>, <b>Maryanne Amacher</b>, <b>Pauline Oliveros</b>, <b>Wendy Carlos</b>, <b>Laurie Spiegel</b> en <b>Suzanne Ciani</b>. Iedereen kent het geluid van een colaflesje dat opengaat en wordt ingeschonken. Suzanne Ciani maakte het, op haar modulaire synthesizer, en haar naam stond er niet bij. Zo ging het met bijna alles hier: de vrouwen deden het werk, de eer ging naar anderen, alleen omdat zij vrouw waren. De elektronische muziek viert hoogtijdagen, er gaan miljarden in om, en nog steeds staan er bijna alleen mannen op de podia. Niet omdat vrouwen minder maken, maar omdat wat als goed geldt al decennia door één groep wordt bepaald. Die norm is niet neutraal, hij is de smaak van wie er toevallig zat, en hij houdt de helft van de ideeën buiten de deur, ook voor de mannen zelf. Zonder deze vrouwen had deze industrie niet bestaan.</p>
+      <p>Deze plek is een ode aan de echte pioniers van de elektronische muziek: <b>Clara Rockmore</b>, <b>Daphne Oram</b>, <b>Bebe Barron</b>, <b>Delia Derbyshire</b>, <b>&Eacute;liane Radigue</b>, <b>Maryanne Amacher</b>, <b>Pauline Oliveros</b>, <b>Wendy Carlos</b>, <b>Laurie Spiegel</b> en <b>Suzanne Ciani</b>. Iedereen kent het geluid van een colaflesje dat opengaat en wordt ingeschonken. Suzanne Ciani maakte het, op haar modulaire synthesizer, en haar naam stond er niet bij. De elektronische muziek viert hoogtijdagen, er gaan miljarden in om, en nog steeds staan er geen vrouwelijke namen op de <a href="https://i-d.co/article/forbes-list-of-top-earning-djs-is-all-male-once-again/" target="_blank" rel="noopener">lijst met meest verdienende dj's</a>. Zonder deze vrouwen had deze industrie niet bestaan.</p>
 
       <p>De documentaire <a href="https://sisterswithtransistors.com" target="_blank" rel="noopener"><b>Sisters with Transistors</b></a> uit 2020, geregisseerd door Lisa Rovner en verteld door Laurie Anderson, portretteert deze tien pioniers. Kijk hem, en luister daarna nog een keer naar wat je dacht te kennen.</p>
 
       <p class="leesregel"><a class="lees" href="index.html">Lees wie zij waren</a></p>
-      <p>Met deze plek willen we muzikale creativiteit aanwakkeren, voor iedereen. Voor meisjes, voor jongens en voor iedereen daartussen. Je hebt geen studio nodig en geen dure apparatuur, alleen je stem en je handen. Neem op, verdraai, stapel, en maak iets wat er nog niet was. En in het verlengde van Sophie Straat herhalen wij haar oproep: witte mannen, doe een stap terug en maak ruimte voor je medemens. Op de <a href="https://i-d.co/article/forbes-list-of-top-earning-djs-is-all-male-once-again/" target="_blank" rel="noopener">lijst van best betaalde dj's</a> staat namelijk nog steeds geen enkele vrouw. Witte mannen mogen zeker meedoen, maar wel volgens onze menselijke normen en waarden en op basis van wederzijds respect. Wij verwachten dat het kaf zich dan vanzelf van het koren scheidt.</p>
+      <p>Met deze plek willen we muzikale creativiteit aanwakkeren, voor iedereen. Voor meisjes, voor jongens en voor iedereen daartussen. Je hebt geen studio nodig en geen dure apparatuur, alleen je stem en je handen. Neem op, verdraai, stapel, en maak iets wat er nog niet was. En in het verlengde van Sophie Straat herhalen wij haar oproep: witte mannen, doe een stap terug en maak ruimte voor je medemens. Witte mannen mogen zeker meedoen, maar wel volgens onze menselijke normen en waarden en op basis van wederzijds respect. Ik verwacht dat het kaf zich dan vanzelf van het koren scheidt.</p>
 
 
     </div>
@@ -4192,7 +4192,7 @@ function tekenKoppen() {
         const vk = document.getElementById('pluginKop');
         if (vk) {
             const p = gekozen >= 0 ? pads[gekozen] : null;
-            const totaal = p && p.speelTotaal;
+            const totaal = p && (p.vensterSec || p.speelTotaal);
             if (p && p.speelStart && totaal) {
                 const verstreken = ctx.currentTime - p.speelStart;
                 const deel = verstreken / Math.max(totaal, 0.001);
@@ -6921,13 +6921,25 @@ function doelPad() {
 }
 
 async function biblioNaarPad(rij) {
-    const buf = await biblioGeluid(rij);
-    const i = doelPad();
+    const hint = document.getElementById('padHint');
+    let buf;
+    try { buf = await biblioGeluid(rij); }
+    catch (e) {
+        console.warn('naar pad mislukt', e);
+        if (hint) hint.textContent = 'Het geluid kon niet geladen worden (' + e.message + '). Open de studio via een webadres, niet als los bestand.';
+        return;
+    }
+    // Het gekozen pad als dat leeg is, anders het eerste lege pad, zodat je
+    // niets overschrijft. Zijn alle pads vol, dan toch het gekozen pad.
+    let i = doelPad();
+    if (pads[i].buffer) { for (let n = 0; n < AANTAL; n++) if (!pads[n].buffer) { i = n; break; } }
     pads[i].buffer = buf;
     pads[i].naam = isVrij(rij) ? nettenaam(rij) : rij.naam;
+    pads[i].keten = []; pads[i].effect = 'geen'; pads[i].midi = null; pads[i].bewaard = null;
     gekozen = i;
     tekenAlles();
     bewaarAlles();
+    if (hint) hint.textContent = (pads[i].naam || 'Geluid') + ' staat op pad ' + (i + 1) + '.';
 }
 
 let biblioSpeelt = null;
@@ -11245,6 +11257,7 @@ async function tekenVenster() {
     const sr = pad.buffer.sampleRate;
     const natLengte = natD ? laatsteGeluid(natD) : 0;
     const totaal = Math.max(droog.length, natLengte, 1);
+    pad.vensterSec = totaal / sr;   // zodat de speelkop op dezelfde schaal loopt
 
     function trek(data, kleur, vullen) {
         if (!data) return;
@@ -11339,8 +11352,53 @@ function vulPionierParms(soort) {
 
     const speelKnop = document.createElement('button');
     speelKnop.textContent = 'Beluisteren';
+    speelKnop.title = 'Het pad met dit effect afspelen; de gele lijn loopt mee door het venster';
     speelKnop.onclick = () => speel(gekozen);
     voet.appendChild(speelKnop);
+
+    const nieuwKnop = document.createElement('button');
+    nieuwKnop.textContent = 'Naar nieuw pad';
+    nieuwKnop.title = 'Het geluid met dit effect erin gebakken op het eerste lege pad zetten; dit pad blijft zoals het is';
+    nieuwKnop.onclick = async () => {
+        const van = gekozen;
+        let j = -1; for (let n = 0; n < AANTAL; n++) if (!pads[n].buffer) { j = n; break; }
+        const hint = document.getElementById('padHint');
+        if (j < 0) { if (hint) hint.textContent = 'Alle pads zijn vol. Maak er eerst een leeg.'; return; }
+        nieuwKnop.disabled = true; nieuwKnop.textContent = 'Bezig';
+        try {
+            const nat = await renderMet(van);
+            if (!nat) throw new Error('renderen mislukt');
+            const lengte = laatsteGeluid(nat.getChannelData(0));
+            const buf = ctx.createBuffer(nat.numberOfChannels, Math.max(1, lengte), nat.sampleRate);
+            for (let k = 0; k < nat.numberOfChannels; k++) buf.copyToChannel(nat.getChannelData(k).slice(0, lengte), k);
+            pads[j].buffer = buf;
+            pads[j].naam = (pads[van].naam || 'pad') + ' \u00b7 ' + (EFFECTEN[soort] ? EFFECTEN[soort].label : 'effect');
+            pads[j].keten = []; pads[j].effect = 'geen'; pads[j].parms = {}; pads[j].pitch = 0; pads[j].midi = null; pads[j].bewaard = null;
+            gekozen = j;
+            tekenAlles(); bewaarAlles();
+            if (hint) hint.textContent = 'Staat op pad ' + (j + 1) + ', met het effect erin gebakken.';
+            speel(j);
+        } catch (e) {
+            console.warn('naar nieuw pad mislukt', e);
+            if (hint) hint.textContent = 'Kopi\u00ebren lukte niet: ' + e.message;
+        }
+        nieuwKnop.disabled = false; nieuwKnop.textContent = 'Naar nieuw pad';
+    };
+    voet.appendChild(nieuwKnop);
+
+    const midiKnop = document.createElement('button');
+    midiKnop.textContent = 'MIDI-bestand';
+    midiKnop.title = 'De noten van de pianorol van dit pad als MIDI-bestand. Staat er nog niets in de pianorol, dan wordt het \u00e9\u00e9n noot zo lang als het geluid';
+    midiKnop.onclick = () => {
+        const p = pads[gekozen];
+        let noten = (p.midi && p.midi.noten && p.midi.noten.length) ? p.midi.noten : null;
+        if (!noten) {
+            const stappen = Math.max(1, Math.round(p.buffer.duration / (60 / bpm / 4)));
+            noten = [{ stap: 0, noot: p.pitch || 0, lengte: stappen, kracht: 1 }];
+        }
+        download(midiBestandVanNoten(noten, bpm, p.naam), (p.naam || 'pad').replace(/[^\w\- ]/g, '') + '.mid');
+    };
+    voet.appendChild(midiKnop);
 
     if (lijst.length) {
         const terug = document.createElement('button');
@@ -11359,8 +11417,8 @@ function vulPionierParms(soort) {
     const uitleg = document.createElement('span');
     uitleg.className = 'uitleg';
     uitleg.textContent = lijst.length
-        ? 'Sleep een knop omhoog of omlaag, dubbelklik zet hem terug. Grijs is je opname, rood is wat het effect ervan maakt.'
-        : 'Grijs is je opname, rood is wat het effect ervan maakt.';
+        ? 'Sleep een knop omhoog of omlaag, dubbelklik zet hem terug. Grijs is je opname, rood is wat het effect ervan maakt, geel is waar je bent.'
+        : 'Grijs is je opname, rood is wat het effect ervan maakt, geel is waar je bent.';
     voet.appendChild(uitleg);
 
     planVenster();
@@ -11644,7 +11702,7 @@ function toonPionier(k) {
             naam.title = rij.uitleg || '';
             const b1 = document.createElement('button'); b1.textContent = '\u25B6'; b1.title = 'Beluister';
             b1.onclick = () => biblioProef(rij);
-            const b2 = document.createElement('button'); b2.textContent = 'Naar pad'; b2.title = 'Zet op het gekozen pad';
+            const b2 = document.createElement('button'); b2.textContent = 'Naar pad'; b2.title = 'Zet op het gekozen pad, of op het eerste lege pad als het gekozen pad al een geluid heeft';
             b2.onclick = () => biblioNaarPad(rij);
             sg.append(kop, naam, b1, b2);
         } else {
