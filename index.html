@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sisters with Transistors</title>
+<link rel="stylesheet" href="pioniers/stijl.css">
+<style>
+.rooster{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:26px 0}
+.kaart{display:flex;flex-direction:column;color:var(--inkt);border:1px solid #a9aca8;
+       padding:14px;border-radius:2px;background:linear-gradient(180deg,#fbfbf9,#e6e7e3);
+       box-shadow:0 2px 6px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.9)}
+.kaart:hover{background:linear-gradient(180deg,#fff,#eceeea);
+             box-shadow:0 4px 10px rgba(0,0,0,.22), inset 0 0 0 2px var(--rood)}
+.kaart .jaren{display:block;font-family:"Courier New",monospace;font-size:11px;
+              letter-spacing:.12em;color:var(--zacht)}
+.kaart strong{display:block;font-size:20px;line-height:1.1;margin:6px 0 8px;
+              text-transform:uppercase;letter-spacing:-.01em}
+.kaart .zin{display:block;font-size:14px;line-height:1.45}
+.kaart .kaartlink{display:block;text-decoration:none;color:inherit;flex:1}
+.kaart .site{display:block;margin-top:12px;font-family:"Courier New",monospace;font-size:12px;
+             letter-spacing:.06em;color:var(--rood);text-decoration:none}
+.kaart .site::before{content:"\2192  "}
+.kaart .site:hover{background:var(--geel);color:var(--inkt)}
+.intro p,.tagline{max-width:none}
+/* Zelfde achtergrond als de studio: lichtgrijs, een getekende modulaire synth
+   met patchkabels (fotos/synth.svg) en Clara Rockmore aan haar theremin, 1932,
+   publiek domein, heel vaag rechts. */
+body{background:#d3d3d0}
+.fotolaag{background:#d3d3d0}
+.fotolaag i.synth{background:url("fotos/synth.svg") center 30%/cover no-repeat;
+  filter:grayscale(.88) sepia(.04) contrast(.95) brightness(1.3) blur(2px);opacity:.42}
+.fotolaag i.dame{inset:0;top:10vh;left:auto;right:7vw;width:min(52vw,760px);
+  background:url("fotos/rockmore.jpg") center 30%/cover no-repeat;
+  filter:grayscale(1) contrast(.92) brightness(1.2) blur(1.5px);
+  opacity:.5;mix-blend-mode:multiply;
+  -webkit-mask-image:radial-gradient(ellipse 52% 60% at 50% 45%, #000 30%, transparent 100%);
+  mask-image:radial-gradient(ellipse 52% 60% at 50% 45%, #000 30%, transparent 100%)}
+.fotolaag::after{background:linear-gradient(180deg, rgba(214,214,211,.42), rgba(214,214,211,.66))}
+
+/* hetzelfde menu als in de studio */
+nav.hoofdmenu{display:flex;align-items:center;gap:4px;padding:0 22px;background:#2b2823;color:#f2efe8;flex-wrap:wrap;position:relative;z-index:1;border-bottom:3px solid var(--rood, #b3261e);box-shadow:inset 0 -1px 0 rgba(255,255,255,.08)}
+nav.hoofdmenu a{color:rgba(231,231,226,.62);text-decoration:none;display:flex;align-items:center;gap:5px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:14px 12px}
+nav.hoofdmenu a:hover{color:#fdfbf8;background:var(--rood, #b3261e)}
+nav.hoofdmenu a.actief{color:#fdfbf8;box-shadow:inset 0 -3px 0 var(--rood, #b3261e)}
+nav.hoofdmenu .merk{font-weight:700;color:#e3ded5;letter-spacing:.3em;margin-right:18px;font-size:11px;text-transform:uppercase;padding:14px 0}
+nav.hoofdmenu .ondertitel{color:rgba(242,239,232,.55);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<div class="fotolaag" aria-hidden="true"><i class="synth"></i><i class="dame"></i></div>
+
+<nav class="hoofdmenu">
+  <span class="merk">Sisters with Transistors</span>
+  <span class="ondertitel">Soundbites, een studio voor je eigen stem</span>
+  <a href="studio.html" class="navStudio">Studio</a><a href="index.html" class="navPioniers actief">De pioniers</a><a href="studio.html#gitaar" title="Elektrische gitaar met de muis">Gitaarsolo</a><a href="studio.html#woorden" title="Woorden uit spraak of zang halen">Woorden</a><a href="studio.html#ciani" title="Vereenvoudigde 200-serie, naar Suzanne Ciani">Ciani-kast</a><a href="studio.html#creatie" title="Stuur je creatie op">Stuur je creatie</a>
+</nav>
+
+<main>
+  <header class="kop">
+    <p class="jaren">De pioniers, hun instrumenten, hun plugins</p>
+    <h1>Sisters with Transistors</h1>
+    <p class="tagline">Deze website is een ode aan de echte pioniers van de elektronische muziek.</p>
+  </header>
+
+  <div class="intro">
+  <p class="leidend">In de <a href="studio.html">studio</a> maak je met je eigen stem een nummer. Daarbij kun je effecten gebruiken die deze pioniers hebben bedacht.</p>
+
+  <p>Wie googelt wie de grondlegger van de elektronische muziek is, krijgt twee namen van mannen, maar dat is niet juist. Het Matilda-effect zorgde ervoor dat alles wat geen blanke man is, systematisch uitgesloten werd. Waar de blanke mannen talloze uitvindingen aan zichzelf toe-eigenden, vaak dus onterecht, wil ik eer doen toekomen aan wie het toekomt. De blanke mannen hebben al genoeg documentaires, plaquettes en een eigen hoofdstuk in vele boeken, meestal geschreven door blanke mannen.</p>
+
+  <p>Dat vrouwen en niet-blanke mannen de erkenning mislopen voor wat zij maken, heeft een naam. Wetenschapshistoricus Margaret Rossiter noemde het in 1993 het Matilda-effect, naar Matilda Joslyn Gage, die het verschijnsel in 1870 al beschreef in Woman as Inventor: prestaties van vrouwen worden minder of niet erkend en aan mannelijke collega's toegeschreven. [1, 2] Op deze site staan de grondleggers die de erkenning niet kregen.</p>
+
+  <h2>De tegenwerking van de blanke mannen</h2>
+  <p>Decca nam geen vrouwen aan in de opnamestudio. [3] De BBC zette geen naam op werk van de Radiophonic Workshop en stuurde Daphne Oram na drie maanden weg uit de studio die zij zelf had opgericht, terwijl haar mede-oprichter Desmond Briscoe mocht blijven. [4, 5] Pierre Schaeffer en Pierre Henry wezen het werk van Eliane Radigue af omdat het niet trouw was aan hun principes; zij bouwde toen thuis haar eigen studio. [6] In de klas van Don Buchla werd na de eerste les besloten dat vrouwen niet meer welkom waren. [7] De musicivakbond weigerde Suzanne Ciani als elektronisch musicus, en op het conservatorium kreeg zij te horen dat een vrouw geen recht heeft om te dirigeren. [8, 9] Pauline Oliveros schreef het in 1970 al in The New York Times: dat er geen erkende vrouwelijke componisten waren, lag niet aan talent, maar aan wat vrouwen werd toegestaan. [10]</p>
+
+  <p>Het patroon is steeds hetzelfde, en we zien het overal in de wetenschap. De werkelijkheid is vaak dat waar een man en een vrouw samenwerkten, de vrouw de drijvende kracht was.</p>
+
+  <h2>De pioniers van kleur</h2>
+  <p>Google noemt ook de pioniers van kleur niet. Halim El-Dabh maakte in 1944 in Caïro een tapecompositie, vier jaar vóór de Fransman die er de naam voor bedacht. [11] Olly Wilson won in 1968 de eerste internationale competitie voor elektronische muziek. [12] Sun Ra speelde in 1969 op een Minimoog voordat die te koop was. [13] King Tubby bouwde in Kingston de remix aan de mengtafel. [14] Toshiro Mayuzumi maakte in 1953 het eerste Japanse tapewerk. [15] Francis Bebey zette vanaf 1975 in Kameroen synthesizers naast de sanza. [16] Charanjit Singh nam in 1982 in Bombay acid house op, vijf jaar voordat het zo heette. [17] Beatriz Ferreyra werkte vanaf 1963 in de Parijse studio waar ook de mannen met de eer streken. [18]</p>
+
+  <h2>De buitengesloten pioniers</h2>
+  <p>Hier staan zij. Per pionier: wie zij was, wat zij maakte, wie de erkenning kreeg, wat zij er zelf over zei, waar zij te vinden is, en de bronnen. Zonder hen was de dancescene in de huidige vorm er niet geweest. Zo jammer dat zij de erkenning niet krijgen.</p>
+  </div>
+
+  <div class="rooster">
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/rockmore.html"><span class="jaren">1911 tot 1998 &middot; Theremin</span>
+      <strong>Clara Rockmore</strong>
+      <span class="zin">Maakte de theremin bespeelbaar met een vingerzetting in de lucht en articulatie op het volume.</span></a>
+      <a class="site" href="https://nadiareisenberg-clararockmore.org/" target="_blank" rel="noopener">nadiareisenberg-clararockmore.org</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/oram.html"><span class="jaren">1925 tot 2003 &middot; Oramics</span>
+      <strong>Daphne Oram</strong>
+      <span class="zin">Tekende geluid op filmstrook, richtte de BBC Radiophonic Workshop op en werd er na drie maanden uitgehaald.</span></a>
+      <a class="site" href="https://www.daphneoram.org/" target="_blank" rel="noopener">daphneoram.org</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/barron.html"><span class="jaren">1925 tot 2008 &middot; Forbidden Planet</span>
+      <strong>Bebe Barron</strong>
+      <span class="zin">Maakte de eerste volledig elektronische filmmuziek, en mocht het van de vakbond geen muziek noemen.</span></a>
+      <a class="site" href="https://forgottenfuturesmusic.org/projects/barron-archive/" target="_blank" rel="noopener">archief bij Forgotten Futures</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/derby.html"><span class="jaren">1937 tot 2001 &middot; Doctor Who</span>
+      <strong>Delia Derbyshire</strong>
+      <span class="zin">Bouwde de bekendste elektronische tune van Groot-Brittannië uit geknipte band, zonder vermelding.</span></a>
+      <a class="site" href="https://deliaderbyshireday.com/" target="_blank" rel="noopener">deliaderbyshireday.com</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/radigue.html"><span class="jaren">1932 tot 2026 &middot; ARP 2500</span>
+      <strong>Eliane Radigue</strong>
+      <span class="zin">Maakte muziek uit tonen die net naast elkaar liggen, en werd door haar leermeesters afgewezen.</span></a>
+      <a class="site" href="https://www.blankforms.org/eliane-radigue-works-for-magnetic-tape-1968-1999" target="_blank" rel="noopener">Blank Forms</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/amacher.html"><span class="jaren">1938 tot 2009 &middot; Oortonen</span>
+      <strong>Maryanne Amacher</strong>
+      <span class="zin">Schreef voor tonen die je eigen oor maakt. Haar archief belandde na haar dood bij de gemeente.</span></a>
+      <a class="site" href="https://www.blankforms.org/the-maryanne-amacher-foundation" target="_blank" rel="noopener">Maryanne Amacher Foundation</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/oliveros.html"><span class="jaren">1932 tot 2016 &middot; Deep Listening</span>
+      <strong>Pauline Oliveros</strong>
+      <span class="zin">Bouwde vertraging uit twee bandrecorders en een stuk vloer, en leerde de wereld luisteren.</span></a>
+      <a class="site" href="https://paulineoliveros.us/" target="_blank" rel="noopener">paulineoliveros.us</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/carlos.html"><span class="jaren">geboren 1939 &middot; Moog</span>
+      <strong>Wendy Carlos</strong>
+      <span class="zin">Bewees dat een synthesizer kan fraseren, en stond niet op de hoes van haar eigen plaat.</span></a>
+      <a class="site" href="https://www.wendycarlos.com/" target="_blank" rel="noopener">wendycarlos.com</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/spiegel.html"><span class="jaren">geboren 1945 &middot; Music Mouse</span>
+      <strong>Laurie Spiegel</strong>
+      <span class="zin">Schreef software die met je meedenkt. Haar muziek vliegt sinds 1977 het zonnestelsel uit.</span></a>
+      <a class="site" href="http://retiary.org/" target="_blank" rel="noopener">retiary.org</a>
+    </div>
+    <div class="kaart">
+      <a class="kaartlink" href="pioniers/ciani.html"><span class="jaren">geboren 1946 &middot; Buchla</span>
+      <strong>Suzanne Ciani</strong>
+      <span class="zin">Maakte geluiden die iedereen kent, onder de naam van het merk en niet onder die van haar.</span></a>
+      <a class="site" href="https://www.sevwave.com/" target="_blank" rel="noopener">sevwave.com</a>
+    </div>
+  </div>
+
+  <h2>Bronnen</h2>
+  <ol class="bron">
+<li><a href="https://journals.sagepub.com/doi/10.1177/030631293023002004">https://journals.sagepub.com/doi/10.1177/030631293023002004</a><br>Margaret W. Rossiter, The Matthew Matilda Effect in Science, Social Studies of Science 23 (1993).</li>
+<li><a href="https://en.wikipedia.org/wiki/Matilda_effect">https://en.wikipedia.org/wiki/Matilda_effect</a><br>Overzicht van het Matilda-effect en van Gage's essay uit 1870.</li>
+<li><a href="https://wikidelia.net/wiki/Surface_interview">https://wikidelia.net/wiki/Surface_interview</a><br>Derbyshire zelf, 2000: Decca nam geen vrouwen aan in de opnamestudio.</li>
+<li><a href="https://en.wikipedia.org/wiki/Doctor_Who_theme_music">https://en.wikipedia.org/wiki/Doctor_Who_theme_music</a><br>Het BBC-beleid: geen naam op werk van de Workshop.</li>
+<li><a href="https://www.soundonsound.com/people/story-bbc-radiophonic-workshop">https://www.soundonsound.com/people/story-bbc-radiophonic-workshop</a><br>De driemaandenregel voor Oram en de uitzondering voor Briscoe.</li>
+<li><a href="https://www.electronicbeats.net/eliane-radigue-an-interview">https://www.electronicbeats.net/eliane-radigue-an-interview</a><br>Radigue zelf, 2012, over Schaeffer en Henry.</li>
+<li><a href="https://daily.redbullmusicacademy.com/2015/06/suzanne-ciani-interview/">https://daily.redbullmusicacademy.com/2015/06/suzanne-ciani-interview/</a><br>Ciani zelf, 2015, over de klas bij Buchla.</li>
+<li><a href="https://www.synthhistory.com/post/interview-with-suzanne-ciani">https://www.synthhistory.com/post/interview-with-suzanne-ciani</a><br>Ciani zelf, 2025, over de musicivakbond.</li>
+<li><a href="https://www.self-titledmag.com/interview-suzanne-ciani-on-her-buchla-beginnings-talking-dishwashers-and-why-no-one-got-electronic-music-in-the-70s/">https://www.self-titledmag.com/interview-suzanne-ciani-on-her-buchla-beginnings-talking-dishwashers-and-why-no-one-got-electronic-music-in-the-70s/</a><br>Ciani zelf, 2014, over het conservatorium.</li>
+<li><a href="https://accordionamericana.com/2018/10/01/the-maverick-pauline-oliveros-dont-call-her-a-lady-composer/">https://accordionamericana.com/2018/10/01/the-maverick-pauline-oliveros-dont-call-her-a-lady-composer/</a><br>Het artikel van Oliveros in The New York Times, 13 september 1970.</li>
+<li><a href="https://en.wikipedia.org/wiki/Halim_El-Dabh">https://en.wikipedia.org/wiki/Halim_El-Dabh</a><br>El-Dabh, 1944, Caïro; zie ook het <a href="https://econtact.ca/15_2/gluck_el-dabh.html">interview door Bob Gluck</a>.</li>
+<li><a href="https://www.oberlin.edu/news/composer-olly-wilson-founding-father-electronic-music-oberlin-dies-80">https://www.oberlin.edu/news/composer-olly-wilson-founding-father-electronic-music-oberlin-dies-80</a><br>Olly Wilson, Cetus, de competitie aan Dartmouth op 5 april 1968.</li>
+<li><a href="https://moogfoundation.org/sun-ra-the-minimoog-by-historian-thom-holmes/">https://moogfoundation.org/sun-ra-the-minimoog-by-historian-thom-holmes/</a><br>Bob Moog Foundation: het Minimoog-prototype bij Sun Ra, najaar 1969.</li>
+<li><a href="https://en.wikipedia.org/wiki/King_Tubby">https://en.wikipedia.org/wiki/King_Tubby</a><br>King Tubby, de mengtafel, de studio in Waterhouse vanaf 1971.</li>
+<li><a href="https://en.wikipedia.org/wiki/Toshiro_Mayuzumi">https://en.wikipedia.org/wiki/Toshiro_Mayuzumi</a><br>X, Y, Z uit 1953.</li>
+<li><a href="https://en.wikipedia.org/wiki/Francis_Bebey">https://en.wikipedia.org/wiki/Francis_Bebey</a><br>Bebey, synthesizers vanaf 1975; zie ook <a href="https://www.thevinylfactory.com/features/electric-futurism-francis-bebey">The Vinyl Factory</a>.</li>
+<li><a href="https://en.wikipedia.org/wiki/Charanjit_Singh_(musician)">https://en.wikipedia.org/wiki/Charanjit_Singh_(musician)</a><br>Synthesizing: Ten Ragas to a Disco Beat, 1982; zie ook <a href="https://lightintheattic.net/products/synthesizing-ten-ragas-to-a-disco-beat">Light in the Attic</a>.</li>
+<li><a href="https://ressources.ircam.fr/en/composer/beatriz-ferreyra/biography">https://ressources.ircam.fr/en/composer/beatriz-ferreyra/biography</a><br>IRCAM: Ferreyra bij de GRM vanaf 1963.</li>
+  </ol>
+
+  <p class="achtergrondbron" data-fotobron="rockmore"></p>
+  <p class="achtergrondbron">De synthesizer met patchkabels op de achtergrond is een tekening, gemaakt met gereedschap/maak_synth.py.</p>
+  <p class="voet">Code onder MIT-licentie; foto's en geluiden hebben hun eigen licentie, zie fotos/credits.json en opnames/BRONNEN.md.</p>
+  <p class="voet">Klopt er iets niet, of heb je een bron die ik mis, laat het mij weten. Dan pas ik het aan, met vermelding erbij.</p>
+</main>
+<script src="pioniers/fotos.js"></script>
+</body>
+</html>
