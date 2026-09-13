@@ -1973,11 +1973,11 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
     <div class="manifest">
       <p>Deze plek is een ode aan de echte pioniers van de elektronische muziek: <b>Clara Rockmore</b>, <b>Daphne Oram</b>, <b>Bebe Barron</b>, <b>Delia Derbyshire</b>, <b>&Eacute;liane Radigue</b>, <b>Maryanne Amacher</b>, <b>Pauline Oliveros</b>, <b>Wendy Carlos</b>, <b>Laurie Spiegel</b> en <b>Suzanne Ciani</b>. Iedereen kent het geluid van een colaflesje dat opengaat en wordt ingeschonken. Suzanne Ciani maakte het, op haar modulaire synthesizer, en haar naam stond er niet bij. De elektronische muziek viert hoogtijdagen, er gaan miljarden in om, en nog steeds staan er geen vrouwelijke namen op de <a href="https://i-d.co/article/forbes-list-of-top-earning-djs-is-all-male-once-again/" target="_blank" rel="noopener">lijst met meest verdienende dj's</a>. Zonder deze vrouwen had deze industrie niet bestaan.</p>
 
-      <p>De documentaire <a href="https://sisterswithtransistors.com" target="_blank" rel="noopener"><b>Sisters with Transistors</b></a> uit 2020, geregisseerd door Lisa Rovner en verteld door Laurie Anderson, portretteert deze tien pioniers. Kijk hem, en luister daarna nog een keer naar wat je dacht te kennen.</p>
+      <p>De documentaire <a href="https://sisterswithtransistors.com" target="_blank" rel="noopener"><b>Sisters with Transistors</b></a> uit 2020, geregisseerd door Lisa Rovner en verteld door Laurie Anderson, portretteert deze tien pioniers.</p>
 
       <p>Met deze plek willen we muzikale creativiteit aanwakkeren, voor iedereen. Voor meisjes, voor jongens en voor iedereen daartussen. Je hebt geen studio nodig en geen dure apparatuur, alleen je stem en je handen. Neem op, verdraai, stapel, en maak iets wat er nog niet was. En in het verlengde van Sophie Straat herhalen wij haar oproep: witte mannen, doe een stap terug en maak ruimte voor je medemens. Witte mannen mogen zeker meedoen, maar wel volgens onze menselijke normen en waarden en op basis van wederzijds respect. Ik verwacht dat het kaf zich dan vanzelf van het koren scheidt.</p>
     </div>
-    <p class="leesregel linkrij"><a class="lees" href="index.html">Lees wie zij waren</a><a class="lees" href="#" id="startRondleiding">Bekijk deze animatie om snel te beginnen</a><a class="lees" href="#" id="startDemoBeat">Bekijk hoe je een beat met een melodie maakt</a></p>
+    <p class="leesregel linkrij"><a class="lees" href="index.html">Lees wie zij waren</a><a class="lees" href="#" id="startRondleiding">Rondleiding: wat is wat in de studio</a><a class="lees" href="#" id="startDemoBeat">Demo: een beat met een melodie en een effect</a><a class="lees" href="#" id="startDemoStem">Demo: je stem opnemen, knippen en als vocoder</a></p>
   </header>
 
 <div class="werkvlak">
@@ -8916,6 +8916,21 @@ function openPadSynth(i) {
             ? 'Bewaard bij Eigen geluiden als ' + rij.naam + '. Het pad zelf is niet veranderd.'
             : 'Bewaren mislukt.';
     }, 'Het geluid van de synth als nieuw geluid in de bibliotheek zetten, zonder het pad te veranderen');
+    // De melodie intekenen: de pianorol van dit pad, met de synth live zodat elke noot door de patch gaat.
+    knop('Melodie intekenen', () => {
+        if (!pads[i].buffer) {
+            // nog geen geluid op het pad: eerst de patch als geluid op het pad zetten, dan de pianorol
+            document.getElementById('padHint').textContent = 'Zet de synth eerst met Naar pad op het pad, dan kun je de melodie intekenen.';
+            return;
+        }
+        s.live = true;
+        const lb = Array.from(voet.querySelectorAll('button')).find(b => b.textContent.startsWith('Live op het pad'));
+        if (lb) { lb.textContent = 'Live op het pad: aan'; lb.classList.add('aan'); }
+        bewaarAlles();
+        openPianorol(i);
+        const m = document.getElementById('pianorolModal'); if (m) document.body.appendChild(m);
+    }, 'De pianorol van dit pad: teken de noten, elke noot gaat live door deze synthpatch. Speel loopt in een lus op het tempo van de studio');
+
     const uitleg = document.createElement('span'); uitleg.className = 'uitleg';
     uitleg.textContent = 'Na elke knop of kabel hoor je meteen een korte voorproef; Naar pad zet het in het pad, pas daarna klinkt het pad anders. LFO, Drive en Ruis doen niets zonder kabel: sleep van hun uit-jack naar een cv of in. Sleep van jack naar jack voor een kabel, klik op een kabel om hem weg te halen. Knoppen: op en neer slepen, dubbelklik zet terug. Dubbelklik een toets om die noot voor het pad te kiezen.';
     voet.appendChild(uitleg);
@@ -12159,6 +12174,7 @@ function startDemoBeat(e) {
     if (e) e.preventDefault();
     zorgCtx(); if (ctx.state === 'suspended') ctx.resume();
     const d = { nBeat: -1, nGit: -1, iGit: -1 };
+    stopRondleiding(); if (pianorol) pianorol.sluit(); document.getElementById('fxbak').classList.remove('open'); document.getElementById('knipbak').classList.remove('open');
     const vrij = () => biblio.filter(r => r.bron !== 'set' && isVrij(r));
     const eerste = (instr) => vrij().find(r => (instrumentVan(r) || '') === instr);
     const vak = (n) => document.querySelector('.groepvak[data-groep="' + n + '"]');
@@ -12192,7 +12208,11 @@ function startDemoBeat(e) {
           } },
         { sel: '#pianorolModal .pianorolplaat', tekst: 'Speel: de melodie loopt in een lus op dezelfde klok als de beat, dus ze vallen samen op de maat.',
           doe: () => { if (pianorol) pianorol.start(); } },
-        { sel: '#pianorolModal .pianorolplaat', tekst: 'Beat en melodie spelen samen. Verschuif noten, zet ze lager, maak ze langer, en bewaar alles met Project bewaren. Veel plezier.', wacht: 9000 }
+        { sel: () => document.querySelector('[data-pad="' + d.iGit + '"]'), tekst: 'Een effect op de gitaar: de Expanded Delay van Pauline Oliveros komt op het pad. Het effect zit op het afspelen, dus de melodie klinkt meteen anders.',
+          doe: () => { zetKeten(d.iGit, ['oliveros']); tekenAlles(); bewaarAlles(); } },
+        { sel: '#pionierParms .plaat', tekst: 'Fx op het pad opent de effectenkast met de plaat van Oliveros. Sleep aan de knoppen, grijs is de opname, rood is wat het effect ervan maakt.',
+          doe: () => { openFx(d.iGit); const m = document.getElementById('fxModal'); if (m) document.body.appendChild(m); } },
+        { sel: '#pionierParms .plaat', tekst: 'Beat, melodie en effect spelen samen. Verschuif noten, zet ze lager, stapel effecten, en bewaar alles met Project bewaren. Veel plezier.', wacht: 9000 }
     ];
     if (!document.getElementById('rondleidingBak')) startRondleiding();
     stopRondleiding();
@@ -12201,6 +12221,41 @@ function startDemoBeat(e) {
     toonRondleiding(0);
 }
 document.getElementById('startDemoBeat').addEventListener('click', startDemoBeat);
+
+// De demo: je stem opnemen, knippen, en door de vocoder van Wendy Carlos. Voor
+// de demo komt de stem uit de vrije geluiden, zodat er geen microfoon nodig is.
+function startDemoStem(e) {
+    if (e) e.preventDefault();
+    zorgCtx(); if (ctx.state === 'suspended') ctx.resume();
+    const d = { n: -1, i: -1 };
+    const vrij = () => biblio.filter(r => r.bron !== 'set' && isVrij(r));
+    stopRondleiding();
+    if (pianorol) pianorol.sluit(); document.getElementById('fxbak').classList.remove('open'); document.getElementById('knipbak').classList.remove('open');
+    const stappen = [
+        { sel: '.pad .opnameknop', tekst: 'Opnemen doe je met de microfoonknop op een pad: klik, spreek of zing, klik nog eens. Voor deze demo pakken we een stem uit de vrije geluiden, dan hoef je zelf niets te zeggen.',
+          doe: async () => {
+              const rij = vrij().find(r => /stem - aha/i.test(r.bestand || '')) || vrij().find(r => (instrumentVan(r) || '') === 'Stem');
+              if (!rij) throw new Error('geen stem');
+              d.n = nieuweGroep('Stem'); knoopGroepen();
+              await naarGroep([rij], d.n);
+              d.i = padsVanGroep(d.n)[0];
+          } },
+        { sel: () => document.querySelector('[data-pad="' + d.i + '"]'), tekst: 'De stem staat op dit pad. Klik op het pad of op Speel om hem te horen. Vol en Pan zitten ernaast.',
+          doe: () => speel(d.i) },
+        { sel: '#knipbak', tekst: 'Knip haalt het stuk eruit dat je wilt houden: sleep de randen, en haal brom, gerommel of sis weg met de banden. Wat je wegknipt blijft in de bibliotheek staan.',
+          doe: () => openKnip(d.i) },
+        { sel: () => document.querySelector('[data-pad="' + d.i + '"]'), tekst: 'Nu de vocoder van Wendy Carlos op het pad: jouw stem stuurt tien filterbanden van een synthesetoon aan, de klassieke robotstem.',
+          doe: () => { document.getElementById('knipbak').classList.remove('open'); zetKeten(d.i, ['carlos']); tekenAlles(); bewaarAlles(); speel(d.i); } },
+        { sel: '#pionierParms .plaat', tekst: 'De plaat van Carlos: draai aan de knoppen en luister met Beluisteren. Naar nieuw pad bakt het effect in een nieuw geluid, Bewaar zet het in je bibliotheek, met het effect in de metadata.',
+          doe: () => { openFx(d.i); const m = document.getElementById('fxModal'); if (m) document.body.appendChild(m); setTimeout(() => speel(d.i), 600); }, wacht: 10000 }
+    ];
+    if (!document.getElementById('rondleidingBak')) startRondleiding();
+    stopRondleiding();
+    document.getElementById('rondleidingBak').classList.add('aan');
+    rondleidingStappen = stappen;
+    toonRondleiding(0);
+}
+document.getElementById('startDemoStem').addEventListener('click', startDemoStem);
 let rondleidingStappen = RONDLEIDING;
 async function toonRondleiding(n, stil) {
     clearTimeout(rondleidingTimer);
