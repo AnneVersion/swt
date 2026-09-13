@@ -1,0 +1,104 @@
+{
+  "_uitleg": "Nagemaakte geluiden, gemaakt met geluiden/maak_geluiden.py. Hier staat geen enkel fragment van de opnames van deze vrouwen in. Elk bestand is opgebouwd volgens de techniek die zij bedacht heeft, zodat je kunt horen wat die techniek doet.",
+  "geluiden": [
+    {
+      "bestand": "rockmore-theremin.wav",
+      "naam": "Theremin, glijdende toon",
+      "pionier": "rockmore",
+      "wie": "Clara Rockmore",
+      "uitleg": "Een toon zonder toetsen. De toonhoogte glijdt met de hand mee en het vibrato komt uit de pols. Rockmore speelde zo hele melodieen, zonder het instrument aan te raken.",
+      "duur": 3.2,
+      "bytes": 282284
+    },
+    {
+      "bestand": "oram-getekend.wav",
+      "naam": "Getekende golfvorm",
+      "pionier": "oram",
+      "wie": "Daphne Oram",
+      "uitleg": "Oramics: je tekent een vorm op film en de machine leest die als golf. Deze vorm is met de hand gezet, en de klank volgt hem precies.",
+      "duur": 2.6,
+      "bytes": 229364
+    },
+    {
+      "bestand": "barron-kring.wav",
+      "naam": "Opbrandende kring",
+      "pionier": "barron",
+      "wie": "Bebe Barron",
+      "uitleg": "De Barrons bouwden schakelingen die ze lieten doorwerken tot ze stierven. Je hoort de kring opkomen, gaan zingen en uitdoven.",
+      "duur": 4.0,
+      "bytes": 352844
+    },
+    {
+      "bestand": "derby-bandlus.wav",
+      "naam": "Bandlus, tikkende bas",
+      "pionier": "derby",
+      "wie": "Delia Derbyshire",
+      "uitleg": "Een aangetokkelde metalen snaar, gekopieerd en in stukjes geknipt tot ritme, met de noten expres kort afgesneden zodat de bas tikt.",
+      "duur": 1.52,
+      "bytes": 133698
+    },
+    {
+      "bestand": "derby-ruiswolk.wav",
+      "naam": "Wolk van gefilterde ruis",
+      "pionier": "derby",
+      "wie": "Delia Derbyshire",
+      "uitleg": "Ruis door een filter, daarna in stukjes geknipt. Zo werden de wolken en het gesis gemaakt, in een tijd zonder synthesizer.",
+      "duur": 3.4,
+      "bytes": 299924
+    },
+    {
+      "bestand": "radigue-drone.wav",
+      "naam": "Drone die bijna niet verandert",
+      "pionier": "radigue",
+      "wie": "Eliane Radigue",
+      "uitleg": "Bij Radigue beweegt er zo weinig dat je alles gaat horen. Twee tonen die elkaar net niet raken geven een zweving die blijft lopen.",
+      "duur": 12.0,
+      "bytes": 1058444
+    },
+    {
+      "bestand": "amacher-verschiltonen.wav",
+      "naam": "Tonen die je oor zelf maakt",
+      "pionier": "amacher",
+      "wie": "Maryanne Amacher",
+      "uitleg": "Twee hoge tonen dicht bij elkaar. De derde toon die je hoort zit niet in het geluid, die maakt je eigen oor. Zet het zacht.",
+      "duur": 6.0,
+      "bytes": 529244
+    },
+    {
+      "bestand": "oliveros-echo.wav",
+      "naam": "Spelen met je eigen echo",
+      "pionier": "oliveros",
+      "wie": "Pauline Oliveros",
+      "uitleg": "Wat je speelt komt seconden later terug, en dan speel je samen met jezelf. Oliveros bouwde daar hele concerten op.",
+      "duur": 9.0,
+      "bytes": 793844
+    },
+    {
+      "bestand": "carlos-koor.wav",
+      "naam": "Stem voor stem gestapeld",
+      "pionier": "carlos",
+      "wie": "Wendy Carlos",
+      "uitleg": "Het instrument kon maar een noot tegelijk. Wie een koor wilde, speelde partij voor partij in en stapelde ze. Dat is hier gedaan met zes stemmen.",
+      "duur": 4.2,
+      "bytes": 370484
+    },
+    {
+      "bestand": "spiegel-patroon.wav",
+      "naam": "Patroon dat zichzelf uitrekent",
+      "pionier": "spiegel",
+      "wie": "Laurie Spiegel",
+      "uitleg": "Spiegel liet de computer het patroon uitwerken terwijl zij speelde. Dit patroon rekent zichzelf uit op een ladder die niet vals kan klinken.",
+      "duur": 8.0,
+      "bytes": 705644
+    },
+    {
+      "bestand": "ciani-plop.wav",
+      "naam": "Plop en schenken, zonder flesje",
+      "pionier": "ciani",
+      "wie": "Suzanne Ciani",
+      "uitleg": "Een korte getoonde tik, daarna gefilterde ruis met een resonantie die meeloopt. Geen flesje, geen microfoon, alleen een synthesizer.",
+      "duur": 2.43,
+      "bytes": 214370
+    }
+  ]
+}
