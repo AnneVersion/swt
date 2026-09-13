@@ -1475,7 +1475,8 @@ kbd{border-radius:0}
 :root{--lak:linear-gradient(180deg,#fbf6e8 0%,#f3ead4 45%,#e6dbc0 100%);
   --lakglans:linear-gradient(172deg, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 9%, rgba(255,255,255,.05) 22%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 68%, rgba(255,255,255,.28) 84%, rgba(255,255,255,.05) 100%);
   --chroomring:linear-gradient(180deg,#ffffff 0%,#f2f4f6 14%,#b9c0c6 32%,#5d6268 48%,#3f4347 52%,#d9dcdf 60%,#ffffff 74%,#a9a49a 90%,#e8e4dc 100%);
-  --chroomvlak:linear-gradient(180deg,#ffffff 0%,#eef1f3 22%,#8e959b 46%,#4e5358 50%,#c9ccce 56%,#fdfdfd 72%,#b7b1a6 88%,#f4f1ea 100%)}
+  --chroomvlak:linear-gradient(180deg,#ffffff 0%,#eef1f3 22%,#8e959b 46%,#4e5358 50%,#c9ccce 56%,#fdfdfd 72%,#b7b1a6 88%,#f4f1ea 100%);
+  --knopring:var(--chroomring)}
 .pad,.pad.gekozen,.zijkant,.synthplaat .module,.fxplaat .subblok{background-image:var(--lakglans), var(--lak) !important;background-size:auto, auto !important}
 .pad{box-shadow:inset 0 1px 0 #fff, inset 0 -1px 0 rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.25), 0 2px 5px rgba(0,0,0,.35) !important}
 .groepkop,.groepmix,.tvak{background-image:var(--lakglans), linear-gradient(180deg,var(--room),var(--room2))}
@@ -1489,15 +1490,15 @@ kbd{border-radius:0}
 .groepkop .mini,.groepmix .mini,.ritmebalk .mini,.kettingbalk .vakknop,.tvak button,.keuzebalk button,
 .pad .regel .mini,.lijst .bknoppen button,.bewaarrij button,.padmenu .menurij button,.gitaarrij .mini,.woordrij .mini,.plaatvoet button,.kast .rijknoppen button{
   border:3px solid transparent !important;border-radius:999px !important;
-  background:linear-gradient(180deg,#ffffff 0%,#f7f3e9 40%,#e4dbc5 62%,#f6f1e6 100%) padding-box, var(--chroomring) border-box !important;
+  background:linear-gradient(180deg,#ffffff 0%,#f7f3e9 40%,#e4dbc5 62%,#f6f1e6 100%) padding-box, var(--knopring) border-box !important;
   color:#1d1a15 !important;text-shadow:0 1px 0 rgba(255,255,255,.9) !important;
   box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 -2px 3px rgba(0,0,0,.12) inset, 0 2px 4px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.35) !important}
 .groepkop .mini:hover,.groepmix .mini:hover,.ritmebalk .mini:hover,.kettingbalk .vakknop:hover,.tvak button:hover,.keuzebalk button:hover,
 .pad .regel .mini:hover,.lijst .bknoppen button:hover,.bewaarrij button:hover,.padmenu .menurij button:hover,.gitaarrij .mini:hover,.woordrij .mini:hover,.plaatvoet button:hover,.kast .rijknoppen button:hover{
-  background:linear-gradient(180deg,#ffffff 0%,#fdfbf6 40%,#efe8d6 62%,#fff 100%) padding-box, var(--chroomring) border-box !important;color:#1d1a15 !important}
+  background:linear-gradient(180deg,#ffffff 0%,#fdfbf6 40%,#efe8d6 62%,#fff 100%) padding-box, var(--knopring) border-box !important;color:#1d1a15 !important}
 .groepkop .mini.aan,.groepmix .mini.aan,.ritmebalk .mini.aan,.kettingbalk .vakknop.aan,.tvak button.aan,.keuzebalk button.aan,
 .pad .regel .mini.aan,.lijst .bknoppen button.aan,.bewaarrij button.aan,.padmenu .menurij button.aan,.gitaarrij .mini.aan,.woordrij .mini.aan,.plaatvoet button.aan{
-  background:linear-gradient(180deg,#f9c2ad 0%,#e07e5a 55%,#c25d3c 100%) padding-box, var(--chroomring) border-box !important;color:#fff !important;text-shadow:0 1px 0 rgba(0,0,0,.35) !important}
+  background:linear-gradient(180deg,#f9c2ad 0%,#e07e5a 55%,#c25d3c 100%) padding-box, var(--knopring) border-box !important;color:#fff !important;text-shadow:0 1px 0 rgba(0,0,0,.35) !important}
 .groepkop .recknop.aan,.woordrij .mini.opneemt{background:linear-gradient(180deg,#f08a80 0%,#c9302a 55%,#8f1a15 100%) padding-box, var(--chroomring) border-box !important}
 .lijst .bknoppen button.gevaar,.groepkop .mini.gevaar{color:#8a3814 !important}
 .groepkop select,.groepmix select,.ritmebalk select,.tvak select,.tvak input[type=number],.kettingbalk .kettingveld{
@@ -1947,6 +1948,17 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .cianikast .ckijk{margin:4px 14px 6px}
 .cianikast .ckijk .gitaarkijk{padding:2px 0}
 .kettingbalk .kettingveld.licht{box-shadow:0 0 0 3px rgba(255,212,0,.7) !important}
+/* Goud: de knopjes, draaiknoppen, schuifknoppen, hendels en schroeven zijn messing, bij de messing rand. De chromen lijsten blijven chroom. */
+:root{--goudknop:linear-gradient(180deg,#fff6d6 0%,#f1dfa3 28%,#c9a03a 50%,#e6cf8a 64%,#fff2c9 100%);
+  --goudbol:radial-gradient(circle at 35% 30%,#fff6d6,#e2c46e 40%,#a07a25 78%,#e6cf8a);
+  --schroef-a:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2720%27%20height%3D%2720%27%3E%3Cdefs%3E%3CradialGradient%20id%3D%27m%27%20cx%3D%2734%25%27%20cy%3D%2728%25%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23fff6d6%27%2F%3E%3Cstop%20offset%3D%27.45%27%20stop-color%3D%27%23e2c46e%27%2F%3E%3Cstop%20offset%3D%27.8%27%20stop-color%3D%27%23a07a25%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%236b4f14%27%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2710%27%20cy%3D%2710%27%20r%3D%279%27%20fill%3D%27url%28%23m%29%27%20stroke%3D%27%234a3810%27%20stroke-opacity%3D%27.6%27%2F%3E%3Cg%20transform%3D%27rotate%2828%2010%2010%29%27%3E%3Crect%20x%3D%272.5%27%20y%3D%278.7%27%20width%3D%2715%27%20height%3D%272.6%27%20fill%3D%27%234a3810%27%20fill-opacity%3D%27.75%27%2F%3E%3Crect%20x%3D%272.5%27%20y%3D%2711.3%27%20width%3D%2715%27%20height%3D%270.8%27%20fill%3D%27%23fff6d6%27%20fill-opacity%3D%27.55%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");--schroef-b:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2720%27%20height%3D%2720%27%3E%3Cdefs%3E%3CradialGradient%20id%3D%27m%27%20cx%3D%2734%25%27%20cy%3D%2728%25%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23fff6d6%27%2F%3E%3Cstop%20offset%3D%27.45%27%20stop-color%3D%27%23e2c46e%27%2F%3E%3Cstop%20offset%3D%27.8%27%20stop-color%3D%27%23a07a25%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%236b4f14%27%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2710%27%20cy%3D%2710%27%20r%3D%279%27%20fill%3D%27url%28%23m%29%27%20stroke%3D%27%234a3810%27%20stroke-opacity%3D%27.6%27%2F%3E%3Cg%20transform%3D%27rotate%28-40%2010%2010%29%27%3E%3Crect%20x%3D%272.5%27%20y%3D%278.7%27%20width%3D%2715%27%20height%3D%272.6%27%20fill%3D%27%234a3810%27%20fill-opacity%3D%27.75%27%2F%3E%3Crect%20x%3D%272.5%27%20y%3D%2711.3%27%20width%3D%2715%27%20height%3D%270.8%27%20fill%3D%27%23fff6d6%27%20fill-opacity%3D%27.55%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+:root{--chroomknop:var(--goudknop)}
+.plaat .schroef{background:var(--goudbol)}
+input[type=range]::-webkit-slider-thumb{background:var(--goudbol)}
+input[type=range]::-moz-range-thumb{background:var(--goudbol)}
+input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%,#a07a25 60%,#f1dfa3)}
+::-webkit-scrollbar-thumb{background:var(--goudknop) padding-box, var(--chroomring) border-box}
+:root{--knopring:linear-gradient(180deg,#fff6d6 0%,#f7e7b4 14%,#d2ab45 32%,#8c6a1a 48%,#6b4f14 52%,#e6cf8a 60%,#fff2c9 74%,#b8933f 90%,#f1dfa3 100%)}
 </style>
 </head>
 <body>
@@ -11593,13 +11605,13 @@ function maakKnop(def, waarde, bij, terug) {
         '<stop offset="100%" stop-color="#22201c"/></radialGradient>' +
         '<linearGradient id="chr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#cfcbc0"/>' +
         '<stop offset=".5" stop-color="#7d7870"/><stop offset=".65" stop-color="#e9e6dd"/><stop offset="1" stop-color="#9a958a"/></linearGradient></defs>' +
-        '<linearGradient id="rok" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".25" stop-color="#d9dcdf"/><stop offset=".5" stop-color="#6c7278"/><stop offset=".62" stop-color="#c7cbce"/><stop offset=".85" stop-color="#8e959b"/><stop offset="1" stop-color="#f4f6f8"/></linearGradient>' +
-        '<radialGradient id="dop" cx="35%" cy="28%" r="75%"><stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#e6e9eb"/><stop offset=".7" stop-color="#8e959b"/><stop offset=".9" stop-color="#5d6268"/><stop offset="1" stop-color="#d9dcdf"/></radialGradient></defs>' +
+        '<linearGradient id="rok" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#fff6d6"/><stop offset=".25" stop-color="#f1dfa3"/><stop offset=".5" stop-color="#8c6a1a"/><stop offset=".62" stop-color="#e2c46e"/><stop offset=".85" stop-color="#a07a25"/><stop offset="1" stop-color="#fff2c9"/></linearGradient>' +
+        '<radialGradient id="dop" cx="35%" cy="28%" r="75%"><stop offset="0" stop-color="#fff6d6"/><stop offset=".35" stop-color="#f1dfa3"/><stop offset=".7" stop-color="#b8933f"/><stop offset=".9" stop-color="#6b4f14"/><stop offset="1" stop-color="#e6cf8a"/></radialGradient></defs>' +
         // de schaal op het paneel: elf streepjes, de lange bij begin, midden en eind
         '<line x1="50" y1="6" x2="50" y2="14" stroke="#2a2723" stroke-width="3" stroke-linecap="round" transform="rotate(-135 50 52)"/><line x1="50" y1="6" x2="50" y2="11" stroke="#2a2723" stroke-width="2" stroke-linecap="round" transform="rotate(-108 50 52)"/><line x1="50" y1="6" x2="50" y2="11" stroke="#2a2723" stroke-width="2" stroke-linecap="round" transform="rotate(-81 50 52)"/><line x1="50" y1="6" x2="50" y2="11" stroke="#2a2723" stroke-width="2" stroke-linecap="round" transform="rotate(-54 50 52)"/><line x1="50" y1="6" x2="50" y2="11" stroke="#2a2723" stroke-width="2" stroke-linecap="round" transform="rotate(-27 50 52)"/><line x1="50" y1="6" x2="50" y2="14" stroke="#2a2723" stroke-width="3" stroke-linecap="round" transform="rotate(0 50 52)"/><line x1="50" y1="6" x2="50" y2="11" stroke="#2a2723" stroke-width="2" stroke-linecap="round" transform="rotate(27 50 52)"/><line x1="50" y1="6" x2="50" y2="11" stroke="#2a2723" stroke-width="2" stroke-linecap="round" transform="rotate(54 50 52)"/><line x1="50" y1="6" x2="50" y2="11" stroke="#2a2723" stroke-width="2" stroke-linecap="round" transform="rotate(81 50 52)"/><line x1="50" y1="6" x2="50" y2="11" stroke="#2a2723" stroke-width="2" stroke-linecap="round" transform="rotate(108 50 52)"/><line x1="50" y1="6" x2="50" y2="14" stroke="#2a2723" stroke-width="3" stroke-linecap="round" transform="rotate(135 50 52)"/>' +
         '<path class="boog" fill="none" stroke="#e0553a" stroke-width="3" stroke-linecap="round" opacity=".9"/>' +
         // bakelieten rok met ribbels, chromen ring, ivoren dop
-        '<circle cx="50" cy="52" r="36" fill="url(#rok)" stroke="#3f4347" stroke-width="1"/>' +
+        '<circle cx="50" cy="52" r="36" fill="url(#rok)" stroke="#4a3810" stroke-width="1"/>' +
         '<line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(0 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(30 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(60 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(90 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(120 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(150 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(180 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(210 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(240 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(270 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(300 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(330 50 52)"/>' +
         '<circle cx="50" cy="52" r="27" fill="#2a2d30" opacity=".35"/>' +
         '<circle cx="50" cy="52" r="24" fill="url(#dop)" stroke="rgba(0,0,0,.45)" stroke-width="1"/>' +
