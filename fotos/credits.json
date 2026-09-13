@@ -1,0 +1,220 @@
+{
+  "_uitleg": "Per foto een regel. De sleutel is de bestandsnaam zonder .jpg. Alles wat hier staat is nagekeken op Wikimedia Commons op 12 september 2026. Staat bij een regel geen licentie, dan is er geen vrij beeld gevonden en hoort er dus geen foto op die plek. Zie fotos/OPHALEN.md voor de links. Staat er bij een vrouw een veld wens, lees dat dan eerst.",
+  "rockmore": {
+    "wat": "Clara Rockmore aan haar theremin",
+    "fotograaf": "Renato Toppo",
+    "licentie": "Publiek domein",
+    "bron": "https://commons.wikimedia.org/wiki/File:Clara_Rockmore_(1911-1998)_at_her_Theremin.jpg"
+  },
+  "oram": {
+    "wat": "Daphne Oram",
+    "fotograaf": "",
+    "licentie": "",
+    "bron": "",
+    "let_op": "Geen vrije foto gevonden. Op Commons staat alleen een silhouettekening, geen portret."
+  },
+  "barron": {
+    "wat": "Bebe Barron",
+    "fotograaf": "",
+    "licentie": "",
+    "bron": "",
+    "let_op": "Geen vrije foto gevonden op Commons."
+  },
+  "derby": {
+    "wat": "De plaquette voor Delia Derbyshire in Coventry",
+    "fotograaf": "Andy Mabbett",
+    "licentie": "CC BY-SA 4.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Delia_Derbyshire_Plaque_-_2019-07-17_-_Andy_Mabbett.jpg",
+    "let_op": "Dit is niet haar portret maar de gedenkplaat. Van haarzelf bestaat geen vrij gelicentieerde foto; de bekende BBC-foto uit 1965 is alle rechten voorbehouden."
+  },
+  "radigue": {
+    "wat": "Eliane Radigue",
+    "fotograaf": "Delphine Migueres",
+    "licentie": "CC BY-SA 3.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Éliane_Radigue_and_Cat.jpg"
+  },
+  "amacher": {
+    "wat": "Maryanne Amacher, 6 oktober 2006",
+    "fotograaf": "Sascha Pohflepp",
+    "licentie": "CC BY 2.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Maryanne_Amacher_2006-10-06.jpg"
+  },
+  "oliveros": {
+    "wat": "Pauline Oliveros, Sonic Acts 2012",
+    "fotograaf": "Pinar Temiz",
+    "licentie": "CC BY-SA 2.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Pauline_Oliveros_-_Sonic_Acts_2012_-_6931630363.jpg"
+  },
+  "carlos": {
+    "wat": "Wendy Carlos, 1985",
+    "fotograaf": "V.L. Smith / Bay Area Reporter",
+    "licentie": "Publiek domein",
+    "bron": "https://commons.wikimedia.org/wiki/File:Wendy_Carlos_(Bay_Area_Reporter,_1985).jpg",
+    "let_op": "Gebruik alleen deze foto. Op Commons staan ook schoolfoto's uit 1958, van voor haar transitie; die horen hier niet.",
+    "wens": "Zij vraagt op wendycarlos.com uitdrukkelijk om niets over te nemen zonder toestemming: geen beeld, tekst, grafiek of vormgeving. Deze foto komt niet van haar site maar uit een krantenarchief en is publiek domein. Neem verder niets van haar over."
+  },
+  "spiegel": {
+    "wat": "Laurie Spiegel",
+    "fotograaf": "",
+    "licentie": "",
+    "bron": "",
+    "let_op": "Op Commons staat een foto met licentie CC BY-SA 4.0, maar de maker staat er niet bij, alleen de uploader en een verwijzing naar Openverse. Herkomst te onzeker, dus niet gebruiken tot dat is nagegaan."
+  },
+  "ciani": {
+    "wat": "Suzanne Ciani bij KQED, augustus 2024, met haar 200e; portret bij de Ciani-kast (fotos/ciani_klein.jpg)",
+    "fotograaf": "Binksternet",
+    "licentie": "CC0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Suzanne_Ciani_at_KQED_in_August_2024.jpg"
+  },
+  "rockmore-instrument": {
+    "wat": "Theremin in het Musical Instrument Museum",
+    "fotograaf": "Andrevan",
+    "licentie": "CC BY-SA 4.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Theremin_in_Musical_Instrument_Museum.jpg"
+  },
+  "oram-instrument": {
+    "wat": "De Oramics-machine, detail",
+    "fotograaf": "linearclassifier",
+    "licentie": "CC BY-SA 2.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Oramics_Machine_-_details_2.jpg"
+  },
+  "barron-instrument": {
+    "wat": "Gloeiende radiobuizen in een buizenversterker",
+    "fotograaf": "Sebastian Nizan",
+    "licentie": "CC BY-SA 4.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Glowing_vacuum_tubes_of_tube_audio_amplifier_Mcintosh_MC275_(cropped).jpg",
+    "let_op": "Dit is niet de schakeling van de Barrons, het zijn buizen van hetzelfde soort. Zet dat er zo bij."
+  },
+  "derby-instrument": {
+    "wat": "Studio voor elektronische muziek van Siemens, met mengtafel, toongenerator en bandrecorders, Deutsches Museum",
+    "fotograaf": "Stefan Schweihofer",
+    "licentie": "CC0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Siemens_Studio_for_Electronic_Music_-_Console,_Signal_generator,_Tape_recorders_-_Deutsches_Museum,_2010.jpg",
+    "let_op": "Dit is de Siemens-studio, niet de BBC Radiophonic Workshop. Zet dat er zo bij, het is apparatuur uit dezelfde jaren."
+  },
+  "radigue-instrument": {
+    "wat": "ARP 2500, Ikebe Gakki Shibuya",
+    "fotograaf": "Kazuhisa OTSUBO",
+    "licentie": "CC BY 2.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:ARP_2500_modular_synthesizer_-_Ikebe_Gakki_Shibuya.jpg"
+  },
+  "amacher-instrument": {
+    "wat": "Luidsprekeropstelling",
+    "fotograaf": "",
+    "licentie": "",
+    "bron": "",
+    "let_op": "Niets vrijs gevonden van haar opstellingen. Haar werk hing in ruimtes en is nauwelijks gefotografeerd onder een vrije licentie."
+  },
+  "oliveros-instrument": {
+    "wat": "Accordeon en bandrecorders",
+    "fotograaf": "",
+    "licentie": "",
+    "bron": "",
+    "let_op": "Nog niets vrijs gevonden van haar accordeon met bandrecorders. Op haar portret is zij wel te zien."
+  },
+  "carlos-instrument": {
+    "wat": "Moog modulair, detail",
+    "fotograaf": "FranckinJapan",
+    "licentie": "CC0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Moog_modular_synthesizer_details_(2016-10-15_by_FranckinJapan_@piabay_1748059).jpg"
+  },
+  "spiegel-instrument": {
+    "wat": "Computermuziek bij Bell Labs",
+    "fotograaf": "",
+    "licentie": "",
+    "bron": "",
+    "let_op": "Niets vrijs gevonden van de computermuziekopstelling bij Bell Labs."
+  },
+  "ciani-instrument": {
+    "wat": "Buchla 200 series Electric Music Box, Tekniska Museet",
+    "fotograaf": "possan",
+    "licentie": "CC BY 2.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Buchla_200_(2)_@_nordcafe,_Teknisca_Museet.jpg"
+  },
+  "achtergrond-1": {
+    "wat": "Moog modulair, detail, als achtergrond van de studio",
+    "fotograaf": "FranckinJapan",
+    "licentie": "CC0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Moog_modular_synthesizer_details_(2016-10-15_by_FranckinJapan_@piabay_1748059).jpg",
+    "let_op": "Niet meer in gebruik: de studio tekent nu zelf een synth (fotos/synth.svg) en toont daarachter rockmore.jpg."
+  },
+  "achtergrond-2": {
+    "wat": "Studio voor elektronische muziek van Siemens, Deutsches Museum, als achtergrond van de pionierspagina's",
+    "fotograaf": "Stefan Schweihofer",
+    "licentie": "CC0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Siemens_Studio_for_Electronic_Music_-_Console,_Signal_generator,_Tape_recorders_-_Deutsches_Museum,_2010.jpg"
+  },
+  "achtergrond-3": {
+    "wat": "Moog modulair, detail, reserve",
+    "fotograaf": "Klaus P. Rausch",
+    "licentie": "CC0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Moog_modular_synthesizer_details_(2016-08_by_kpr2_@pixabay_1573329).jpg"
+  },
+  "kast": {
+    "wat": "Houten kast",
+    "fotograaf": "",
+    "licentie": "",
+    "bron": "",
+    "let_op": "Niet nodig, het hout is nu getekend met gereedschap/maak_textuur.py."
+  },
+  "synth": {
+    "wat": "Modulaire synthesizer met patchkabels, als achtergrond van de studio",
+    "fotograaf": "getekend met gereedschap/maak_synth.py",
+    "licentie": "Eigen tekening",
+    "bron": ""
+  },
+  "gitaar": {
+    "wat": "Fender Stratocaster uit 1954, 'Lady Rose', in de gitaarsolo-plugin",
+    "fotograaf": "Stratospheric",
+    "licentie": "CC BY-SA 3.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:1954_Fender_Stratocaster,_%22Lady_Rose%22_(owned_by_Jean-Pierre_Danel).jpg"
+  },
+  "blik": {
+    "wat": "Deur van een Frigidaire uit de jaren vijftig, als tegel (gespiegeld, ingekleurd in mint en room) onder de lak van de kasten, groepen en pads: fotos/blik_mint.jpg en fotos/blik_room.jpg",
+    "fotograaf": "Donald Trung",
+    "licentie": "CC BY-SA 4.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Frigidaire_refrigerator_inside_of_a_second-hand_shop,_Veendam_(2018)_01.jpg"
+  },
+  "tharpe": {
+    "wat": "Sister Rosetta Tharpe met haar National-resonatorgitaar, publiciteitsfoto uit 1938; als portret bij de gitaar in de gitaarsolo-plugin (fotos/tharpe.jpg en fotos/tharpe_klein.jpg)",
+    "fotograaf": "James J. Kriegsmann",
+    "licentie": "Publiek domein",
+    "bron": "https://commons.wikimedia.org/wiki/File:Sister_Rosetta_Tharpe_(1938_publicity_photo_with_guitar).jpg"
+  },
+  "gitaar_berry": {
+    "wat": "\"Maybellene\", de Gibson ES-350T van Chuck Berry (gitaarsolo, klank Chuck Berry en B.B. King)",
+    "fotograaf": "onbekend, vrijgegeven met CC0",
+    "licentie": "CC0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Maybellene,_Chuck_Berry%27s_guitar,_a_Gibson_ES-350T.jpg"
+  },
+  "gitaar_hendrix": {
+    "wat": "Fender Stratocaster uit 1968 van Jimi Hendrix, Woodstock, Play It Loud, MET (gitaarsolo, klank Hendrix en Prince)",
+    "fotograaf": "Eden, Janine and Jim",
+    "licentie": "CC BY 2.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Jimi_Hendrix%27s_Fender_Stratocaster_(1968)_in_Olympic_White,_purchased_in_New_York_in_1968,_played_on_legendary_1969_Woodstock_performance,_and_used_until_about_1970_-_Play_It_Loud._MET_(2019-05-13_19.46.44_by_Eden,_Janine_and_Jim).jpg"
+  },
+  "gitaar_santana": {
+    "wat": "PRS Custom uit 1988 van Carlos Santana, MIM Phoenix (gitaarsolo, klank Santana)",
+    "fotograaf": "Kev (afgeleid werk)",
+    "licentie": "CC BY-SA 4.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:PRS_Custom_(1988)_Santana_guitar,_MIM_PHX.jpg"
+  },
+  "gitaar_national": {
+    "wat": "National resonatorgitaar met stalen klankkast, rond 1930 (gitaarsolo, klank Rosetta Tharpe en Memphis Minnie)",
+    "fotograaf": "Eagledj",
+    "licentie": "CC BY-SA 4.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:National_Guitar,_steel_bodied_resonator,_ca._1930.jpg"
+  },
+  "gitaar_gretsch": {
+    "wat": "Gretsch Duo Jet G6128T met Bigsby (gitaarsolo, klank Bo Diddley)",
+    "fotograaf": "CasinoKat",
+    "licentie": "CC BY-SA 3.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Gretsch_DuoJet_G6128T_DSV(with_Bigsby).jpg"
+  },
+  "buchla200": {
+    "wat": "Een 200-serie modulair systeem in het Tekniska Museet, Stockholm; productfoto boven de Ciani-kast",
+    "fotograaf": "possan",
+    "licentie": "CC BY 2.0",
+    "bron": "https://commons.wikimedia.org/wiki/File:Buchla_200_(2)_@_nordcafe,_Teknisca_Museet.jpg"
+  }
+}
