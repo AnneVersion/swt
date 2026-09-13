@@ -1768,7 +1768,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 /* Het naamplaatje: rechthoekig, roomkleurig gebruikt blik met de groene metallic bies, chromen klinknagels,
    de naam verzonken in de lak. Dezelfde taal als de kasten. */
 .kop h1.plaatkop-embleem{display:block;border:0 !important;padding:0 !important;background:transparent !important;box-shadow:none !important;margin:0 0 8px !important;letter-spacing:0;text-transform:none;font-size:16px}
-.kop .plaatje{position:relative;display:inline-block;padding:14px 46px 12px;border:6px solid transparent;border-radius:14px;text-align:center;
+.kop .plaatje{position:relative;display:block;width:100%;box-sizing:border-box;padding:18px 46px 14px;border:6px solid transparent;border-radius:14px;text-align:center;
   background:var(--slijtage), var(--lakvlek), var(--blikroom) padding-box, var(--groenmetaal) border-box;background-size:400px 300px, auto, 560px 900px, auto;
   box-shadow:inset 0 0 0 2px rgba(255,255,255,.8), inset 0 0 0 3px rgba(0,60,40,.25), 0 0 0 1px rgba(0,40,30,.45), 0 8px 18px rgba(0,0,0,.4)}
 .kop .plaatje .klink{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#b9c0c6 45%,#5d6268 80%);box-shadow:0 1px 1px rgba(0,0,0,.5)}
@@ -1776,7 +1776,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .kop .plaatje .klein{display:block;font-family:var(--vijftig);font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:#8a3814;text-shadow:0 1px 0 rgba(255,255,255,.8)}
 .kop .plaatje .groot{display:block;font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:.16em;text-transform:uppercase;color:#3b2a1e;
   text-shadow:0 1px 0 rgba(255,255,255,.95), 0 -1px 0 rgba(0,0,0,.35), 0 2px 3px rgba(0,0,0,.15)}
-.kop .plaatje .sub{display:block;margin-top:6px;padding-top:6px;font-family:var(--vijftig);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#5a4a2c;
+.kop .plaatje .sub{display:block;margin-top:8px;padding-top:8px;font-family:var(--vijftig);font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:#5a4a2c;
   border-top:2px solid transparent;border-image:var(--groenmetaal) 1;border-image-slice:1 0 0 0;border-image-width:2px 0 0 0}
 /* De woordenplugin: vaste rijen met een label links, zoals overal */
 .woordkast{width:min(1180px,100%)}
@@ -1926,6 +1926,18 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .manifest .leesregel{margin:0 0 10px}
 /* de rand: van mintgroen naar een gelig messing, met donkere kanten zodat je ziet dat het een rand is */
 :root{--groenmetaal:linear-gradient(135deg,#fff6d6 0%,#e6cf8a 12%,#a8842f 30%,#f1dfa3 46%,#b8933f 62%,#fff2c9 80%,#9c7a2a 100%)}
+.lijst .setkop .kopnaar{margin-left:auto;font-size:8px;padding:2px 7px}
+.lijst .setkop{display:flex;align-items:center;gap:6px}
+/* rondleiding: lichtvlek met een donkere rand eromheen, en een ballon in blik */
+#rondleidingBak{display:none}
+#rondleidingBak.aan{display:block}
+#rondleidingBak .rlvlek{position:fixed;z-index:120;border-radius:10px;border:3px solid transparent;pointer-events:auto;
+  background:transparent padding-box, var(--groenmetaal) border-box;box-shadow:0 0 0 9999px rgba(20,16,10,.55), 0 0 22px rgba(255,212,0,.6);transition:left .45s,top .45s,width .45s,height .45s}
+#rondleidingBak .rlballon{position:fixed;z-index:121;width:360px;max-width:calc(100vw - 20px);padding:14px 16px 12px;border:3px solid transparent;border-radius:8px;
+  background:var(--lakvlek), var(--blikroom) padding-box, var(--groenmetaal) border-box;background-size:auto, 560px 900px, auto;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:left .45s,top .45s}
+#rondleidingBak .rltekst{margin:0 0 10px;font-size:14px;line-height:1.45;color:#2a2723}
+#rondleidingBak .rlknoppen{display:flex;gap:6px;align-items:center}
+#rondleidingBak .rltel{font-family:"Courier New",monospace;font-size:10px;color:#4a453d;margin-right:auto}
 </style>
 </head>
 <body>
@@ -1950,7 +1962,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 <div class="blad">
   <header class="kop">
     <div class="kopfoto" data-fotoband="achtergrond-3"></div>
-    <h1 class="embleemkop plaatkop-embleem"><span class="plaatje"><i class="klink lb"></i><i class="klink rb"></i><i class="klink lo"></i><i class="klink ro"></i><span class="klein">Sisters with</span><span class="groot">Transistors</span><span class="sub">Model 16 &middot; studio voor stem en band &middot; anno 2026</span></span></h1>
+    <h1 class="embleemkop plaatkop-embleem"><span class="plaatje"><i class="klink lb"></i><i class="klink rb"></i><i class="klink lo"></i><i class="klink ro"></i><span class="groot">Sisters with Transistors</span><span class="sub">Creative Studio for all</span></span></h1>
     <p class="ode">Een ode aan <b>Clara Rockmore</b> &middot; <b>Daphne Oram</b> &middot; <b>Bebe Barron</b> &middot; <b>Delia Derbyshire</b> &middot; <b>&Eacute;liane Radigue</b> &middot; <b>Maryanne Amacher</b> &middot; <b>Pauline Oliveros</b> &middot; <b>Wendy Carlos</b> &middot; <b>Laurie Spiegel</b> &middot; <b>Suzanne Ciani</b></p>
 
     <div class="manifest">
@@ -1959,7 +1971,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
       <p>De documentaire <a href="https://sisterswithtransistors.com" target="_blank" rel="noopener"><b>Sisters with Transistors</b></a> uit 2020, geregisseerd door Lisa Rovner en verteld door Laurie Anderson, portretteert deze tien pioniers. Kijk hem, en luister daarna nog een keer naar wat je dacht te kennen.</p>
 
       <p class="leesregel"><a class="lees" href="index.html">Lees wie zij waren</a></p>
-      <p>Met deze plek willen we muzikale creativiteit aanwakkeren, voor iedereen. Voor meisjes, voor jongens en voor iedereen daartussen. Je hebt geen studio nodig en geen dure apparatuur, alleen je stem en je handen. Neem op, verdraai, stapel, en maak iets wat er nog niet was. En in het verlengde van Sophie Straat herhalen wij haar oproep: witte mannen, doe een stap terug en maak ruimte voor je medemens. Witte mannen mogen zeker meedoen, maar wel volgens onze menselijke normen en waarden en op basis van wederzijds respect. Ik verwacht dat het kaf zich dan vanzelf van het koren scheidt.</p>
+      <p>Met deze plek willen we muzikale creativiteit aanwakkeren, voor iedereen. Voor meisjes, voor jongens en voor iedereen daartussen. Je hebt geen studio nodig en geen dure apparatuur, alleen je stem en je handen. Neem op, verdraai, stapel, en maak iets wat er nog niet was. <a href="#" class="lees" id="startRondleiding">Bekijk deze animatie om snel te beginnen</a>. En in het verlengde van Sophie Straat herhalen wij haar oproep: witte mannen, doe een stap terug en maak ruimte voor je medemens. Witte mannen mogen zeker meedoen, maar wel volgens onze menselijke normen en waarden en op basis van wederzijds respect. Ik verwacht dat het kaf zich dan vanzelf van het koren scheidt.</p>
 
 
     </div>
@@ -6423,7 +6435,7 @@ async function bewaarPadAlsNieuw(i) {
     if (!pads[i].buffer) return null;
     const buf = await renderPadBuffer(i);
     if (!buf) return null;
-    return await inBiblio(bewaarNaam(pads[i]), buf);
+    return await inBiblio(bewaarNaam(pads[i]), buf, false, padMetadata(pads[i]));
 }
 
 async function bewaarPadsInBiblio() {
@@ -6501,18 +6513,63 @@ function naarMono(buf) {
 
 /* ---------------------------------------------------------------- wav */
 
-function naarWav(buffer) {
+// De metadata van een geluid: naam, welke effecten erin gebakken zijn en van
+// welke pionier die komen. Gaat mee in het wav-bestand (LIST INFO) en in de
+// bibliotheekrij, zodat je later nog ziet waar een klank vandaan komt.
+function padMetadata(p) {
+    const keten = ketenVan(p);
+    const effecten = keten.map(k => (EFFECTEN[k] && EFFECTEN[k].label) || k);
+    const pioniers = keten.map(k => EFFECTEN[k] && EFFECTEN[k].groep === 'pionier' ? EFFECTEN[k].wie.split(',')[0] : null).filter((v, i, a) => v && a.indexOf(v) === i);
+    return { naam: p.naam || '', effecten, pioniers, pitch: p.pitch || 0 };
+}
+function metaTekst(meta) {
+    if (!meta) return '';
+    const delen = [];
+    if (meta.effecten && meta.effecten.length) delen.push('Effect: ' + meta.effecten.join(', '));
+    if (meta.pioniers && meta.pioniers.length) delen.push('Naar de techniek van ' + meta.pioniers.join(' en '));
+    if (meta.pitch) delen.push('Toonhoogte ' + (meta.pitch > 0 ? '+' : '') + meta.pitch + ' halve tonen');
+    delen.push('Gemaakt met Sisters with Transistors');
+    return delen.join('. ');
+}
+// Het LIST INFO-blok van een wav: naam (INAM), toelichting (ICMT), maker (IART), programma (ISFT).
+function wavInfoBlok(meta) {
+    if (!meta) return null;
+    const enc = new TextEncoder();
+    const velden = [['INAM', meta.naam || ''], ['ICMT', metaTekst(meta)], ['IART', 'Sisters with Transistors'], ['ISFT', 'Sisters with Transistors studio']];
+    const stukken = [];
+    for (const [id, waarde] of velden) {
+        if (!waarde) continue;
+        const b = enc.encode(waarde); const len = b.length + 1; const pad = len % 2;
+        const st = new Uint8Array(8 + len + pad);
+        for (let i = 0; i < 4; i++) st[i] = id.charCodeAt(i);
+        new DataView(st.buffer).setUint32(4, len, true);
+        st.set(b, 8);
+        stukken.push(st);
+    }
+    const inhoud = stukken.reduce((n, x) => n + x.length, 0);
+    const uit = new Uint8Array(12 + inhoud);
+    const kop = 'LIST'; for (let i = 0; i < 4; i++) uit[i] = kop.charCodeAt(i);
+    new DataView(uit.buffer).setUint32(4, 4 + inhoud, true);
+    const soort = 'INFO'; for (let i = 0; i < 4; i++) uit[8 + i] = soort.charCodeAt(i);
+    let o = 12; for (const st of stukken) { uit.set(st, o); o += st.length; }
+    return uit;
+}
+function naarWav(buffer, meta) {
     const data = buffer.getChannelData(0);
     const sr = buffer.sampleRate;
-    const ab = new ArrayBuffer(44 + data.length * 2);
+    const info = wavInfoBlok(meta);
+    const extra = info ? info.length : 0;
+    const ab = new ArrayBuffer(44 + data.length * 2 + extra);
     const dv = new DataView(ab);
     const tekst = (o, s) => { for (let i = 0; i < s.length; i++) dv.setUint8(o + i, s.charCodeAt(i)); };
-    tekst(0, 'RIFF'); dv.setUint32(4, 36 + data.length * 2, true); tekst(8, 'WAVE');
+    tekst(0, 'RIFF'); dv.setUint32(4, 36 + data.length * 2 + extra, true); tekst(8, 'WAVE');
     tekst(12, 'fmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true);
     dv.setUint16(22, 1, true); dv.setUint32(24, sr, true); dv.setUint32(28, sr * 2, true);
     dv.setUint16(32, 2, true); dv.setUint16(34, 16, true);
-    tekst(36, 'data'); dv.setUint32(40, data.length * 2, true);
-    let o = 44;
+    let o = 36;
+    if (info) { new Uint8Array(ab).set(info, o); o += extra; }
+    tekst(o, 'data'); dv.setUint32(o + 4, data.length * 2, true);
+    o += 8;
     for (let i = 0; i < data.length; i++, o += 2) {
         const s = Math.max(-1, Math.min(1, data[i]));
         dv.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
@@ -6819,10 +6876,11 @@ async function laadBiblio() {
     } catch (e) { console.warn('bibliotheek lezen mislukt', e); }
 }
 
-async function inBiblio(naam, buffer, stereo) {
+async function inBiblio(naam, buffer, stereo, meta) {
+    if (meta) meta = Object.assign({}, meta, { naam: naam || meta.naam });
     if (lokaalKan) {
         try {
-            const blob = stereo ? naarWavStereo(buffer) : naarWav(buffer);
+            const blob = stereo ? naarWavStereo(buffer) : naarWav(buffer, meta);
             const bestandsnaam = (naam || 'opname').replace(/[^\w \-().]/g, '_') + '.wav';
             const a = await fetch('opnames/' + encodeURIComponent(bestandsnaam), {
                 method: 'PUT', body: blob
@@ -6832,7 +6890,7 @@ async function inBiblio(naam, buffer, stereo) {
             const rij = {
                 bron: 'lokaal', bestand: g.naam, naam: zonderWav(g.naam),
                 bytes: blob.size, datum: Date.now(),
-                duur: buffer.duration, buffer: buffer
+                duur: buffer.duration, buffer: buffer, meta: meta || null
             };
             biblio.unshift(rij);
             tekenBiblio();
@@ -6852,6 +6910,7 @@ async function inBiblio(naam, buffer, stereo) {
                 sr: buffer.sampleRate,
                 duur: buffer.duration,
                 datum: Date.now(),
+                meta: meta || null,
                 pcm: buffer.getChannelData(0).slice(0)
             };
             const q = tx.objectStore(BIB).add(rij);
@@ -7125,7 +7184,8 @@ function tekenKeuzeBalk(ul, rijen) {
     knop.title = 'De gekozen geluiden op lege pads zetten, in deze groep';
     knop.onclick = async () => {
         knop.disabled = true;
-        let n = sel.value === 'nieuw' ? nieuweGroep() : parseInt(sel.value, 10);
+        const instr = gekozenRijen.map(r => instrumentVan(r) || '').filter((v, i, a) => a.indexOf(v) === i);
+        let n = sel.value === 'nieuw' ? nieuweGroep(instr.length === 1 && instr[0] ? instr[0] : undefined) : parseInt(sel.value, 10);
         if (sel.value === 'nieuw') knoopGroepen();
         await naarGroep(gekozenRijen, n);
         keuze.clear();
@@ -7163,6 +7223,16 @@ function tekenBiblioLijst(ul, rijen, vrij, leegTekst) {
             alle.onchange = () => { groepRijen.forEach(r => alle.checked ? keuze.add(sleutelVan(r)) : keuze.delete(sleutelVan(r))); tekenBiblio(); };
             kop.appendChild(alle);
             kop.appendChild(document.createTextNode(kopTekst));
+            const naarKnop = document.createElement('button'); naarKnop.className = 'mini kopnaar'; naarKnop.textContent = 'Alles naar groep';
+            naarKnop.title = 'Alle geluiden van ' + kopTekst + ' op lege pads zetten, samen in een nieuwe groep ' + kopTekst;
+            naarKnop.onclick = async (e) => {
+                e.stopPropagation(); naarKnop.disabled = true; naarKnop.textContent = 'Bezig';
+                const n = nieuweGroep(kopTekst); knoopGroepen();
+                await naarGroep(groepRijen, n);
+                keuze.clear(); tekenBiblio();
+                document.getElementById('padHint').textContent = groepRijen.length + ' geluiden van ' + kopTekst + ' in de groep ' + kopTekst + ' gezet.';
+            };
+            kop.appendChild(naarKnop);
             ul.appendChild(kop);
         }
         const li = document.createElement('li');
@@ -7190,7 +7260,7 @@ function tekenBiblioLijst(ul, rijen, vrij, leegTekst) {
         lengte.className = 'blengte';
         lengte.hidden = true;
         const meta = [rij.duur ? rij.duur.toFixed(2) + ' s' : null, rij.bytes ? Math.round(rij.bytes / 1024) + ' kB' : null, rij.bestand || null].filter(Boolean).join(' · ');
-        naam.title = (rij.naam || '') + (meta ? '\n' + meta : '') + (rij.bron === 'set' ? '' : '\nKlik op de naam om te hernoemen');
+        naam.title = (rij.naam || '') + (meta ? '\n' + meta : '') + (rij.meta ? '\n' + metaTekst(rij.meta) : '') + (rij.bron === 'set' ? '' : '\nKlik op de naam om te hernoemen');
         li.title = naam.title;
         if (rij.bron === 'set') {
             naam.readOnly = true;
@@ -7224,7 +7294,7 @@ function tekenBiblioLijst(ul, rijen, vrij, leegTekst) {
         knop('Pad', () => biblioNaarPad(rij), false, 'Zet op het gekozen pad, anders op het eerste lege');
         knop('Wav', async () => {
             const buf = await biblioGeluid(rij);
-            download(naarWav(buf), rij.naam.replace(/[^\w\- ]/g, '') + '.wav');
+            download(naarWav(buf, rij.meta || null), rij.naam.replace(/[^\w\- ]/g, '') + '.wav');
         });
         if (rij.bron !== 'set' && !rij.vast) knop('\u00D7', () => {
             if (confirm(lokaalKan
@@ -12025,6 +12095,68 @@ tekenAlles();
 vraagVorigProject();
 laadBiblio().then(laadSet);
 window.addEventListener('resize', () => { tekenAlles(); tekenLus(); tekenOram(); });
+
+/* ---------------------------------------------------------------- rondleiding */
+
+// Een korte animatie door de studio: een lichtvlek springt van onderdeel naar
+// onderdeel, met een regel uitleg erbij. Loopt vanzelf door, Volgende en Stop
+// werken ook.
+const RONDLEIDING = [
+    ['.pad', 'Dit is een pad. Klik erop, of druk op de letter rechtsboven, en je hoort wat erop staat.'],
+    ['.pad .opnameknop', 'De rode knop is de microfoon. Klik, zeg of zing iets, klik nog eens: je stem staat op het pad.'],
+    ['.zijkant.vrij', 'Vrije geluiden, allemaal vrij te gebruiken. Pad zet er een op een pad, Alles naar groep zet een heel instrument klaar in een eigen groep.'],
+    ['.groepvak', 'Een groep. Beat laat de pads van de groep een ritme spelen op het tempo van de studio. Ritme kiest welk ritme, Opbouw laat het groeien.'],
+    ['#tvakMaat', 'Tempo en raster. Quantize laat alles wat je speelt op de tel vallen.'],
+    ['#tvakLus', 'De lus: start hem en speel erin, elke ronde komt erbij.'],
+    ['#tvakSolo', 'De grote instrumenten: Gitaarsolo, Woorden en de Ciani-kast. Elk met een eigen kast en plugins van de pioniers.'],
+    ['#tvakMix', 'Opnemen wat je hoort maakt er een wav van. Die kun je bewaren, of naar ons mailen.'],
+    ['#creatie', 'Helemaal onderaan: stuur je creatie. Ik luister graag.']
+];
+let rondleidingStap = -1, rondleidingTimer = null;
+function startRondleiding(e) {
+    if (e) e.preventDefault();
+    if (!document.getElementById('rondleidingBak')) {
+        const bak = document.createElement('div'); bak.id = 'rondleidingBak';
+        bak.innerHTML = '<div class="rlvlek"></div><div class="rlballon"><p class="rltekst"></p><div class="rlknoppen"><span class="rltel"></span><button class="rlvorige">Vorige</button><button class="rlvolgende">Volgende</button><button class="rlstop">Stop</button></div></div>';
+        document.body.appendChild(bak);
+        bak.querySelector('.rlvolgende').onclick = () => toonRondleiding(rondleidingStap + 1);
+        bak.querySelector('.rlvorige').onclick = () => toonRondleiding(Math.max(0, rondleidingStap - 1));
+        bak.querySelector('.rlstop').onclick = stopRondleiding;
+        bak.querySelector('.rlvlek').onclick = stopRondleiding;
+        window.addEventListener('resize', () => { if (rondleidingStap >= 0) toonRondleiding(rondleidingStap, true); });
+        document.addEventListener('keydown', (ev) => { if (rondleidingStap >= 0 && ev.key === 'Escape') stopRondleiding(); });
+    }
+    document.getElementById('rondleidingBak').classList.add('aan');
+    toonRondleiding(0);
+}
+function toonRondleiding(n, stil) {
+    clearTimeout(rondleidingTimer);
+    if (n >= RONDLEIDING.length) { stopRondleiding(); return; }
+    rondleidingStap = n;
+    const [sel, tekst] = RONDLEIDING[n];
+    const el = document.querySelector(sel);
+    const bak = document.getElementById('rondleidingBak');
+    const vlek = bak.querySelector('.rlvlek'), ballon = bak.querySelector('.rlballon');
+    bak.querySelector('.rltekst').textContent = tekst;
+    bak.querySelector('.rltel').textContent = (n + 1) + ' van ' + RONDLEIDING.length;
+    if (!el) { rondleidingTimer = setTimeout(() => toonRondleiding(n + 1), 400); return; }
+    if (!stil) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const zet = () => {
+        const r = el.getBoundingClientRect(); const m = 8;
+        vlek.style.left = (r.left - m) + 'px'; vlek.style.top = (r.top - m) + 'px';
+        vlek.style.width = (r.width + 2 * m) + 'px'; vlek.style.height = (r.height + 2 * m) + 'px';
+        const onder = r.bottom + 16 + 140 < window.innerHeight;
+        ballon.style.top = (onder ? r.bottom + 16 : Math.max(10, r.top - 156)) + 'px';
+        ballon.style.left = Math.max(10, Math.min(window.innerWidth - 380, r.left)) + 'px';
+    };
+    setTimeout(zet, stil ? 0 : 450); zet();
+    rondleidingTimer = setTimeout(() => toonRondleiding(n + 1), 6500);
+}
+function stopRondleiding() {
+    clearTimeout(rondleidingTimer); rondleidingStap = -1;
+    const bak = document.getElementById('rondleidingBak'); if (bak) bak.classList.remove('aan');
+}
+document.getElementById('startRondleiding').addEventListener('click', startRondleiding);
 </script>
 <div class="vraagbak" id="vraagbak" hidden>
   <div class="vraag">
