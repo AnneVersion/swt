@@ -1957,7 +1957,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .plaat .schroef.rb,.plaat .schroef.lo{background-image:var(--fonkel),var(--schroef-b)}
 .plaat .schroef::after{display:none}
 /* de naam op de titelplaat: bezet met diamantjes in gouden zettingen (pavé) */
-.kop .plaatje .groot{background:url("fotos/diamant_klein.png") 0 0/11px 11px repeat, url("fotos/diamant_klein.png") 5.5px 5.5px/11px 11px repeat, linear-gradient(#fff6d6,#c9a03a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;
+.kop .plaatje .groot{background:var(--fonkeldun) 0 0/44px 44px repeat, var(--fonkeldun) 31px 47px/62px 62px repeat, url("fotos/diamant_klein.png") 0 0/11px 11px repeat, url("fotos/diamant_klein.png") 5.5px 5.5px/11px 11px repeat, linear-gradient(#fff6d6,#c9a03a);animation:letterfonkel 7s linear infinite;-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;
   filter:drop-shadow(0 1px 0 rgba(90,60,10,.9)) drop-shadow(0 2px 3px rgba(0,0,0,.35));letter-spacing:.2em;font-size:clamp(28px,4vw,46px)}
 input[type=range]::-webkit-slider-thumb{background:var(--goudbol)}
 input[type=range]::-moz-range-thumb{background:var(--goudbol)}
@@ -1974,26 +1974,6 @@ input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%
    en fonkelingen die aan en uit gaan over de titelplaat. */
 .kast::before{display:block;left:18px;right:18px;top:5px;height:12px;border-radius:6px;background:var(--schroef-a) 0 0/12px 12px repeat-x, var(--knopring);box-shadow:0 1px 2px rgba(0,0,0,.35)}
 .kop .plaatje .sub{background:linear-gradient(180deg,#fff6d6,#c9a03a 55%,#8c6a1a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;font-weight:700;filter:drop-shadow(0 1px 0 rgba(255,255,255,.7))}
-.kop .plaatje{overflow:hidden}
-.kop .plaatje::before,.kop .plaatje::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
-  background:
-    radial-gradient(circle at 12% 30%, #fff 0 1.5px, rgba(255,255,255,0) 6px),
-    radial-gradient(circle at 28% 70%, #fff 0 1px, rgba(255,255,255,0) 5px),
-    radial-gradient(circle at 41% 25%, #fff 0 2px, rgba(255,255,255,0) 7px),
-    radial-gradient(circle at 55% 65%, #fff 0 1.2px, rgba(255,255,255,0) 5px),
-    radial-gradient(circle at 68% 35%, #fff 0 1.8px, rgba(255,255,255,0) 7px),
-    radial-gradient(circle at 83% 60%, #fff 0 1.2px, rgba(255,255,255,0) 5px),
-    radial-gradient(circle at 93% 28%, #fff 0 1.6px, rgba(255,255,255,0) 6px);
-  animation:fonkel 2.6s ease-in-out infinite}
-.kop .plaatje::after{background:
-    radial-gradient(circle at 20% 55%, #fff 0 1.2px, rgba(255,255,255,0) 5px),
-    radial-gradient(circle at 34% 35%, #fff 0 1.8px, rgba(255,255,255,0) 7px),
-    radial-gradient(circle at 48% 72%, #fff 0 1px, rgba(255,255,255,0) 5px),
-    radial-gradient(circle at 61% 30%, #fff 0 1.5px, rgba(255,255,255,0) 6px),
-    radial-gradient(circle at 75% 68%, #fff 0 1.8px, rgba(255,255,255,0) 7px),
-    radial-gradient(circle at 88% 40%, #fff 0 1.2px, rgba(255,255,255,0) 5px);
-  animation:fonkel 3.4s ease-in-out infinite reverse}
-@keyframes fonkel{0%,100%{opacity:0}18%{opacity:.95}36%{opacity:.1}55%{opacity:.8}72%{opacity:0}88%{opacity:.6}}
 /* welk ritmevakje (A, B, C) nu klinkt: een rode gloed en een lampje, boven alle andere knopstijlen */
 .kettingbalk .vakknop{position:relative}
 .kettingbalk .vakknop.speelt{box-shadow:0 0 0 3px #2ee08a, 0 0 12px rgba(46,224,138,.95), 0 2px 4px rgba(0,0,0,.45) !important}
@@ -2003,6 +1983,7 @@ input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%
 .kettingbalk .speeltlabel b{display:inline-block;min-width:12px;padding:0 5px;border-radius:999px;background:#2ee08a;color:#0a3d25;text-align:center}
 /* de diamantschroeven blinken: op elke steen verschijnt om de paar seconden een fonkelster, zachtjes,
    elke schroef op zijn eigen moment, met een lichte gloed erbij */
+:root{--fonkeldun:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2080%2080%27%3E%3Cg%20transform%3D%27translate%2840%2040%29%27%3E%3Cpath%20d%3D%27M0%20-9%20L1.6%20-1.6%20L9%200%20L1.6%201.6%20L0%209%20L-1.6%201.6%20L-9%200%20L-1.6%20-1.6%20Z%27%20fill%3D%27%23fff%27%2F%3E%3Ccircle%20r%3D%271.6%27%20fill%3D%27%23fff%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%2812%2062%29%27%3E%3Cpath%20d%3D%27M0%20-5%20L1%20-1%20L5%200%20L1%201%20L0%205%20L-1%201%20L-5%200%20L-1%20-1%20Z%27%20fill%3D%27%23fff%27%20opacity%3D%27.9%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
 :root{--fonkel:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2040%2040%27%3E%3Cdefs%3E%3CradialGradient%20id%3D%27h%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23fff%27%20stop-opacity%3D%27.9%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%239fd3ff%27%20stop-opacity%3D%270%27%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2720%27%20cy%3D%2720%27%20r%3D%2714%27%20fill%3D%27url%28%23h%29%27%2F%3E%3Cpath%20d%3D%27M20%200%20L23.5%2016.5%20L40%2020%20L23.5%2023.5%20L20%2040%20L16.5%2023.5%20L0%2020%20L16.5%2016.5%20Z%27%20fill%3D%27%237fb0e0%27%20opacity%3D%27.7%27%2F%3E%3Cpath%20d%3D%27M20%202%20L22.6%2017.4%20L38%2020%20L22.6%2022.6%20L20%2038%20L17.4%2022.6%20L2%2020%20L17.4%2017.4%20Z%27%20fill%3D%27%23fff%27%2F%3E%3Cpath%20d%3D%27M12%2012%20L20%2018%20L28%2012%20L22%2020%20L28%2028%20L20%2022%20L12%2028%20L18%2020%20Z%27%20fill%3D%27%23fff%27%20opacity%3D%27.8%27%2F%3E%3C%2Fsvg%3E")}
 @keyframes schroeffonkel{0%,59.9%,100%{background-position:-300% -300%, center;filter:brightness(1)}60%,78%{background-position:center, center;filter:brightness(1.35) drop-shadow(0 0 3px rgba(255,255,255,.9))}78.1%{background-position:-300% -300%, center;filter:brightness(1)}}
 .plaat .schroef,.pad::before,.pad::after,.rek .blok::before,.rek .blok::after,.zijkant::before,.zijkant::after,.kop .plaatje .klink,.kop h1::before,.kop h1::after,.kop h1 span.nagel{
@@ -2032,6 +2013,7 @@ input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%
 .nulijst .nuchip.beat{background:#8a3814;box-shadow:0 0 8px rgba(226,87,76,.6)}
 .nulijst .nuleeg{opacity:.6}
 .bouwnr{margin-left:auto;font-family:var(--vijftig);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#8a7b66}
+@keyframes letterfonkel{0%{background-position:0 0, 31px 47px, 0 0, 5.5px 5.5px, 0 0}100%{background-position:-97px 61px, 140px -83px, 0 0, 5.5px 5.5px, 0 0}}
 /* het label van een vak in de transportbalk stond op de knoppen */
 .tvak{padding-top:32px !important}
 .tvak .tlabel{top:2px;font-size:15px;line-height:1.3}
@@ -2083,7 +2065,7 @@ input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%
       <span id="recTijd" class="rectijd">alles wat klinkt</span>
       <canvas id="nuScoop" width="260" height="40" title="Wat er nu uit de uitgang komt"></canvas>
       <div id="nuLijst" class="nulijst"><span class="nuleeg">Nu klinkt: niets</span></div>
-      <span class="bouwnr" title="Zie je een lager nummer dan verwacht, laad de pagina opnieuw met Ctrl+F5">bouw 119</span>
+      <span class="bouwnr" title="Zie je een lager nummer dan verwacht, laad de pagina opnieuw met Ctrl+F5">bouw 120</span>
     </div>
     <div class="rooster" id="rooster"></div>
     <div class="wang rechts"></div>
