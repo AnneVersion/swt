@@ -1159,11 +1159,14 @@ kbd{border-radius:0}
 .tvak input[type=range]{width:70px}
 .tvak .tel{font-family:"Courier New",monospace;font-size:11px;color:var(--accent);min-width:0}
 .tvak #lusBalk{flex-basis:100%;height:26px;margin-top:2px;border:1px solid #6d6960;background:#fbfbf9}
-#tvakLus{flex-direction:column;align-items:stretch;gap:6px}
-#tvakLus .trij{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-#tvakLus .trij button{padding:4px 9px;font-size:9px;letter-spacing:.08em;white-space:nowrap}
-#tvakLus .trij select{font-size:9px}
-#tvakLus .trij #lusBalk{width:100%;margin-top:0}
+#tvakLus{flex-direction:column;align-items:stretch;gap:6px;padding-top:22px}
+#tvakLus .trij{display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:center}
+#tvakLus .trij > *{min-width:0}
+#tvakLus .trij button{width:100%;padding-left:6px !important;padding-right:6px !important;font-size:9px !important;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tvakLus .lengtevak{display:flex;align-items:center;gap:4px;min-width:0}
+#tvakLus .lengtevak label{flex:0 0 auto}
+#tvakLus .lengtevak select{flex:1;min-width:0;font-size:9px}
+#tvakLus .trij #lusBalk{grid-column:1 / -1;width:100%;margin-top:0}
 @media (max-width:1080px){ .transport{grid-template-columns:1fr 1fr} }
 .fxfamilie{display:flex;align-items:flex-start;gap:10px;padding:5px 0;border-top:1px dashed rgba(0,0,0,.18)}
 .fxfamilie:first-child{border-top:0}
@@ -2384,10 +2387,23 @@ let groepNamen = [];   // afgeleid van groepen, voor oud code dat alleen namen k
 // beat, ritme, opnemen, midi. Nummer -1.
 let losGroep = { naam: 'Los', kleur: '#8f8c84', vast: true, beat: false, maatdeel: 4, kans: 1, modus: 'random', quant: 0, ritme: null, open: false };
 function groepBij(n) { return n === -1 ? losGroep : groepen[n]; }
-function nieuweGroep(naam) {
+// Een nieuwe groep. Met een voorbeeldgroep erbij neemt hij alle instellingen
+// over: maatdeel, kans, modus, quantize, ritme en de ritmevakjes, ketting,
+// opbouw, volume en pan. Beat staat uit, de naam en de kleur zijn nieuw.
+function nieuweGroep(naam, voorbeeld) {
     const g = { naam: naam || ('Groep ' + (groepen.length + 1)),
                 kleur: GROEPKLEUREN[groepen.length % GROEPKLEUREN.length],
                 beat: false, maatdeel: 4, kans: 1, modus: 'random', quant: 0 };
+    if (voorbeeld) {
+        Object.assign(g, {
+            maatdeel: voorbeeld.maatdeel, kans: voorbeeld.kans, modus: voorbeeld.modus, quant: voorbeeld.quant,
+            ritme: ritmeKopie(voorbeeld), ritmes: voorbeeld.ritmes ? JSON.parse(JSON.stringify(voorbeeld.ritmes)) : null,
+            ritmeVak: voorbeeld.ritmeVak, ketting: voorbeeld.ketting || '', kettingAan: !!voorbeeld.kettingAan,
+            opbouw: voorbeeld.opbouw ? Object.assign({}, JSON.parse(JSON.stringify(voorbeeld.opbouw)), { start: 0, aan: false }) : null,
+            volume: voorbeeld.volume === undefined ? 1 : voorbeeld.volume, pan: voorbeeld.pan || 0
+        });
+        if (!naam) g.naam = voorbeeld.naam + ' kopie';
+    }
     groepen.push(g);
     groepNamen = groepen.map(x => x.naam);
     bewaarGroepNamen();
@@ -8236,7 +8252,10 @@ function tekenRitme(n) {
 
     if (!ps.length) {
         const leeg = document.createElement('p'); leeg.className = 'ritmeleeg';
-        leeg.textContent = 'Nog geen pads met geluid in deze groep.';
+        const alle = padsVanGroep(n).length;
+        leeg.textContent = alle
+            ? 'Deze groep heeft ' + alle + (alle === 1 ? ' pad' : ' pads') + ', maar daar staat nog geen geluid op. Neem iets op of zet een geluid uit de bibliotheek op zo\'n pad.'
+            : 'Nog geen pads in deze groep. Rechtermuisknop op een pad geeft Naar groep; bij de vrije geluiden zet Alles naar groep een heel instrument klaar.';
         vak.appendChild(leeg); return;
     }
     const rooster = document.createElement('div'); rooster.className = 'ritmerooster';
@@ -8959,13 +8978,13 @@ function bouwTransport() {
                 const el = document.getElementById(id);
                 if (!el) return;
                 const lab = doel.querySelector('label[for="' + id + '"]');
-                if (lab) rij.appendChild(lab);
-                rij.appendChild(el);
+                if (lab) { const vak = document.createElement('span'); vak.className = 'lengtevak'; vak.appendChild(lab); vak.appendChild(el); rij.appendChild(vak); }
+                else rij.appendChild(el);
             });
             doel.appendChild(rij);
         });
     };
-    rijen('tvakLus', [['knopLus', 'knopLusOp'], ['maten', 'knopLusTerug', 'knopLusWis'], ['lusBalk']]);
+    rijen('tvakLus', [['knopLus', 'knopLusOp'], ['maten', 'knopLusTerug'], ['knopLusWis'], ['lusBalk']]);
     zet('tvakMix', ['mixKnop', 'mixTijd', 'mixBeluister', 'mixWav']);
     zet('tvakUit', ['compAan', 'compMeter', 'kraakKnop', 'kraakVolume']);
     const bpm = document.getElementById('bpm'); if (bpm) bpm.title = 'Tempo in slagen per minuut';
@@ -11073,7 +11092,9 @@ function toonPadMenu(x, y) {
         m.appendChild(b); return b;
     };
     item('Nieuwe groep van deze pads', () => {
-        const n = nieuweGroep();
+        // komen de pads uit een groep, dan neemt de nieuwe groep die instellingen over
+        const bronNr = doelen.map(i => pads[i].groep).find(x => x >= 0);
+        const n = nieuweGroep(undefined, bronNr >= 0 ? groepBij(bronNr) : null);
         doelen.forEach(i => { pads[i].groep = n; });
         knoopGroepen(); tekenAlles(); bewaarAlles();
         const veld = document.querySelector('.groepvak[data-groep="' + n + '"] .groepnaamveld');
