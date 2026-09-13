@@ -1946,6 +1946,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .gitaarveld .gitaarvast{position:absolute;right:14px;top:12px;z-index:5;font-size:9px;padding:4px 10px}
 .cianikast .ckijk{margin:4px 14px 6px}
 .cianikast .ckijk .gitaarkijk{padding:2px 0}
+.kettingbalk .kettingveld.licht{box-shadow:0 0 0 3px rgba(255,212,0,.7) !important}
 </style>
 </head>
 <body>
@@ -2963,7 +2964,10 @@ function zorgCtx() {
     if (!ctx) {
         // Snelste reactie: kleinste buffer die de browser aandurft (kan op een zwakke computer kraken). Instelbaar op de plaat Uitgang.
         let snel = false; try { snel = localStorage.getItem('swt-latentie') === 'snel'; } catch (e) {}
-        ctx = new (window.AudioContext || window.webkitAudioContext)(snel ? { latencyHint: 0 } : { latencyHint: 'interactive' });
+        // snel = 5 ms buffer, niet de allerkleinste: die valt op sommige Windows-geluidskaarten helemaal stil
+        ctx = new (window.AudioContext || window.webkitAudioContext)(snel ? { latencyHint: 0.005 } : { latencyHint: 'interactive' });
+        // Blijft de context hangen (geen geluid), dan één keer opnieuw in de gewone stand.
+        setTimeout(() => { if (ctx && ctx.state !== 'running' && snel) { try { localStorage.removeItem('swt-latentie'); } catch (e) {} const h = document.getElementById('padHint'); if (h) h.textContent = 'Geen geluid in de snelste stand; bij de volgende keer laden staat hij weer op normaal.'; } }, 4000);
     }
     return ctx;
 }
@@ -8271,8 +8275,16 @@ function tekenRitme(n) {
     RITMEVAKJES.forEach(v => {
         const b = document.createElement('button'); b.className = 'mini vakknop' + (g.ritmeVak === v ? ' aan' : '') + (g.ritmes[v] && ritmeHeeftIets({ ritme: g.ritmes[v] }) ? ' vol' : '');
         b.dataset.vak = v; b.textContent = v;
-        b.title = 'Ritme ' + v + (g.ritmes[v] && ritmeHeeftIets({ ritme: g.ritmes[v] }) ? ' (gevuld)' : ' (leeg)') + '. Klik om hier te tekenen';
+        b.title = 'Ritme ' + v + (g.ritmes[v] && ritmeHeeftIets({ ritme: g.ritmes[v] }) ? ' (gevuld)' : ' (leeg)') + '. Klik om hier te tekenen, rechtermuisknop zet het achteraan in de ketting';
         b.onclick = () => { kiesRitmeVak(g, v); bewaarGroepNamen(); vak.dataset.sleutel = ''; tekenRitme(n); };
+        // rechtermuisknop: dit vakje achteraan in het arrangement (de ketting) zetten
+        b.addEventListener('contextmenu', (e) => {
+            e.preventDefault(); e.stopPropagation();
+            g.ketting = ((g.ketting || '').trim() + ' ' + v).trim();
+            bewaarGroepNamen();
+            const veld = kb.querySelector('.kettingveld'); if (veld) { veld.value = g.ketting; veld.classList.add('licht'); setTimeout(() => veld.classList.remove('licht'), 500); }
+            document.getElementById('padHint').textContent = 'Ketting van ' + g.naam + ': ' + g.ketting.toUpperCase() + '. Zet Ketting aan om die volgorde te spelen.';
+        });
         kb.appendChild(b);
     });
     const kopieer = document.createElement('button'); kopieer.className = 'mini'; kopieer.textContent = 'Kopie naar volgend';
@@ -8284,6 +8296,8 @@ function tekenRitme(n) {
     ket.title = 'De volgorde van de vakjes, bijvoorbeeld A A B A. Elk vakje duurt zijn eigen aantal maten';
     ket.onkeydown = (e) => e.stopPropagation();
     ket.oninput = () => { g.ketting = ket.value; bewaarGroepNamen(); };
+    ket.addEventListener('contextmenu', (e) => { e.preventDefault(); e.stopPropagation(); g.ketting = ''; ket.value = ''; bewaarGroepNamen(); });
+    ket.title += '. Rechtermuisknop op een vakje zet het achteraan, rechtermuisknop hier maakt de ketting leeg';
     kb.appendChild(ket);
     const ka = document.createElement('button'); ka.className = 'mini' + (g.kettingAan ? ' aan' : ''); ka.textContent = g.kettingAan ? 'Ketting aan' : 'Ketting';
     ka.title = 'Speel de vakjes in de volgorde van de ketting, in plaats van alleen dit vakje';
@@ -9949,6 +9963,22 @@ const GITAARPRESETS = {
 // Licks: korte zinnen, genoteerd in trappen van de ladder (0 = grondtoon, 6 = een octaaf hoger bij zes
 // tonen per octaaf) met tijd en lengte in tellen, shuffle. Ze gaan mee met de ladder van elke klank.
 // Achter elkaar spelen is een solo: opening, antwoord, stuiter, boogie, hoog, slot.
+// Ritmes naar de speelwijze van de gitaristen, benaderingen. Elke regel is een
+// maat: D = neerslag over het akkoord, U = opslag, B = basnoot (grondtoon),
+// b = basnoot (kwint), M = gedempte tik, . = niets. Acht stappen per maat is
+// shuffle als sw aan staat (de tweede van elk paar komt laat), zestien is strak.
+const GITAARRITMES = {
+    tharpe:  { naam: 'Tharpe',   uitleg: 'Gospel-shuffle: duimbas en een aanslag ertussen, zoals zij haar publiek liet klappen', sw: true,  pat: 'BDDD BDDD' },
+    minnie:  { naam: 'Minnie',   uitleg: 'Country blues: wisselende bas (grondtoon, kwint) met een akkoord ertussen', sw: true,  pat: 'BDbD BDbD' },
+    berry:   { naam: 'Berry',    uitleg: 'Strakke achtsten met de nadruk op twee en vier, de motor van de rock-\'n-roll', sw: true,  pat: 'DDDD DDDD', accent: [2, 6] },
+    king:    { naam: 'B.B. King', uitleg: 'Langzame blues in twaalf: een aanslag op de tel en een opslag op de derde triool', sw: false, twaalf: true, pat: 'D..D.U D..D.U' },
+    diddley: { naam: 'Diddley',  uitleg: 'De Bo Diddley-beat: de clave van de hambone, drie slagen en dan twee', sw: false, pat: 'D..D..D. ..D.D...' },
+    hendrix: { naam: 'Hendrix',  uitleg: 'Funky zestienden met gedempte tikken en opslagen, zoals in zijn ritmespel', sw: false, pat: 'D.MU D.M. D.MU .M.U' },
+    santana: { naam: 'Santana',  uitleg: 'Latin: een tumbao-achtig patroon met de nadruk op de en-tellen', sw: false, pat: 'D..U ..D. D..U ..D.' },
+    prince:  { naam: 'Prince',   uitleg: 'Funk-chops: korte gedempte tikken op zestienden, af en toe een open aanslag', sw: false, pat: 'DM.M D.MM D.M. MDMU' },
+    raitt:   { naam: 'Raitt',    uitleg: 'Slide-blues shuffle: bas op de tel, aanslag ertussen, met ruimte', sw: true,  pat: 'BD.D BD.D' }
+};
+
 const GITAARLICKS = [
     { naam: 'Opening',  toets: 'z', noten: [[0, 0, .5, 1], [2, .67, .3, .8], [3, 1, .5, 1], [4, 1.67, .3, .8], [4, 2, .3, 1], [3, 2.67, .3, .8], [2, 3, .8, 1]] },
     { naam: 'Antwoord', toets: 'x', noten: [[6, 0, .5, 1], [5, .67, .3, .8], [4, 1, .5, 1], [3, 1.67, .3, .8], [2, 2, .3, 1], [3, 2.67, .3, .8], [0, 3, .9, 1]] },
@@ -10172,6 +10202,46 @@ function openGitaar() {
     boogieKnop.onclick = () => { if (st.boogie) stopBoogie(); else startBoogie(); };
     lrij.appendChild(boogieKnop);
     plaat.appendChild(lrij);
+    // ---- ritmes van de gitaristen: een patroon op het akkoord van nu, op de klok van de studio ----
+    const rrij = document.createElement('div'); rrij.className = 'gitaarrij gitaarritmes';
+    const rlabel = document.createElement('span'); rlabel.className = 'gitaarlabel'; rlabel.textContent = 'Ritme'; rrij.appendChild(rlabel);
+    let ritmeTimer = null, ritmeVolgende = 0; st.ritme = null;
+    const ritmeKnoppen = {};
+    const stopRitme = () => { if (ritmeTimer) clearInterval(ritmeTimer); ritmeTimer = null; st.ritme = null; Object.values(ritmeKnoppen).forEach(b => b.classList.remove('aan')); };
+    const startRitme = (k) => {
+        stopRitme(); stopBoogie();
+        zorgCtx(); if (ctx.state === 'suspended') ctx.resume(); zetKlokAan();
+        st.ritme = k; ritmeKnoppen[k].classList.add('aan');
+        const r = GITAARRITMES[k]; const pat = r.pat.replace(/\s+/g, ''); const stappen = pat.length;
+        ritmeVolgende = volgendRoosterMet(ctx.currentTime + 0.05, tel() * 4);
+        const plan = () => {
+            const T = tel(); const maat = 4 * T; const stapT = maat / stappen;
+            while (ritmeVolgende < ctx.currentTime + 0.6) {
+                const noten = st.stijl === 'lead' ? [st.noot - 12, st.noot - 5, st.noot, st.noot + 4, st.noot + 7] : GITAARAKKOORDEN[st.akkoord][1];
+                for (let i = 0; i < stappen; i++) {
+                    const c = pat[i]; if (c === '.') continue;
+                    let t = ritmeVolgende + i * stapT;
+                    if (r.sw && stappen === 8 && i % 2 === 1) t = ritmeVolgende + (i - 1) * stapT + stapT * 4 / 3;   // shuffle: de tweede van het paar komt laat
+                    const accent = r.accent && r.accent.includes(i) ? 1 : 0.75;
+                    if (c === 'B') pluk(noten[0] - 12, t, { demp: 0.99, helder: 0.5, volume: 0.9, duur: 0.5, dun: true, zonderOctaaf: true, noteer: true });
+                    else if (c === 'b') pluk(noten[0] - 5, t, { demp: 0.99, helder: 0.5, volume: 0.8, duur: 0.5, dun: true, zonderOctaaf: true, noteer: true });
+                    else if (c === 'D') noten.forEach((m, j) => pluk(m, t + j * 0.014, { demp: 0.993, helder: 0.55, volume: 0.55 * accent, duur: 1.2, dun: true, noteer: true }));
+                    else if (c === 'U') noten.slice().reverse().forEach((m, j) => pluk(m, t + j * 0.012, { demp: 0.99, helder: 0.7, volume: 0.4 * accent, duur: 0.8, dun: true, noteer: true }));
+                    else if (c === 'M') noten.slice(0, 4).forEach((m, j) => pluk(m, t + j * 0.006, { demp: 0.93, helder: 0.9, gate: 0.05, volume: 0.45, dun: true, noteer: true }));
+                }
+                ritmeVolgende += maat;
+            }
+        };
+        plan(); ritmeTimer = setInterval(plan, 150);
+    };
+    Object.entries(GITAARRITMES).forEach(([k, r]) => {
+        const b = document.createElement('button'); b.className = 'mini'; b.textContent = r.naam; b.title = r.uitleg + '. Benadering, geen transcriptie. Speelt het akkoord van nu, in het tempo van de studio';
+        b.onclick = () => { if (st.ritme === k) stopRitme(); else startRitme(k); };
+        ritmeKnoppen[k] = b; rrij.appendChild(b);
+    });
+    const ritmeStop = document.createElement('button'); ritmeStop.className = 'mini'; ritmeStop.textContent = 'Stil'; ritmeStop.title = 'Het ritme stoppen'; ritmeStop.onclick = stopRitme; rrij.appendChild(ritmeStop);
+    st.stopRitme = stopRitme;
+    plaat.appendChild(rrij);
     // de boogie: acht noten per maat in shuffle, grondtoon, kwint, sext, septiem, steeds een maat vooruit gepland
     let boogieTimer = null, boogieVolgende = 0;
     const startBoogie = () => {
@@ -10183,7 +10253,7 @@ function openGitaar() {
             while (boogieVolgende < ctx.currentTime + 0.6) {
                 const g = ladderVan().grond - 12;
                 const patroon = [[0, 0], [7, .67], [9, 1], [10, 1.67], [9, 2], [7, 2.67], [0, 3], [7, 3.67]];
-                patroon.forEach(([iv, t]) => pluk(g + iv, boogieVolgende + t * T, { demp: 0.988, helder: 0.5, volume: 0.6, duur: 0.35, dun: true, zonderOctaaf: true }));
+                patroon.forEach(([iv, t]) => pluk(g + iv, boogieVolgende + t * T, { demp: 0.988, helder: 0.5, volume: 0.6, duur: 0.35, dun: true, zonderOctaaf: true, noteer: true }));
                 boogieVolgende += 4 * T;
             }
         };
@@ -10237,6 +10307,40 @@ function openGitaar() {
         sluit(); openPianorol(j);
     };
     rolKnoppen.appendChild(naarPadKnop);
+    // Opnemen: van start tot stop, audio en de gespeelde noten samen op een pad (ook met ritme of boogie eronder)
+    let gOpname = null;
+    const opKnopG = document.createElement('button'); opKnopG.className = 'mini'; opKnopG.textContent = 'Opnemen';
+    opKnopG.title = 'Neemt op wat je speelt, met klank, effecten, ritme en boogie, tot je op stop drukt. Het geluid komt op een leeg pad, de noten erbij als pianorol';
+    const stopOpnameG = () => {
+        if (!gOpname) return; const o = gOpname; gOpname = null;
+        try { o.tap.disconnect(); o.proc.disconnect(); } catch (e) {}
+        opKnopG.textContent = 'Opnemen'; opKnopG.classList.remove('aan');
+        const totaal = o.stukken.reduce((n, x) => n + x.length, 0); if (totaal < 1000) return;
+        const data = new Float32Array(totaal); let q = 0; o.stukken.forEach(x => { data.set(x, q); q += x.length; });
+        const buf = ctx.createBuffer(1, totaal, sr); buf.copyToChannel(data, 0);
+        const noten = st.gespeeld.filter(n => n.t >= o.start && n.t <= ctx.currentTime);
+        let md = null;
+        if (noten.length) {
+            const T = slagDuur() / 4; const t0 = o.start; const maten = Math.min(8, Math.max(1, Math.ceil((noten[noten.length - 1].t - t0) / (T * 16) + 0.01)));
+            md = { maten, noten: noten.map((n, k) => { const stap = Math.round((n.t - t0) / T); const volgende = noten[k + 1] ? Math.round((noten[k + 1].t - t0) / T) : stap + 4; return { stap, noot: n.noot - 64, lengte: Math.max(1, Math.min(16, volgende - stap)), kracht: n.kracht || 1 }; }).filter(n => n.stap < maten * 16) };
+        }
+        let j = -1; for (let n = 0; n < AANTAL; n++) if (!pads[n].buffer) { j = n; break; } if (j < 0) j = doelPad();
+        pads[j].buffer = buf; pads[j].naam = 'gitaar opname (' + (GITAARPRESETS[st.preset] ? GITAARPRESETS[st.preset].naam : 'solo') + ')'; pads[j].midi = md; pads[j].keten = []; pads[j].effect = 'geen'; pads[j].bewaard = null; pads[j].pitch = 0;
+        gekozen = j; tekenAlles(); bewaarAlles();
+        document.getElementById('padHint').textContent = 'De gitaaropname staat op pad ' + (j + 1) + (md ? ', met ' + md.noten.length + ' noten in de pianorol (E4 = de 0-rij)' : '') + '.';
+    };
+    opKnopG.onclick = () => {
+        if (gOpname) { stopOpnameG(); return; }
+        zorgCtx(); if (ctx.state === 'suspended') ctx.resume();
+        const tap = ctx.createGain(); eind.connect(tap);
+        const proc = ctx.createScriptProcessor(4096, 1, 1); const stukken = [];
+        proc.onaudioprocess = (e) => { if (gOpname && gOpname.proc === proc) stukken.push(new Float32Array(e.inputBuffer.getChannelData(0))); };
+        tap.connect(proc); proc.connect(ctx.destination);
+        gOpname = { tap, proc, stukken, start: ctx.currentTime };
+        opKnopG.textContent = 'Stop, naar pad'; opKnopG.classList.add('aan');
+    };
+    rolKnoppen.appendChild(opKnopG);
+    st.stopOpnameG = stopOpnameG;
     const wisKnop = document.createElement('button'); wisKnop.className = 'mini'; wisKnop.textContent = 'Rol leeg'; wisKnop.onclick = () => { st.gespeeld = []; st.rolStart = ctx.currentTime; }; rolKnoppen.appendChild(wisKnop);
     kijk.appendChild(rolKnoppen);
     plaat.appendChild(kijk);
@@ -10252,7 +10356,7 @@ function openGitaar() {
         blok('Speelwijze', '2', [sp, ak]);
         const zr = document.createElement('div'); zr.className = 'gitaarrij'; const zl = document.createElement('span'); zl.className = 'gitaarlabel'; zl.textContent = 'Stem'; zr.appendChild(zl); zr.appendChild(zingKnop); zr.appendChild(vocKnop); zr.appendChild(vocVrij);
         blok('Klank', '3', [prij, zr], true);
-        blok('Licks', '4', [lrij]);
+        blok('Licks en ritmes', '4', [lrij, rrij]);
         blok('Effecten', '5', [srij]);
     })();
     const kijkAn = ctx.createAnalyser(); kijkAn.fftSize = 1024; eind.connect(kijkAn); const golfBuf = new Float32Array(1024);
@@ -10269,7 +10373,7 @@ function openGitaar() {
         rg.fillStyle = '#f3ead6'; rg.fillRect(0, 0, RW, RH);
         const maat = slagDuur() * 4; for (let m = 0; m < 9; m++) { const tt = nu - venster + (Math.floor((nu - venster) / maat) + m + 1) * maat - (nu - venster); const x = ((tt) / venster) * RW; rg.strokeStyle = 'rgba(59,42,30,.35)'; rg.beginPath(); rg.moveTo(Math.round(x) + 0.5, 0); rg.lineTo(Math.round(x) + 0.5, RH); rg.stroke(); }
         st.gespeeld = st.gespeeld.filter(n => n.t > nu - venster - 5);
-        st.gespeeld.forEach((n, k) => { const x = RW - ((nu - n.t) / venster) * RW; const eindT = st.gespeeld[k + 1] ? Math.min(st.gespeeld[k + 1].t, n.t + 2) : Math.min(nu, n.t + 2); const w = Math.max(3, ((eindT - n.t) / venster) * RW); const y = RH - ((n.noot - 40) / 48) * RH; rg.fillStyle = k === st.gespeeld.length - 1 ? '#e0553a' : '#7fb8a4'; rg.fillRect(x, Math.max(0, Math.min(RH - 4, y)), w, 4); });
+        st.gespeeld.forEach((n, k) => { const x = RW - ((nu - n.t) / venster) * RW; const eindT = st.gespeeld[k + 1] ? Math.min(st.gespeeld[k + 1].t, n.t + 2) : Math.min(nu, n.t + 2); const w = Math.max(3, ((eindT - n.t) / venster) * RW); const y = RH - ((n.noot - 40) / 48) * RH; rg.fillStyle = k === st.gespeeld.length - 1 ? '#e0553a' : (n.auto ? 'rgba(127,184,164,.55)' : '#7fb8a4'); rg.fillRect(x, Math.max(0, Math.min(RH - 4, y)), w, 4); });
         rg.fillStyle = '#5a4a2c'; rg.font = '9px "Segoe UI", Helvetica, Arial'; rg.fillText('MIDI · laatste 8 maten', 6, 11); if (st.gespeeld.length) rg.fillText(nootNaam(st.gespeeld[st.gespeeld.length - 1].noot), RW - 30, 11);
         kijkLoop = requestAnimationFrame(tekenKijk);
     };
@@ -10321,7 +10425,7 @@ function openGitaar() {
         if (opties.gate) { g.gain.setValueAtTime(opties.volume || 1, wanneer + opties.gate); g.gain.exponentialRampToValueAtTime(0.001, wanneer + opties.gate + 0.04); b.stop(wanneer + opties.gate + 0.1); }
         else b.stop(wanneer + (opties.duur || 2.5));
         st.bronnen.push(b); b.onended = () => { st.bronnen = st.bronnen.filter(x => x !== b); if (st.leadBron === b) st.leadBron = null; };
-        if (!opties.dun && st.gespeeld) st.gespeeld.push({ t: wanneer, noot: midi, kracht: opties.volume || 1 });
+        if ((!opties.dun || opties.noteer) && st.gespeeld) st.gespeeld.push({ t: wanneer, noot: midi, kracht: opties.volume || 1, auto: !!opties.noteer });
         if (!opties.gate && !opties.dun) {
             // de tweede snaar: dezelfde noot, zeven cent hoger en acht milliseconden later, dat maakt hem dik
             const bu = ctx.createBufferSource(); bu.buffer = ksSnaar(midi, opties.duur || 2.5, demp, (opties.helder || 0.6) * 0.8, sr);
@@ -10622,6 +10726,8 @@ function openGitaar() {
     const sluit = () => {
         if (document.pointerLockElement === canvas && document.exitPointerLock) document.exitPointerLock();
         try { band.proc.disconnect(); eind.disconnect(band.proc); } catch (e) {}
+        if (st.stopRitme) st.stopRitme();
+        if (st.stopOpnameG) st.stopOpnameG();
         if (st.zingt) stopZingen();
         if (st.stopBoogie) st.stopBoogie();
         if (kijkLoop) cancelAnimationFrame(kijkLoop);
