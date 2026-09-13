@@ -1490,15 +1490,15 @@ kbd{border-radius:0}
 .groepkop .mini,.groepmix .mini,.ritmebalk .mini,.kettingbalk .vakknop,.tvak button,.keuzebalk button,
 .pad .regel .mini,.lijst .bknoppen button,.bewaarrij button,.padmenu .menurij button,.gitaarrij .mini,.woordrij .mini,.plaatvoet button,.kast .rijknoppen button{
   border:3px solid transparent !important;border-radius:999px !important;
-  background:linear-gradient(180deg,#ffffff 0%,#f7f3e9 40%,#e4dbc5 62%,#f6f1e6 100%) padding-box, var(--knopring) border-box !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.55) 40%,rgba(255,255,255,0) 52%,rgba(255,255,255,0) 82%,rgba(255,255,255,.45) 100%) padding-box, linear-gradient(180deg,#f9f4e7 0%,#eee6d0 50%,#dccfb0 52%,#efe7d4 100%) padding-box, var(--knopring) border-box !important;
   color:#1d1a15 !important;text-shadow:0 1px 0 rgba(255,255,255,.9) !important;
   box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 -2px 3px rgba(0,0,0,.12) inset, 0 2px 4px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.35) !important}
 .groepkop .mini:hover,.groepmix .mini:hover,.ritmebalk .mini:hover,.kettingbalk .vakknop:hover,.tvak button:hover,.keuzebalk button:hover,
 .pad .regel .mini:hover,.lijst .bknoppen button:hover,.bewaarrij button:hover,.padmenu .menurij button:hover,.gitaarrij .mini:hover,.woordrij .mini:hover,.plaatvoet button:hover,.kast .rijknoppen button:hover{
-  background:linear-gradient(180deg,#ffffff 0%,#fdfbf6 40%,#efe8d6 62%,#fff 100%) padding-box, var(--knopring) border-box !important;color:#1d1a15 !important}
+  background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.55) 40%,rgba(255,255,255,0) 52%,rgba(255,255,255,0) 82%,rgba(255,255,255,.45) 100%) padding-box, linear-gradient(180deg,#fffdf8 0%,#f6f0e1 50%,#e6dcc2 52%,#f8f3e8 100%) padding-box, var(--knopring) border-box !important;color:#1d1a15 !important}
 .groepkop .mini.aan,.groepmix .mini.aan,.ritmebalk .mini.aan,.kettingbalk .vakknop.aan,.tvak button.aan,.keuzebalk button.aan,
 .pad .regel .mini.aan,.lijst .bknoppen button.aan,.bewaarrij button.aan,.padmenu .menurij button.aan,.gitaarrij .mini.aan,.woordrij .mini.aan,.plaatvoet button.aan{
-  background:linear-gradient(180deg,#f9c2ad 0%,#e07e5a 55%,#c25d3c 100%) padding-box, var(--knopring) border-box !important;color:#fff !important;text-shadow:0 1px 0 rgba(0,0,0,.35) !important}
+  background:linear-gradient(180deg,rgba(255,255,255,.7) 0%,rgba(255,255,255,.3) 40%,rgba(255,255,255,0) 52%,rgba(255,255,255,0) 82%,rgba(255,255,255,.45) 100%) padding-box, linear-gradient(180deg,#f9c2ad 0%,#e07e5a 50%,#c25d3c 52%,#d9714f 100%) padding-box, var(--knopring) border-box !important;color:#fff !important;text-shadow:0 1px 0 rgba(0,0,0,.35) !important}
 .groepkop .recknop.aan,.woordrij .mini.opneemt{background:linear-gradient(180deg,#f08a80 0%,#c9302a 55%,#8f1a15 100%) padding-box, var(--chroomring) border-box !important}
 .lijst .bknoppen button.gevaar,.groepkop .mini.gevaar{color:#8a3814 !important}
 .groepkop select,.groepmix select,.ritmebalk select,.tvak select,.tvak input[type=number],.kettingbalk .kettingveld{
@@ -1628,7 +1628,7 @@ kbd{border-radius:0}
 .pad .padmix .vu{width:60px;height:32px;margin-left:auto;flex:0 0 auto;border:3px solid transparent;border-radius:8px;
   background:#f3ead6 padding-box, var(--groenmetaal) border-box;box-shadow:inset 0 1px 3px rgba(0,0,0,.35), 0 0 0 1px rgba(0,40,30,.35)}
 .opnameknop{width:26px !important;height:30px !important;border:0 !important;background:transparent !important;border-radius:4px !important;padding:0 !important;box-shadow:none !important;top:6px !important;left:8px !important}
-.opnameknop svg{width:100%;height:100%;display:block;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+.opnameknop svg{width:100%;height:100%;display:block;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5)) drop-shadow(0 0 2px rgba(255,240,190,.9))}
 .opnameknop:hover svg{filter:drop-shadow(0 0 3px rgba(255,255,255,.9))}
 .opnameknop i{display:none}
 .pad.neemtop .opnameknop .miclamp{fill:#ff3b2f;filter:drop-shadow(0 0 3px #ff3b2f);animation:recpuls 0.8s infinite alternate}
@@ -1949,7 +1949,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .cianikast .ckijk .gitaarkijk{padding:2px 0}
 .kettingbalk .kettingveld.licht{box-shadow:0 0 0 3px rgba(255,212,0,.7) !important}
 /* Goud: de knopjes, draaiknoppen, schuifknoppen, hendels en schroeven zijn messing, bij de messing rand. De chromen lijsten blijven chroom. */
-:root{--goudknop:linear-gradient(180deg,#fff6d6 0%,#f1dfa3 28%,#c9a03a 50%,#e6cf8a 64%,#fff2c9 100%);
+:root{--goudknop:linear-gradient(180deg,#fffbea 0%,#fff3c9 30%,#d9b24a 50%,#b8933f 52%,#e6cf8a 70%,#fff6d6 100%);
   --goudbol:radial-gradient(circle at 35% 30%,#fff6d6,#e2c46e 40%,#a07a25 78%,#e6cf8a);
   --schroef-a:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2720%27%20height%3D%2720%27%3E%3Cdefs%3E%3CradialGradient%20id%3D%27m%27%20cx%3D%2734%25%27%20cy%3D%2728%25%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23fff6d6%27%2F%3E%3Cstop%20offset%3D%27.45%27%20stop-color%3D%27%23e2c46e%27%2F%3E%3Cstop%20offset%3D%27.8%27%20stop-color%3D%27%23a07a25%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%236b4f14%27%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2710%27%20cy%3D%2710%27%20r%3D%279%27%20fill%3D%27url%28%23m%29%27%20stroke%3D%27%234a3810%27%20stroke-opacity%3D%27.6%27%2F%3E%3Cg%20transform%3D%27rotate%2828%2010%2010%29%27%3E%3Crect%20x%3D%272.5%27%20y%3D%278.7%27%20width%3D%2715%27%20height%3D%272.6%27%20fill%3D%27%234a3810%27%20fill-opacity%3D%27.75%27%2F%3E%3Crect%20x%3D%272.5%27%20y%3D%2711.3%27%20width%3D%2715%27%20height%3D%270.8%27%20fill%3D%27%23fff6d6%27%20fill-opacity%3D%27.55%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");--schroef-b:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2720%27%20height%3D%2720%27%3E%3Cdefs%3E%3CradialGradient%20id%3D%27m%27%20cx%3D%2734%25%27%20cy%3D%2728%25%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23fff6d6%27%2F%3E%3Cstop%20offset%3D%27.45%27%20stop-color%3D%27%23e2c46e%27%2F%3E%3Cstop%20offset%3D%27.8%27%20stop-color%3D%27%23a07a25%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%236b4f14%27%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2710%27%20cy%3D%2710%27%20r%3D%279%27%20fill%3D%27url%28%23m%29%27%20stroke%3D%27%234a3810%27%20stroke-opacity%3D%27.6%27%2F%3E%3Cg%20transform%3D%27rotate%28-40%2010%2010%29%27%3E%3Crect%20x%3D%272.5%27%20y%3D%278.7%27%20width%3D%2715%27%20height%3D%272.6%27%20fill%3D%27%234a3810%27%20fill-opacity%3D%27.75%27%2F%3E%3Crect%20x%3D%272.5%27%20y%3D%2711.3%27%20width%3D%2715%27%20height%3D%270.8%27%20fill%3D%27%23fff6d6%27%20fill-opacity%3D%27.55%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
 :root{--chroomknop:var(--goudknop)}
@@ -1959,6 +1959,11 @@ input[type=range]::-moz-range-thumb{background:var(--goudbol)}
 input[type=checkbox]::after{background:linear-gradient(90deg,#fff6d6,#e2c46e 40%,#a07a25 60%,#f1dfa3)}
 ::-webkit-scrollbar-thumb{background:var(--goudknop) padding-box, var(--chroomring) border-box}
 :root{--knopring:linear-gradient(180deg,#fff6d6 0%,#f7e7b4 14%,#d2ab45 32%,#8c6a1a 48%,#6b4f14 52%,#e6cf8a 60%,#fff2c9 74%,#b8933f 90%,#f1dfa3 100%)}
+/* de klinknagels op het logo en de koppen worden messing schroeven */
+.kop .plaatje .klink{width:13px;height:13px;background:var(--schroef-a) center/100% 100% no-repeat;box-shadow:0 1px 2px rgba(0,0,0,.45)}
+.kop .plaatje .klink.rb,.kop .plaatje .klink.lo{background-image:var(--schroef-b)}
+.kop h1::before,.kop h1::after,.kop h1 span.nagel{background:var(--schroef-a) center/100% 100% no-repeat}
+.kop h1::after,.kop h1 span.nagel:last-child{background-image:var(--schroef-b)}
 </style>
 </head>
 <body>
@@ -5294,10 +5299,34 @@ function maakPadBron(c, i, nu, halve) {
     return { bron, duur: pad.buffer.duration, synth: false };
 }
 
+// Eén gitaarmotor per gitaarpad, met de klank die erbij is bewaard.
+const gitaarMotoren = {};
+function gitaarPadMotor(i) {
+    const pad = pads[i]; if (!pad.gitaar) return null;
+    let m = gitaarMotoren[i];
+    if (!m || m.c !== ctx || m.sleutel !== JSON.stringify(pad.gitaar)) {
+        m = maakGitaarMotor(ctx, uitgang()); m.sleutel = JSON.stringify(pad.gitaar);
+        m.pasKlank(pad.gitaar.preset, pad.gitaar);
+        gitaarMotoren[i] = m;
+    }
+    return m;
+}
 function speel(i, opTijd, opties) {
     const pad = pads[i];
     opties = opties || {};
     if (!pad.buffer || !ctx) return;
+    // een pad uit de Gitaarsolo: de noten van de pianorol klinken door de gitaarmotor, niet als verschoven opname
+    if (pad.gitaar && opties.halveTonen !== undefined && !opties.zonderGitaar) {
+        const m = gitaarPadMotor(i);
+        if (m) {
+            const t = (opTijd !== undefined) ? opTijd : ctx.currentTime + 0.005;
+            const sp = (GITAARPRESETS[pad.gitaar.preset] && GITAARPRESETS[pad.gitaar.preset].spel) || { duur: 3, demp: 0.998, helder: 0.7 };
+            const duur = Math.max(0.25, Math.min(sp.duur || 3, opties.duur ? opties.duur + 0.6 : sp.duur || 3));
+            m.pluk(64 + (pad.pitch || 0) + opties.halveTonen, t, { demp: sp.demp, helder: sp.helder, duur, volume: (opties.volume || 1) * (pad.volume === undefined ? 1 : pad.volume) });
+            pad.laatsteStart = t;
+            return;
+        }
+    }
 
     if (pad.bron) { try { pad.bron.stop(); } catch (e) {} }
 
@@ -5314,11 +5343,14 @@ function speel(i, opTijd, opties) {
 
     const uit = ctx.createGain();
     uit.gain.value = 0.9 * padVolume(i) * (opties.volume === undefined ? 1 : opties.volume);
+    // onthouden wat er nu klinkt, zodat de volume- en panknop ook tijdens het spelen werken
+    pad.klinkt = { uit, pan: null, factor: 0.9 * (opties.volume === undefined ? 1 : opties.volume), bron };
     // Pan: per pad links, midden of rechts. Zonder StereoPanner gaat het recht door.
     if (ctx.createStereoPanner) {
         const pan = ctx.createStereoPanner();
         pan.pan.value = padPan(i);
         uit.connect(pan); pan.connect(groepUitgang(pad.groep));
+        pad.klinkt.pan = pan;
     } else {
         uit.connect(groepUitgang(pad.groep));
     }
@@ -7464,7 +7496,7 @@ function pcmUit(tekst) {
 
 function alleenGegevens(p) {
     return {
-        naam: p.naam, effect: p.effect, keten: (p.keten || []).slice(), midi: p.midi ? JSON.parse(JSON.stringify(p.midi)) : null,
+        naam: p.naam, effect: p.effect, keten: (p.keten || []).slice(), midi: p.midi ? JSON.parse(JSON.stringify(p.midi)) : null, gitaar: p.gitaar ? Object.assign({}, p.gitaar) : null,
         eind: p.eind, pitch: p.pitch || 0, groep: (p.groep === undefined ? -1 : p.groep),
         parms: JSON.parse(JSON.stringify(p.parms || {})),
         herh: Object.assign({}, p.herh || {}),
@@ -7603,7 +7635,7 @@ async function invoerAlles(bestand) {
             pads[i].buffer = b;
             pads[i].naam = r.naam || ('Bite ' + (i + 1));
             pads[i].effect = r.effect || 'geen';
-            pads[i].keten = r.keten || []; pads[i].midi = r.midi || null;
+            pads[i].keten = r.keten || []; pads[i].midi = r.midi || null; pads[i].gitaar = r.gitaar || null;
             pads[i].eind = r.eind || 'geen';
             pads[i].pitch = r.pitch || 0;
             pads[i].parms = r.parms || {};
@@ -7677,7 +7709,7 @@ async function bewaarNu() {
             if (p.opgeslagenBuffer === p.buffer && p.opgeslagenMeta === meta) return;
             p.opgeslagenBuffer = p.buffer; p.opgeslagenMeta = meta;
             w.put({
-                naam: p.naam, effect: p.effect, keten: (p.keten || []).slice(), midi: p.midi ? JSON.parse(JSON.stringify(p.midi)) : null,
+                naam: p.naam, effect: p.effect, keten: (p.keten || []).slice(), midi: p.midi ? JSON.parse(JSON.stringify(p.midi)) : null, gitaar: p.gitaar ? Object.assign({}, p.gitaar) : null,
                 eind: p.eind, pitch: p.pitch || 0, herh: Object.assign({}, p.herh || {}),
                 groep: (p.groep === undefined ? -1 : p.groep),
                 volume: (p.volume === undefined ? 1 : p.volume), pan: p.pan || 0,
@@ -7744,7 +7776,7 @@ async function laadAlles() {
                         pads[i].effect = r.effect || 'geen';
                         pads[i].eind = r.eind || 'geen';
                         pads[i].pitch = r.pitch || 0;
-                        pads[i].keten = r.keten || (r.effect && r.effect !== 'geen' ? [r.effect] : []); pads[i].midi = r.midi || null;
+                        pads[i].keten = r.keten || (r.effect && r.effect !== 'geen' ? [r.effect] : []); pads[i].midi = r.midi || null; pads[i].gitaar = r.gitaar || null;
                         pads[i].herh = r.herh || {};
                         pads[i].groep = (r.groep === undefined ? -1 : r.groep);
                         pads[i].volume = (r.volume === undefined ? 1 : r.volume);
@@ -7817,11 +7849,11 @@ function tekenAlles() {
 
 // Een microfoon zoals op een podium in de jaren vijftig: chromen kop met grille, op een voetje.
 const MICROFOON_SVG = '<svg viewBox="0 0 24 30" aria-hidden="true">' +
-    '<defs><linearGradient id="micchroom" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#b9c0c6"/><stop offset=".55" stop-color="#5d6268"/><stop offset=".8" stop-color="#e6e9eb"/><stop offset="1" stop-color="#9aa0a6"/></linearGradient></defs>' +
-    '<rect x="4" y="1.5" width="16" height="15" rx="6" fill="url(#micchroom)" stroke="#3f4347" stroke-width=".8"/>' +
+    '<defs><linearGradient id="micchroom" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff6d6"/><stop offset=".3" stop-color="#f1dfa3"/><stop offset=".55" stop-color="#8c6a1a"/><stop offset=".8" stop-color="#f7e7b4"/><stop offset="1" stop-color="#a07a25"/></linearGradient><linearGradient id="micglans" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>' +
+    '<rect x="4" y="1.5" width="16" height="15" rx="6" fill="url(#micchroom)" stroke="#4a3810" stroke-width=".8"/><rect x="5" y="2.2" width="14" height="6" rx="4" fill="url(#micglans)"/><ellipse cx="8.5" cy="4.5" rx="2.6" ry="1.3" fill="#fff" opacity=".9"/>' +
     '<g stroke="#2a2d30" stroke-width="1" opacity=".75"><line x1="7" y1="5" x2="17" y2="5"/><line x1="6" y1="8" x2="18" y2="8"/><line x1="6" y1="11" x2="18" y2="11"/><line x1="7" y1="14" x2="17" y2="14"/></g>' +
-    '<rect x="10" y="16.5" width="4" height="7" fill="url(#micchroom)" stroke="#3f4347" stroke-width=".6"/>' +
-    '<path d="M5 28 Q12 22 19 28 Z" fill="url(#micchroom)" stroke="#3f4347" stroke-width=".6"/>' +
+    '<rect x="10" y="16.5" width="4" height="7" fill="url(#micchroom)" stroke="#4a3810" stroke-width=".6"/>' +
+    '<path d="M5 28 Q12 22 19 28 Z" fill="url(#micchroom)" stroke="#4a3810" stroke-width=".6"/>' +
     '<circle class="miclamp" cx="12" cy="19.5" r="1.6" fill="#6b1a12"/></svg>';
 function tekenPad(i) {
     const el = document.querySelector('[data-pad="' + i + '"]');
@@ -7912,7 +7944,10 @@ function tekenVU(c, stand, label) {
     // de naald
     const a = hoek(stand);
     g.strokeStyle = '#1d1a15'; g.lineWidth = 1.4; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + Math.cos(a) * (r - 1), cy + Math.sin(a) * (r - 1)); g.stroke();
-    g.fillStyle = '#6c7278'; g.beginPath(); g.arc(cx, cy, 5, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#a07a25'; g.beginPath(); g.arc(cx, cy, 5, 0, Math.PI * 2); g.fill();
+    // het glas: een spiegeling over de bovenste helft
+    const glas = g.createLinearGradient(0, 0, 0, H * 0.55); glas.addColorStop(0, 'rgba(255,255,255,.75)'); glas.addColorStop(0.6, 'rgba(255,255,255,.25)'); glas.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = glas; g.beginPath(); g.moveTo(0, 0); g.lineTo(W, 0); g.lineTo(W, H * 0.3); g.quadraticCurveTo(W / 2, H * 0.62, 0, H * 0.3); g.closePath(); g.fill();
     g.textAlign = 'left';
 }
 // De naald van een pad bijwerken: het niveau van het geluid op dit moment maal de volumeknop.
@@ -8431,10 +8466,12 @@ function bouwRooster() {
         mix.addEventListener('mousedown', (e) => e.stopPropagation());
         const volKnop = maakKnop(PADVOLUME, padVolume(i), (v, klaar) => {
             pads[i].volume = v;
+            const k = pads[i].klinkt; if (k && ctx && k.bron === pads[i].bron) { try { k.uit.gain.setTargetAtTime(k.factor * v, ctx.currentTime, 0.03); } catch (e) {} }
             if (klaar) bewaarAlles();
         });
         const panKnop = maakKnop(PADPAN, padPan(i), (v, klaar) => {
             pads[i].pan = v;
+            const k = pads[i].klinkt; if (k && k.pan && ctx && k.bron === pads[i].bron) { try { k.pan.pan.setTargetAtTime(v, ctx.currentTime, 0.03); } catch (e) {} }
             if (klaar) bewaarAlles();
         });
         volKnop.classList.add('klein'); panKnop.classList.add('klein');
@@ -9988,7 +10025,15 @@ const GITAARRITMES = {
     hendrix: { naam: 'Hendrix',  uitleg: 'Funky zestienden met gedempte tikken en opslagen, zoals in zijn ritmespel', sw: false, pat: 'D.MU D.M. D.MU .M.U' },
     santana: { naam: 'Santana',  uitleg: 'Latin: een tumbao-achtig patroon met de nadruk op de en-tellen', sw: false, pat: 'D..U ..D. D..U ..D.' },
     prince:  { naam: 'Prince',   uitleg: 'Funk-chops: korte gedempte tikken op zestienden, af en toe een open aanslag', sw: false, pat: 'DM.M D.MM D.M. MDMU' },
-    raitt:   { naam: 'Raitt',    uitleg: 'Slide-blues shuffle: bas op de tel, aanslag ertussen, met ruimte', sw: true,  pat: 'BD.D BD.D' }
+    raitt:   { naam: 'Raitt',    uitleg: 'Slide-blues shuffle: bas op de tel, aanslag ertussen, met ruimte', sw: true,  pat: 'BD.D BD.D' },
+    // Baslijnen in de stijl van de dansplaten van Michael Jackson en The Jacksons. Eigen riffs in die stijl,
+    // geen transcripties: [stap in zestienden, halve tonen boven de grondtoon van het akkoord, lengte in zestienden].
+    basBillie: { naam: 'Bas: Billie', uitleg: 'Strakke, herhalende mineurlijn in achtsten met kwint en septiem, zoals de bas onder Billie Jean', sw: false, pat: '................',
+                 bas: [[0, 0, 2], [2, 12, 1], [4, 10, 2], [6, 7, 1], [8, 0, 1], [9, 0, 1], [10, 5, 1], [12, 7, 2], [14, 10, 1], [15, 12, 1]] },
+    basWall:   { naam: 'Bas: Off the Wall', uitleg: 'Disco-funk met octaafsprongen en korte slap-tikken, zoals de bas op Off the Wall', sw: false, pat: '................',
+                 bas: [[0, 0, 1], [1, 12, 1], [2, 0, 1], [4, 12, 1], [5, 0, 1], [7, 12, 1], [8, 10, 1], [9, 12, 1], [11, 7, 1], [12, 0, 1], [13, 12, 1], [14, 0, 1], [15, 3, 1]] },
+    basBoogie: { naam: 'Bas: Boogie', uitleg: 'Boogie-disco: octaafstuiter met een opstapje aan het eind van de maat, zoals de bas onder Blame It on the Boogie', sw: false, pat: '................',
+                 bas: [[0, 0, 1], [2, 12, 1], [4, 0, 1], [6, 12, 1], [8, 0, 1], [10, 12, 1], [12, 7, 1], [13, 9, 1], [14, 10, 1], [15, 11, 1]] }
 };
 
 const GITAARLICKS = [
@@ -10048,58 +10093,46 @@ function ksSnaar(midi, duur, demp, helder, sr) {
     ksCache[sleutel] = buf;
     return buf;
 }
-let gitaar = null;
-function openGitaar() {
-    if (gitaar) return;
-    zorgCtx(); if (ctx.state === 'suspended') ctx.resume();
-    const sr = ctx.sampleRate;
+// De gitaarmotor: de hele keten van snaar tot uitgang, los van de plaat, zodat een pad
+// met een gitaaropname zijn noten met precies dezelfde klank kan spelen als de Gitaarsolo.
+function maakGitaarMotor(c, doel) {
+    const sr = c.sampleRate;
     // de keten: bronnen -> drive -> wah -> delay/direct -> uitgang
-    const inGain = ctx.createGain(); inGain.gain.value = 0.5;
-    const ws = ctx.createWaveShaper(); ws.oversample = '2x';
-    const naDrive = ctx.createGain(); naDrive.gain.value = 0.7;
-    const wah = ctx.createBiquadFilter(); wah.type = 'bandpass'; wah.Q.value = 4; wah.frequency.value = 800;
-    const wahMix = ctx.createGain(); wahMix.gain.value = 1;
-    const droog = ctx.createGain(); droog.gain.value = 0;
-    const delay = ctx.createDelay(1.5); delay.delayTime.value = slagDuur() * 0.75;
-    const terug = ctx.createGain(); terug.gain.value = 0.35;
-    const delayMix = ctx.createGain(); delayMix.gain.value = 0.25;
-    const uit = ctx.createGain(); uit.gain.value = 0.9;
+    const inGain = c.createGain(); inGain.gain.value = 0.5;
+    const ws = c.createWaveShaper(); ws.oversample = '2x';
+    const naDrive = c.createGain(); naDrive.gain.value = 0.7;
+    const wah = c.createBiquadFilter(); wah.type = 'bandpass'; wah.Q.value = 4; wah.frequency.value = 800;
+    const wahMix = c.createGain(); wahMix.gain.value = 1;
+    const droog = c.createGain(); droog.gain.value = 0;
+    const delay = c.createDelay(1.5); delay.delayTime.value = slagDuur() * 0.75;
+    const terug = c.createGain(); terug.gain.value = 0.35;
+    const delayMix = c.createGain(); delayMix.gain.value = 0.25;
+    const uit = c.createGain(); uit.gain.value = 0.9;
     // dikker: een schep laag-midden voor de drive, en een compressor achteraan die de noten lang en vol houdt
-    const dik = ctx.createBiquadFilter(); dik.type = 'lowshelf'; dik.frequency.value = 220; dik.gain.value = 5;
-    const midden = ctx.createBiquadFilter(); midden.type = 'peaking'; midden.frequency.value = 800; midden.Q.value = 0.8; midden.gain.value = 3;
-    const glans = ctx.createBiquadFilter(); glans.type = 'highshelf'; glans.frequency.value = 2800; glans.gain.value = 0;   // de bite van een heldere versterker
+    const dik = c.createBiquadFilter(); dik.type = 'lowshelf'; dik.frequency.value = 220; dik.gain.value = 5;
+    const midden = c.createBiquadFilter(); midden.type = 'peaking'; midden.frequency.value = 800; midden.Q.value = 0.8; midden.gain.value = 3;
+    const glans = c.createBiquadFilter(); glans.type = 'highshelf'; glans.frequency.value = 2800; glans.gain.value = 0;   // de bite van een heldere versterker
     inGain.connect(dik); dik.connect(midden); midden.connect(glans); glans.connect(ws); ws.connect(naDrive); naDrive.connect(wah); naDrive.connect(droog);
     wah.connect(wahMix); wahMix.connect(uit); droog.connect(uit);
     wahMix.connect(delay); droog.connect(delay); delay.connect(terug); terug.connect(delay); delay.connect(delayMix); delayMix.connect(uit);
     // na de wah: vibe (vier allpass-trappen met een langzame LFO, de draaiende fase),
     // tremolo (de versterker die pulseert) en een zendknop naar de gedeelde galm
-    const vibeTrappen = [0, 1, 2, 3].map(() => { const a = ctx.createBiquadFilter(); a.type = 'allpass'; a.frequency.value = 700; a.Q.value = 0.6; return a; });
-    const vibeLfo = ctx.createOscillator(); vibeLfo.type = 'sine'; vibeLfo.frequency.value = 0.7;
-    const vibeDiep = ctx.createGain(); vibeDiep.gain.value = 0; vibeLfo.connect(vibeDiep); vibeTrappen.forEach(a => vibeDiep.connect(a.frequency)); vibeLfo.start();
-    const vibeNat = ctx.createGain(); vibeNat.gain.value = 0; const vibeDroog = ctx.createGain(); vibeDroog.gain.value = 1;
+    const vibeTrappen = [0, 1, 2, 3].map(() => { const a = c.createBiquadFilter(); a.type = 'allpass'; a.frequency.value = 700; a.Q.value = 0.6; return a; });
+    const vibeLfo = c.createOscillator(); vibeLfo.type = 'sine'; vibeLfo.frequency.value = 0.7;
+    const vibeDiep = c.createGain(); vibeDiep.gain.value = 0; vibeLfo.connect(vibeDiep); vibeTrappen.forEach(a => vibeDiep.connect(a.frequency)); vibeLfo.start();
+    const vibeNat = c.createGain(); vibeNat.gain.value = 0; const vibeDroog = c.createGain(); vibeDroog.gain.value = 1;
     uit.connect(vibeDroog); uit.connect(vibeTrappen[0]); for (let k = 1; k < vibeTrappen.length; k++) vibeTrappen[k - 1].connect(vibeTrappen[k]); vibeTrappen[vibeTrappen.length - 1].connect(vibeNat);
-    const trem = ctx.createGain(); trem.gain.value = 1;
-    const tremLfo = ctx.createOscillator(); tremLfo.type = 'sine'; tremLfo.frequency.value = 5.5;
-    const tremDiep = ctx.createGain(); tremDiep.gain.value = 0; tremLfo.connect(tremDiep); tremDiep.connect(trem.gain); tremLfo.start();
+    const trem = c.createGain(); trem.gain.value = 1;
+    const tremLfo = c.createOscillator(); tremLfo.type = 'sine'; tremLfo.frequency.value = 5.5;
+    const tremDiep = c.createGain(); tremDiep.gain.value = 0; tremLfo.connect(tremDiep); tremDiep.connect(trem.gain); tremLfo.start();
     vibeDroog.connect(trem); vibeNat.connect(trem);
-    const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -22; comp.ratio.value = 5; comp.attack.value = 0.004; comp.release.value = 0.25; comp.knee.value = 8;
-    const eind = ctx.createGain(); eind.gain.value = 1.4; trem.connect(comp); comp.connect(eind); eind.connect(uitgang());
-    // Een band die meeloopt: de laatste 40 seconden van wat de gitaar maakt, voor Solo naar pad.
-    const band = { stukken: [], proc: ctx.createScriptProcessor(4096, 1, 1) };
-    band.proc.onaudioprocess = (e) => { band.stukken.push({ t: ctx.currentTime, d: new Float32Array(e.inputBuffer.getChannelData(0)) }); const grens = ctx.currentTime - 40; while (band.stukken.length && band.stukken[0].t < grens) band.stukken.shift(); };
-    eind.connect(band.proc); band.proc.connect(ctx.destination);
-    const bandUitsnede = (van, tot) => {
-        const st2 = band.stukken.filter(x => x.t + x.d.length / sr >= van && x.t <= tot); if (!st2.length) return null;
-        const totaal = st2.reduce((n, x) => n + x.d.length, 0); const data = new Float32Array(totaal); let p = 0; st2.forEach(x => { data.set(x.d, p); p += x.d.length; });
-        const a = Math.max(0, Math.floor((van - st2[0].t) * sr)), b = Math.min(totaal, Math.floor((tot - st2[0].t) * sr)); if (b - a < 100) return null;
-        const buf = ctx.createBuffer(1, b - a, sr); buf.copyToChannel(data.slice(a, b), 0); return buf;
-    };
+    const comp = c.createDynamicsCompressor(); comp.threshold.value = -22; comp.ratio.value = 5; comp.attack.value = 0.004; comp.release.value = 0.25; comp.knee.value = 8;
+    const eind = c.createGain(); eind.gain.value = 1.4; trem.connect(comp); comp.connect(eind); eind.connect(doel);
     const galm = maakGalm(1.5); galm.gain.value = 1;
-    const galmZend = ctx.createGain(); galmZend.gain.value = 0.15; eind.connect(galmZend); galmZend.connect(galm);
-    const st = { x: 0.5, y: 0.5, drive: 0.45, stijl: 'strum', akkoord: 0, noot: 64, bronnen: [], vast: false, vibrato: 0, laatsteBeweging: 0,
-                 vibe: 0, trem: 0, galm: 0.15, echo: 0.25, octaaf: 0, preset: 'schoon', stem: 0.5, vocoder: null, vocMix: 0.9, zingt: false, zingNoot: null, zingPeil: 0, leadBron: null, leadNoot: null };
+    const galmZend = c.createGain(); galmZend.gain.value = 0.15; eind.connect(galmZend); galmZend.connect(galm);
+    const st = { x: 0.5, y: 0.5, drive: 0.45, vibe: 0, trem: 0, galm: 0.15, echo: 0.25, octaaf: 0, preset: 'schoon', bronnen: [], leadBron: null, gespeeld: null };
     const zetEffecten = () => {
-        const nu = ctx.currentTime;
+        const nu = c.currentTime;
         vibeDiep.gain.setTargetAtTime(st.vibe * 500, nu, 0.05); vibeNat.gain.setTargetAtTime(st.vibe, nu, 0.05); vibeDroog.gain.setTargetAtTime(1 - st.vibe * 0.5, nu, 0.05);
         vibeLfo.frequency.setTargetAtTime(0.4 + st.vibe * 1.2, nu, 0.05);
         trem.gain.setTargetAtTime(1 - st.trem * 0.45, nu, 0.05); tremDiep.gain.setTargetAtTime(st.trem * 0.45, nu, 0.05);
@@ -10112,13 +10145,78 @@ function openGitaar() {
         ws.curve = c; naDrive.gain.value = 0.7 / (1 + st.drive * 2);
     };
     zetDrive(); zetEffecten();
-    const zetWah = () => { const f = 300 * Math.pow(3000 / 300, st.x); wah.frequency.setTargetAtTime(f, ctx.currentTime, 0.02); };
+    const zetWah = () => { const f = 300 * Math.pow(3000 / 300, st.x); wah.frequency.setTargetAtTime(f, c.currentTime, 0.02); };
     const zetBend = () => {
         // omhoog = hoger, tot een octaaf; omlaag = lager, tot een octaaf; vibrato uit de beweging
         const halve = (st.y - 0.5) * -24;
         const rate = Math.pow(2, halve / 12);
-        st.bronnen.forEach(b => { try { b.playbackRate.setTargetAtTime(rate * b.basisRate, ctx.currentTime, 0.02); } catch (e) {} });
+        st.bronnen.forEach(b => { try { b.playbackRate.setTargetAtTime(rate * b.basisRate, c.currentTime, 0.02); } catch (e) {} });
         return halve;
+    };
+    const pluk = (midi, wanneer, opties) => {
+        opties = opties || {};
+        const demp = opties.demp !== undefined ? opties.demp : 0.996;
+        const buf = ksSnaar(midi, opties.duur || 2.5, demp, opties.helder || 0.6, sr);
+        const b = c.createBufferSource(); b.buffer = buf;
+        const g = c.createGain(); g.gain.value = opties.volume || 1;
+        const halve = (st.y - 0.5) * -24; b.basisRate = 1; b.playbackRate.value = Math.pow(2, halve / 12);
+        b.connect(g); g.connect(inGain); b.start(wanneer);
+        if (opties.gate) { g.gain.setValueAtTime(opties.volume || 1, wanneer + opties.gate); g.gain.exponentialRampToValueAtTime(0.001, wanneer + opties.gate + 0.04); b.stop(wanneer + opties.gate + 0.1); }
+        else b.stop(wanneer + (opties.duur || 2.5));
+        st.bronnen.push(b); b.onended = () => { st.bronnen = st.bronnen.filter(x => x !== b); if (st.leadBron === b) st.leadBron = null; };
+        if ((!opties.dun || opties.noteer) && st.gespeeld) st.gespeeld.push({ t: wanneer, noot: midi, kracht: opties.volume || 1, auto: !!opties.noteer });
+        if (!opties.gate && !opties.dun) {
+            // de tweede snaar: dezelfde noot, zeven cent hoger en acht milliseconden later, dat maakt hem dik
+            const bu = c.createBufferSource(); bu.buffer = ksSnaar(midi, opties.duur || 2.5, demp, (opties.helder || 0.6) * 0.8, sr);
+            const gu = c.createGain(); gu.gain.value = (opties.volume || 1) * 0.55;
+            bu.basisRate = Math.pow(2, 7 / 1200); bu.playbackRate.value = b.playbackRate.value * bu.basisRate;
+            bu.connect(gu); gu.connect(inGain); bu.start(wanneer + 0.008); bu.stop(wanneer + (opties.duur || 2.5) + 0.01);
+            st.bronnen.push(bu); bu.onended = () => { st.bronnen = st.bronnen.filter(x => x !== bu); };
+            b.unisono = bu;
+        }
+        if (st.octaaf > 0.02 && !opties.zonderOctaaf) {
+            // de octaafsnaar: dezelfde aanslag, een octaaf lager, zachter
+            const b2 = c.createBufferSource(); b2.buffer = ksSnaar(midi - 12, opties.duur || 2.5, demp, opties.helder || 0.6, sr);
+            const g2o = c.createGain(); g2o.gain.value = (opties.volume || 1) * st.octaaf * 0.9;
+            b2.basisRate = 1; b2.playbackRate.value = b.playbackRate.value;
+            b2.connect(g2o); g2o.connect(inGain); b2.start(wanneer);
+            if (opties.gate) { g2o.gain.setValueAtTime(g2o.gain.value, wanneer + opties.gate); g2o.gain.exponentialRampToValueAtTime(0.001, wanneer + opties.gate + 0.04); b2.stop(wanneer + opties.gate + 0.1); }
+            else b2.stop(wanneer + (opties.duur || 2.5));
+            st.bronnen.push(b2); b2.onended = () => { st.bronnen = st.bronnen.filter(x => x !== b2); };
+            b.octaafBron = b2;
+        }
+        return b;
+    };
+    // de klank van een preset overnemen (alleen de cijfers, de plaat doet zelf de knoppen)
+    const pasKlank = (k, extra) => {
+        const p = GITAARPRESETS[k]; if (p) { st.preset = k; ['drive', 'vibe', 'trem', 'galm', 'echo', 'octaaf'].forEach(v => { st[v] = p[v]; }); }
+        if (extra) ['drive', 'vibe', 'trem', 'galm', 'echo', 'octaaf'].forEach(v => { if (extra[v] !== undefined) st[v] = extra[v]; });
+        zetDrive(); zetEffecten();
+    };
+    zetDrive(); zetEffecten();
+    return { c, sr, st, inGain, ws, naDrive, wah, wahMix, droog, delay, terug, delayMix, uit, dik, midden, glans, vibeLfo, tremLfo, comp, eind, galm, galmZend, zetEffecten, zetDrive, zetWah, zetBend, pluk, pasKlank };
+}
+let gitaar = null;
+function openGitaar() {
+    if (gitaar) return;
+    zorgCtx(); if (ctx.state === 'suspended') ctx.resume();
+    const sr = ctx.sampleRate;
+    const motor = maakGitaarMotor(ctx, uitgang());
+    const { inGain, ws, naDrive, wah, wahMix, droog, delay, terug, delayMix, uit, dik, midden, glans, vibeLfo, tremLfo, comp, eind, galm, galmZend, zetEffecten, zetDrive, zetWah, zetBend, pluk } = motor;
+    const st = motor.st;
+    // de klank van dit moment, om op een pad te zetten: dat pad speelt zijn noten dan met dezelfde motor
+    const gitaarKlankNu = () => ({ preset: st.preset, drive: st.drive, vibe: st.vibe, trem: st.trem, galm: st.galm, echo: st.echo, octaaf: st.octaaf, stijl: st.stijl });
+    Object.assign(st, { stijl: 'strum', akkoord: 0, noot: 64, vast: false, vibrato: 0, laatsteBeweging: 0,
+                 stem: 0.5, vocoder: null, vocMix: 0.9, zingt: false, zingNoot: null, zingPeil: 0, leadNoot: null });
+    // Een band die meeloopt: de laatste 40 seconden van wat de gitaar maakt, voor Solo naar pad.
+    const band = { stukken: [], proc: ctx.createScriptProcessor(4096, 1, 1) };
+    band.proc.onaudioprocess = (e) => { band.stukken.push({ t: ctx.currentTime, d: new Float32Array(e.inputBuffer.getChannelData(0)) }); const grens = ctx.currentTime - 40; while (band.stukken.length && band.stukken[0].t < grens) band.stukken.shift(); };
+    eind.connect(band.proc); band.proc.connect(ctx.destination);
+    const bandUitsnede = (van, tot) => {
+        const st2 = band.stukken.filter(x => x.t + x.d.length / sr >= van && x.t <= tot); if (!st2.length) return null;
+        const totaal = st2.reduce((n, x) => n + x.d.length, 0); const data = new Float32Array(totaal); let p = 0; st2.forEach(x => { data.set(x.d, p); p += x.d.length; });
+        const a = Math.max(0, Math.floor((van - st2[0].t) * sr)), b = Math.min(totaal, Math.floor((tot - st2[0].t) * sr)); if (b - a < 100) return null;
+        const buf = ctx.createBuffer(1, b - a, sr); buf.copyToChannel(data.slice(a, b), 0); return buf;
     };
     gitaar = { st, knopen: { inGain, ws, wah, uit, delay, terug, delayMix, wahMix, droog }, zetDrive, zetWah, zetBend };
 
@@ -10132,14 +10230,19 @@ function openGitaar() {
     const stijlen = document.createElement('div'); stijlen.className = 'knoppen';
     Object.entries(GITAARSTIJLEN).forEach(([k, v]) => {
         const b = document.createElement('button'); b.className = 'mini' + (st.stijl === k ? ' aan' : ''); b.textContent = v.naam; b.title = v.uitleg; b.dataset.stijl = k;
-        b.onclick = () => { st.stijl = k; stijlen.querySelectorAll('button').forEach(x => x.classList.toggle('aan', x.dataset.stijl === k)); teken(); };
+        b.onclick = () => { st.stijl = k; stijlen.querySelectorAll('button').forEach(x => x.classList.toggle('aan', x.dataset.stijl === k)); teken(); slaAan(); };
         stijlen.appendChild(b);
     });
     const akkoorden = document.createElement('div'); akkoorden.className = 'knoppen';
     GITAARAKKOORDEN.forEach(([naam], n) => {
         const b = document.createElement('button'); b.className = 'mini' + (st.akkoord === n ? ' aan' : ''); b.textContent = (n + 1) + ' ' + naam; b.dataset.n = n;
         b.title = 'Toets ' + (n + 1);
-        b.onclick = () => { st.akkoord = n; akkoorden.querySelectorAll('button').forEach(x => x.classList.toggle('aan', parseInt(x.dataset.n, 10) === n)); teken(); };
+        b.onclick = () => {
+            st.akkoord = n; akkoorden.querySelectorAll('button').forEach(x => x.classList.toggle('aan', parseInt(x.dataset.n, 10) === n));
+            // een akkoord kiezen terwijl Solo aanstaat: dan wil je het akkoord horen, dus naar Akkoord
+            if (st.stijl === 'lead') { st.stijl = 'strum'; stijlen.querySelectorAll('button').forEach(x => x.classList.toggle('aan', x.dataset.stijl === 'strum')); }
+            teken(); slaAan();
+        };
         akkoorden.appendChild(b);
     });
     rij.appendChild(stijlen); rij.appendChild(akkoorden);
@@ -10230,6 +10333,12 @@ function openGitaar() {
             const T = tel(); const maat = 4 * T; const stapT = maat / stappen;
             while (ritmeVolgende < ctx.currentTime + 0.6) {
                 const noten = st.stijl === 'lead' ? [st.noot - 12, st.noot - 5, st.noot, st.noot + 4, st.noot + 7] : GITAARAKKOORDEN[st.akkoord][1];
+                if (r.bas) {
+                    // een baslijn: dikke, donkere noten een octaaf onder de grondtoon, elke noot precies zo lang als het riff zegt
+                    const grond = noten[0] - 12;
+                    r.bas.forEach(([i, iv, len]) => { const d = len * stapT; pluk(grond + iv, ritmeVolgende + i * stapT, { demp: 0.996, helder: 0.28, volume: 1, duur: d + 0.15, gate: Math.max(0.06, d * 0.85), dun: true, zonderOctaaf: true, noteer: true }); });
+                    ritmeVolgende += maat; continue;
+                }
                 for (let i = 0; i < stappen; i++) {
                     const c = pat[i]; if (c === '.') continue;
                     let t = ritmeVolgende + i * stapT;
@@ -10313,7 +10422,7 @@ function openGitaar() {
         const naam = GITAARPRESETS[st.preset] ? GITAARPRESETS[st.preset].naam : 'solo';
         let jSolo = -1;
         if (soloBuf) { jSolo = leeg(); pads[jSolo].buffer = soloBuf; pads[jSolo].naam = 'gitaarsolo (' + naam + ')'; pads[jSolo].midi = null; pads[jSolo].keten = []; pads[jSolo].effect = 'geen'; pads[jSolo].bewaard = null; pads[jSolo].pitch = 0; }
-        const j = leeg(); pads[j].buffer = nootBuf; pads[j].naam = 'gitaar E4 (' + naam + ')'; pads[j].midi = md; pads[j].keten = []; pads[j].effect = 'geen'; pads[j].bewaard = null; pads[j].pitch = 0;
+        const j = leeg(); pads[j].buffer = nootBuf; pads[j].naam = 'gitaar E4 (' + naam + ')'; pads[j].midi = md; pads[j].gitaar = gitaarKlankNu(); pads[j].keten = []; pads[j].effect = 'geen'; pads[j].bewaard = null; pads[j].pitch = 0;
         kies(j, false); tekenAlles(); bewaarAlles();
         document.getElementById('padHint').textContent = (jSolo >= 0 ? 'De opname van je solo staat op pad ' + (jSolo + 1) + ', ' : '') + 'de noten staan als pianorol op pad ' + (j + 1) + ' met een E4 van deze gitaar als geluid.';
         sluit(); openPianorol(j);
@@ -10337,7 +10446,7 @@ function openGitaar() {
             md = { maten, noten: noten.map((n, k) => { const stap = Math.round((n.t - t0) / T); const volgende = noten[k + 1] ? Math.round((noten[k + 1].t - t0) / T) : stap + 4; return { stap, noot: n.noot - 64, lengte: Math.max(1, Math.min(16, volgende - stap)), kracht: n.kracht || 1 }; }).filter(n => n.stap < maten * 16) };
         }
         let j = -1; for (let n = 0; n < AANTAL; n++) if (!pads[n].buffer) { j = n; break; } if (j < 0) j = doelPad();
-        pads[j].buffer = buf; pads[j].naam = 'gitaar opname (' + (GITAARPRESETS[st.preset] ? GITAARPRESETS[st.preset].naam : 'solo') + ')'; pads[j].midi = md; pads[j].keten = []; pads[j].effect = 'geen'; pads[j].bewaard = null; pads[j].pitch = 0;
+        pads[j].buffer = buf; pads[j].naam = 'gitaar opname (' + (GITAARPRESETS[st.preset] ? GITAARPRESETS[st.preset].naam : 'solo') + ')'; pads[j].midi = md; pads[j].gitaar = gitaarKlankNu(); pads[j].keten = []; pads[j].effect = 'geen'; pads[j].bewaard = null; pads[j].pitch = 0;
         gekozen = j; tekenAlles(); bewaarAlles();
         document.getElementById('padHint').textContent = 'De gitaaropname staat op pad ' + (j + 1) + (md ? ', met ' + md.noten.length + ' noten in de pianorol (E4 = de 0-rij)' : '') + '.';
     };
@@ -10426,40 +10535,6 @@ function openGitaar() {
 
     // ---- spelen ----
     let gedempt = false;
-    const pluk = (midi, wanneer, opties) => {
-        opties = opties || {};
-        const demp = opties.demp !== undefined ? opties.demp : 0.996;
-        const buf = ksSnaar(midi, opties.duur || 2.5, demp, opties.helder || 0.6, sr);
-        const b = ctx.createBufferSource(); b.buffer = buf;
-        const g = ctx.createGain(); g.gain.value = opties.volume || 1;
-        const halve = (st.y - 0.5) * -24; b.basisRate = 1; b.playbackRate.value = Math.pow(2, halve / 12);
-        b.connect(g); g.connect(inGain); b.start(wanneer);
-        if (opties.gate) { g.gain.setValueAtTime(opties.volume || 1, wanneer + opties.gate); g.gain.exponentialRampToValueAtTime(0.001, wanneer + opties.gate + 0.04); b.stop(wanneer + opties.gate + 0.1); }
-        else b.stop(wanneer + (opties.duur || 2.5));
-        st.bronnen.push(b); b.onended = () => { st.bronnen = st.bronnen.filter(x => x !== b); if (st.leadBron === b) st.leadBron = null; };
-        if ((!opties.dun || opties.noteer) && st.gespeeld) st.gespeeld.push({ t: wanneer, noot: midi, kracht: opties.volume || 1, auto: !!opties.noteer });
-        if (!opties.gate && !opties.dun) {
-            // de tweede snaar: dezelfde noot, zeven cent hoger en acht milliseconden later, dat maakt hem dik
-            const bu = ctx.createBufferSource(); bu.buffer = ksSnaar(midi, opties.duur || 2.5, demp, (opties.helder || 0.6) * 0.8, sr);
-            const gu = ctx.createGain(); gu.gain.value = (opties.volume || 1) * 0.55;
-            bu.basisRate = Math.pow(2, 7 / 1200); bu.playbackRate.value = b.playbackRate.value * bu.basisRate;
-            bu.connect(gu); gu.connect(inGain); bu.start(wanneer + 0.008); bu.stop(wanneer + (opties.duur || 2.5) + 0.01);
-            st.bronnen.push(bu); bu.onended = () => { st.bronnen = st.bronnen.filter(x => x !== bu); };
-            b.unisono = bu;
-        }
-        if (st.octaaf > 0.02 && !opties.zonderOctaaf) {
-            // de octaafsnaar: dezelfde aanslag, een octaaf lager, zachter
-            const b2 = ctx.createBufferSource(); b2.buffer = ksSnaar(midi - 12, opties.duur || 2.5, demp, opties.helder || 0.6, sr);
-            const g2o = ctx.createGain(); g2o.gain.value = (opties.volume || 1) * st.octaaf * 0.9;
-            b2.basisRate = 1; b2.playbackRate.value = b.playbackRate.value;
-            b2.connect(g2o); g2o.connect(inGain); b2.start(wanneer);
-            if (opties.gate) { g2o.gain.setValueAtTime(g2o.gain.value, wanneer + opties.gate); g2o.gain.exponentialRampToValueAtTime(0.001, wanneer + opties.gate + 0.04); b2.stop(wanneer + opties.gate + 0.1); }
-            else b2.stop(wanneer + (opties.duur || 2.5));
-            st.bronnen.push(b2); b2.onended = () => { st.bronnen = st.bronnen.filter(x => x !== b2); };
-            b.octaafBron = b2;
-        }
-        return b;
-    };
     const spelVan = () => (GITAARPRESETS[st.preset] && GITAARPRESETS[st.preset].spel) || { duur: 3, demp: 0.998, helder: 0.7, glij: 0, vibrato: 0 };
     const ladderVan = () => GITAARPRESETS[st.preset] || GITAARPRESETS.schoon;
     // noot nummer i van de ladder (i mag groter zijn dan de ladder: dan een octaaf hoger)
@@ -11614,7 +11689,7 @@ function maakKnop(def, waarde, bij, terug) {
         '<circle cx="50" cy="52" r="36" fill="url(#rok)" stroke="#4a3810" stroke-width="1"/>' +
         '<line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(0 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(30 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(60 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(90 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(120 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(150 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(180 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(210 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(240 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(270 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(300 50 52)"/><line x1="50" y1="16" x2="50" y2="21" stroke="rgba(0,0,0,.28)" stroke-width="2" transform="rotate(330 50 52)"/>' +
         '<circle cx="50" cy="52" r="27" fill="#2a2d30" opacity=".35"/>' +
-        '<circle cx="50" cy="52" r="24" fill="url(#dop)" stroke="rgba(0,0,0,.45)" stroke-width="1"/>' +
+        '<circle cx="50" cy="52" r="24" fill="url(#dop)" stroke="rgba(0,0,0,.45)" stroke-width="1"/><ellipse cx="42" cy="41" rx="11" ry="6" fill="#fff" opacity=".55"/>' +
         '<g class="wijzer"><line x1="50" y1="52" x2="50" y2="31" stroke="#1d1a15" stroke-width="3.5" stroke-linecap="round"/>' +
         '<path d="M46 20 L54 20 L50 13 Z" fill="#1d1a15" stroke="#fff" stroke-width=".8"/></g>';
 
