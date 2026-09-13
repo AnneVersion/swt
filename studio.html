@@ -1943,6 +1943,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 #rondleidingBak .rltel{font-family:"Courier New",monospace;font-size:10px;color:#4a453d;margin-right:auto}
 .kop .linkrij{display:flex;flex-wrap:wrap;gap:8px 28px;margin:14px 0 0;position:relative;z-index:1}
 .kop .linkrij .lees{margin-top:0;border-bottom:1px solid var(--inkt);color:var(--inkt);font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
+.gitaarveld .gitaarvast{position:absolute;right:14px;top:12px;z-index:5;font-size:9px;padding:4px 10px}
 </style>
 </head>
 <body>
@@ -10192,7 +10193,9 @@ function openGitaar() {
     uitlegT.querySelector('[data-doe="klank"]').onclick = (e) => { e.stopPropagation(); pasPreset('tharpe'); };
     uitlegT.querySelector('[data-doe="voorbeeld"]').onclick = (e) => { e.stopPropagation(); speelVoorbeeldTharpe(); };
     veld.appendChild(portret); veld.appendChild(uitlegT);
-    plaat.appendChild(veld);
+    // De gitaar bovenaan, meteen onder de kop; de blokken met knoppen eronder.
+    const gbl = plaat.querySelector('.gblokken');
+    if (gbl) plaat.insertBefore(veld, gbl); else plaat.appendChild(veld);
     const credit = document.createElement('div'); credit.className = 'gitaarcredit';
     fotoTekst = document.createElement('span'); fotoTekst.textContent = 'Foto: Fender Stratocaster uit 1954, "Lady Rose". Stratospheric, CC BY-SA 3.0, Wikimedia Commons.';
     credit.appendChild(fotoTekst);
@@ -10457,10 +10460,18 @@ function openGitaar() {
             g2.fillText('Zingt: ' + (st.zingNoot !== null ? nootNaam(st.zingNoot) : 'stil'), W - 182, 21);
         }
         if (!st.vast && !st.zingt) { g2.fillStyle = '#ffd3a8'; g2.font = '700 12px "Segoe UI", Helvetica, Arial'; g2.fillText('Rechtermuisknop hier om de muis vast te zetten, dan klikken om aan te slaan. Of: Zing je solo', 40, H - 74); }
+        if (st.vast) { g2.fillStyle = '#ffd3a8'; g2.font = '700 12px "Segoe UI", Helvetica, Arial'; g2.fillText('Muis vast. Rechtermuisknop, Esc of de knop Muis los laat hem weer los', 40, H - 74); }
         if (amp > 0.02 || st.vast || st.zingt) tekenLoop = requestAnimationFrame(teken); else tekenLoop = null;
     }
     // ---- muis ----
-    veld.addEventListener('contextmenu', (e) => { e.preventDefault(); if (canvas.requestPointerLock) canvas.requestPointerLock(); });
+    // Rechtermuisknop zet de muis vast en laat hem ook weer los; Esc en de knop doen hetzelfde.
+    const wisselVast = () => { if (document.pointerLockElement === canvas) { if (document.exitPointerLock) document.exitPointerLock(); } else if (canvas.requestPointerLock) canvas.requestPointerLock(); };
+    veld.addEventListener('contextmenu', (e) => { e.preventDefault(); wisselVast(); });
+    const vastKnopG = document.createElement('button'); vastKnopG.className = 'mini gitaarvast'; vastKnopG.textContent = 'Muis vast';
+    vastKnopG.title = 'De muis vastzetten in de gitaar, zodat je buiten het vlak door kunt spelen. Nog eens klikken, rechtermuisknop of Esc laat los';
+    vastKnopG.addEventListener('mousedown', (e) => e.stopPropagation());
+    vastKnopG.onclick = (e) => { e.stopPropagation(); wisselVast(); };
+    veld.appendChild(vastKnopG);
     veld.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return; e.preventDefault();
         if (st.stijl === 'lead') {
@@ -10479,7 +10490,7 @@ function openGitaar() {
         if (!tekenLoop) teken();
     };
     veld.addEventListener('mousemove', beweeg);
-    const lockWissel = () => { st.vast = document.pointerLockElement === canvas; teken(); };
+    const lockWissel = () => { st.vast = document.pointerLockElement === canvas; vastKnopG.textContent = st.vast ? 'Muis los' : 'Muis vast'; vastKnopG.classList.toggle('aan', st.vast); teken(); };
     document.addEventListener('pointerlockchange', lockWissel);
     // vibrato: een kleine LFO op de toonhoogte, diepte uit de beweging
     const vib = setInterval(() => {
