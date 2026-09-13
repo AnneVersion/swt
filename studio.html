@@ -7634,6 +7634,7 @@ function padMeta(p) {
 
 async function bewaarNu() {
     bewaarTimer = null;
+    try { sessionStorage.setItem('swt-project-open', '1'); } catch (e) {}
     try {
         const db = await openDb();
         const tx = db.transaction(WINKEL, 'readwrite');
@@ -7675,6 +7676,9 @@ async function vraagVorigProject() {
         aantal = await new Promise(res => { const q = w.count(); q.onsuccess = () => res(q.result || 0); q.onerror = () => res(0); });
     } catch (e) { return; }
     if (!aantal) return;
+    // Was het project in dit tabblad al open (bijvoorbeeld na een klik op Studio in het menu), dan gewoon weer laden.
+    let alOpen = false; try { alOpen = sessionStorage.getItem('swt-project-open') === '1'; } catch (e) {}
+    if (alOpen) { await laadAlles(); return; }
     const bak = document.getElementById('vraagbak');
     document.getElementById('vraagTekst').textContent =
         'Er staat nog een project in deze browser, met ' + aantal + (aantal === 1 ? ' pad' : ' pads') + '. Weer openen? Kies je leeg beginnen, dan gaat dat oude project uit de browser. Wil je het houden, open het dan eerst en klik op Project bewaren.';
@@ -7684,7 +7688,8 @@ async function vraagVorigProject() {
     const keuze = await new Promise(res => { n.onclick = () => res('open'); o.onclick = () => res('leeg'); });
     bak.hidden = true; a.hidden = false;
     n.textContent = 'Als nieuw geluid'; o.textContent = 'Overschrijven';
-    if (keuze === 'open') { await laadAlles(); return; }
+    if (keuze === 'open') { try { sessionStorage.setItem('swt-project-open', '1'); } catch (e) {} await laadAlles(); return; }
+    try { sessionStorage.setItem('swt-project-open', '1'); } catch (e) {}
     try {
         const db = await openDb();
         db.transaction(WINKEL, 'readwrite').objectStore(WINKEL).clear();
@@ -9068,6 +9073,12 @@ function bouwTransport() {
     const ns = document.querySelector('.navStudio'); if (ns) ns.onclick = (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
     const nav = document.querySelector('nav.hoofdmenu'); if (nav) { const a = nav.querySelector('.navStudio'); if (a) a.classList.add('actief'); }
     const h = location.hash; if (h === '#gitaar') setTimeout(openGitaar, 400); else if (h === '#woorden') setTimeout(openWoorden, 400); else if (h === '#ciani') setTimeout(openCiani, 400);
+    // in het menu van de studio zelf: geen herladen, gewoon openen of naar boven
+    document.querySelectorAll('nav.hoofdmenu a').forEach(a => {
+        const href = a.getAttribute('href') || '';
+        if (href === 'studio.html') a.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        else if (href.startsWith('studio.html#')) a.addEventListener('click', (e) => { e.preventDefault(); const hh = href.slice(href.indexOf('#')); if (hh === '#gitaar') openGitaar(); else if (hh === '#woorden') openWoorden(); else if (hh === '#ciani') openCiani(); });
+    });
     const cm = document.getElementById('compMeter'); if (cm) cm.title = 'Hoeveel de compressor nu tegenhoudt';
 }
 
@@ -10018,6 +10029,16 @@ function openGitaar() {
     vibeDroog.connect(trem); vibeNat.connect(trem);
     const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -22; comp.ratio.value = 5; comp.attack.value = 0.004; comp.release.value = 0.25; comp.knee.value = 8;
     const eind = ctx.createGain(); eind.gain.value = 1.4; trem.connect(comp); comp.connect(eind); eind.connect(uitgang());
+    // Een band die meeloopt: de laatste 40 seconden van wat de gitaar maakt, voor Solo naar pad.
+    const band = { stukken: [], proc: ctx.createScriptProcessor(4096, 1, 1) };
+    band.proc.onaudioprocess = (e) => { band.stukken.push({ t: ctx.currentTime, d: new Float32Array(e.inputBuffer.getChannelData(0)) }); const grens = ctx.currentTime - 40; while (band.stukken.length && band.stukken[0].t < grens) band.stukken.shift(); };
+    eind.connect(band.proc); band.proc.connect(ctx.destination);
+    const bandUitsnede = (van, tot) => {
+        const st2 = band.stukken.filter(x => x.t + x.d.length / sr >= van && x.t <= tot); if (!st2.length) return null;
+        const totaal = st2.reduce((n, x) => n + x.d.length, 0); const data = new Float32Array(totaal); let p = 0; st2.forEach(x => { data.set(x.d, p); p += x.d.length; });
+        const a = Math.max(0, Math.floor((van - st2[0].t) * sr)), b = Math.min(totaal, Math.floor((tot - st2[0].t) * sr)); if (b - a < 100) return null;
+        const buf = ctx.createBuffer(1, b - a, sr); buf.copyToChannel(data.slice(a, b), 0); return buf;
+    };
     const galm = maakGalm(1.5); galm.gain.value = 1;
     const galmZend = ctx.createGain(); galmZend.gain.value = 0.15; eind.connect(galmZend); galmZend.connect(galm);
     const st = { x: 0.5, y: 0.5, drive: 0.45, stijl: 'strum', akkoord: 0, noot: 64, bronnen: [], vast: false, vibrato: 0, laatsteBeweging: 0,
@@ -10178,13 +10199,28 @@ function openGitaar() {
     const rolKnoppen = document.createElement('div'); rolKnoppen.className = 'knoppen';
     st.gespeeld = []; st.rolStart = 0;
     const naarPadKnop = document.createElement('button'); naarPadKnop.className = 'mini'; naarPadKnop.textContent = 'Solo naar pad';
-    naarPadKnop.title = 'De noten die je speelde (de laatste 8 maten) op het gekozen pad zetten als pianorol, met een geplukte snaar als geluid. Daar kun je ze verschuiven, verlagen en verlengen';
-    naarPadKnop.onclick = () => {
-        const noten = st.gespeeld.filter(n => n.t >= st.rolStart); if (!noten.length) return;
+    naarPadKnop.title = 'Zet je solo op pads: een pad met de opname van wat je speelde (de laatste 8 maten, met klank en effecten), en een pad met een enkele noot van deze gitaar plus de gespeelde noten als pianorol';
+    naarPadKnop.onclick = async () => {
+        const noten = st.gespeeld.filter(n => n.t >= st.rolStart); if (!noten.length) { document.getElementById('padHint').textContent = 'Speel eerst iets, dan kan het naar een pad.'; return; }
+        naarPadKnop.disabled = true; naarPadKnop.textContent = 'Bezig';
+        // 1. de opname van de solo zelf, precies zoals hij klonk
+        const soloBuf = bandUitsnede(noten[0].t - 0.05, Math.min(ctx.currentTime, noten[noten.length - 1].t + 2.5));
+        // 2. een enkele noot E4 van deze gitaar, met klank en effecten, als geluid onder de pianorol
+        const stil = st.zingt; const mark = ctx.currentTime + 0.05;
+        soloNoot(64, 1);
+        await new Promise(r => setTimeout(r, 1700));
+        const nootBuf = bandUitsnede(mark, ctx.currentTime) || ksSnaar(64, 2, 0.997, 0.7, sr);
+        st.gespeeld = st.gespeeld.filter(n => n.t < mark);
+        naarPadKnop.disabled = false; naarPadKnop.textContent = 'Solo naar pad';
         const T = slagDuur() / 4; const t0 = noten[0].t; const maten = Math.min(8, Math.max(1, Math.ceil((noten[noten.length - 1].t - t0) / (T * 16) + 0.01)));
         const md = { maten, noten: noten.map((n, k) => { const stap = Math.round((n.t - t0) / T); const volgende = noten[k + 1] ? Math.round((noten[k + 1].t - t0) / T) : stap + 4; return { stap, noot: n.noot - 64, lengte: Math.max(1, Math.min(16, volgende - stap)), kracht: n.kracht || 1 }; }).filter(n => n.stap < maten * 16) };
-        const j = doelPad(); const buf = ksSnaar(64, 2, 0.997, 0.7, sr); pads[j].buffer = buf; pads[j].naam = 'gitaar E4 (' + (GITAARPRESETS[st.preset] ? GITAARPRESETS[st.preset].naam : 'solo') + ')'; pads[j].midi = md; pads[j].bewaard = null; pads[j].pitch = 0;
+        const leeg = () => { for (let n = 0; n < AANTAL; n++) if (!pads[n].buffer) return n; return doelPad(); };
+        const naam = GITAARPRESETS[st.preset] ? GITAARPRESETS[st.preset].naam : 'solo';
+        let jSolo = -1;
+        if (soloBuf) { jSolo = leeg(); pads[jSolo].buffer = soloBuf; pads[jSolo].naam = 'gitaarsolo (' + naam + ')'; pads[jSolo].midi = null; pads[jSolo].keten = []; pads[jSolo].effect = 'geen'; pads[jSolo].bewaard = null; pads[jSolo].pitch = 0; }
+        const j = leeg(); pads[j].buffer = nootBuf; pads[j].naam = 'gitaar E4 (' + naam + ')'; pads[j].midi = md; pads[j].keten = []; pads[j].effect = 'geen'; pads[j].bewaard = null; pads[j].pitch = 0;
         kies(j, false); tekenAlles(); bewaarAlles();
+        document.getElementById('padHint').textContent = (jSolo >= 0 ? 'De opname van je solo staat op pad ' + (jSolo + 1) + ', ' : '') + 'de noten staan als pianorol op pad ' + (j + 1) + ' met een E4 van deze gitaar als geluid.';
         sluit(); openPianorol(j);
     };
     rolKnoppen.appendChild(naarPadKnop);
@@ -10572,6 +10608,7 @@ function openGitaar() {
     document.addEventListener('keydown', toets); document.addEventListener('keyup', toetsLos);
     const sluit = () => {
         if (document.pointerLockElement === canvas && document.exitPointerLock) document.exitPointerLock();
+        try { band.proc.disconnect(); eind.disconnect(band.proc); } catch (e) {}
         if (st.zingt) stopZingen();
         if (st.stopBoogie) st.stopBoogie();
         if (kijkLoop) cancelAnimationFrame(kijkLoop);
