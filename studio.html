@@ -1159,6 +1159,11 @@ kbd{border-radius:0}
 .tvak input[type=range]{width:70px}
 .tvak .tel{font-family:"Courier New",monospace;font-size:11px;color:var(--accent);min-width:0}
 .tvak #lusBalk{flex-basis:100%;height:26px;margin-top:2px;border:1px solid #6d6960;background:#fbfbf9}
+#tvakLus{flex-direction:column;align-items:stretch;gap:6px}
+#tvakLus .trij{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+#tvakLus .trij button{padding:4px 9px;font-size:9px;letter-spacing:.08em;white-space:nowrap}
+#tvakLus .trij select{font-size:9px}
+#tvakLus .trij #lusBalk{width:100%;margin-top:0}
 @media (max-width:1080px){ .transport{grid-template-columns:1fr 1fr} }
 .fxfamilie{display:flex;align-items:flex-start;gap:10px;padding:5px 0;border-top:1px dashed rgba(0,0,0,.18)}
 .fxfamilie:first-child{border-top:0}
@@ -1919,6 +1924,8 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .creatievoet .kleinevoet{margin-top:14px;font-size:12px;color:#5f594f}
 .creatievoet .kleinevoet a{color:#8a3814}
 .manifest .leesregel{margin:0 0 10px}
+/* de rand: van mintgroen naar een gelig messing, met donkere kanten zodat je ziet dat het een rand is */
+:root{--groenmetaal:linear-gradient(135deg,#fff6d6 0%,#e6cf8a 12%,#a8842f 30%,#f1dfa3 46%,#b8933f 62%,#fff2c9 80%,#9c7a2a 100%)}
 </style>
 </head>
 <body>
@@ -6727,6 +6734,24 @@ function openDb() {
 //     zie je de bestanden niet terug op je schijf.
 let biblio = [];
 let lokaalKan = false;
+let vrijVast = false;   // de vrije geluiden komen uit opnames/lijst.json (online, zonder server)
+
+// Zonder server (bijvoorbeeld op GitHub Pages) staat er een vaste lijst van de
+// vrije geluiden in opnames/lijst.json. Die kun je wel afspelen en op een pad
+// zetten, niet weggooien.
+async function vasteVrijeLijst() {
+    try {
+        const a = await fetch('opnames/lijst.json', { cache: 'no-store' });
+        if (!a.ok) return [];
+        const g = await a.json();
+        if (!g || !Array.isArray(g.bestanden)) return [];
+        vrijVast = true;
+        return g.bestanden.map(f => ({
+            bron: 'lokaal', vast: true, bestand: f.naam, naam: zonderWav(f.naam),
+            bytes: f.bytes || 0, datum: f.datum || 0, duur: f.duur || null, buffer: null
+        }));
+    } catch (e) { return []; }
+}
 
 async function lokaalLijst() {
     try {
@@ -6776,7 +6801,8 @@ async function laadBiblio() {
         return;
     }
 
-    // Geen server: dan uit de browser.
+    // Geen server: dan uit de browser, plus de vaste lijst vrije geluiden.
+    const vast = await vasteVrijeLijst();
     try {
         const db = await openDb();
         const tx = db.transaction(BIB, 'readonly');
@@ -6786,6 +6812,7 @@ async function laadBiblio() {
             biblio = (q.result || [])
                 .sort((a, b) => b.datum - a.datum)
                 .map(r => Object.assign({ bron: 'db' }, r))
+                .concat(vast)
                 .concat(set);
             tekenBiblio();
         };
@@ -7046,7 +7073,7 @@ function tekenBiblio() {
     const ul = document.getElementById('biblioLijst');
     const tel = document.getElementById('biblioTelling');
     if (!ul) return;
-    if (lokaalKan) laadBronnen();
+    if (lokaalKan || vrijVast) laadBronnen();
 
     const alles = biblio.filter(r => r.bron !== 'set');
     const eigen = alles.filter(r => !isVrij(r));
@@ -7070,7 +7097,7 @@ function tekenBiblio() {
         ? 'Alles wat je opneemt komt als wav-bestand in de map opnames te staan. Je kunt daar ook zelf geluiden in zetten.'
         : 'Alles wat je opneemt komt hier te staan en blijft bewaard, ook als je het pad weer wist.');
     const vul = document.getElementById('vrijLijst');
-    if (vul) tekenBiblioLijst(vul, vrij, true, 'Draai haal_samples.bat om vrije geluiden op te halen.');
+    if (vul) tekenBiblioLijst(vul, vrij, true, vrijVast ? 'Geen vrije geluiden gevonden.' : 'Draai haal_samples.bat om vrije geluiden op te halen.');
 }
 
 // Wat er in een bibliotheek is aangevinkt, per lijst.
@@ -7199,7 +7226,7 @@ function tekenBiblioLijst(ul, rijen, vrij, leegTekst) {
             const buf = await biblioGeluid(rij);
             download(naarWav(buf), rij.naam.replace(/[^\w\- ]/g, '') + '.wav');
         });
-        if (rij.bron !== 'set') knop('\u00D7', () => {
+        if (rij.bron !== 'set' && !rij.vast) knop('\u00D7', () => {
             if (confirm(lokaalKan
                 ? 'Dit geluid naar de prullenbak in de map opnames verplaatsen?'
                 : 'Dit geluid uit de lijst halen?')) biblioWeg(rij);
@@ -7500,6 +7527,33 @@ async function bewaarNu() {
             }, i);
         });
     } catch (e) { console.warn('opslaan mislukt', e); }
+}
+
+// De studio begint leeg. Staat er nog een project in deze browser, dan vraagt
+// hij eerst of dat weer open moet. Kies je leeg beginnen, dan gaat het oude
+// project uit de browser; bewaar het dus eerst als bestand als je het wilt houden.
+async function vraagVorigProject() {
+    let aantal = 0;
+    try {
+        const db = await openDb();
+        const w = db.transaction(WINKEL, 'readonly').objectStore(WINKEL);
+        aantal = await new Promise(res => { const q = w.count(); q.onsuccess = () => res(q.result || 0); q.onerror = () => res(0); });
+    } catch (e) { return; }
+    if (!aantal) return;
+    const bak = document.getElementById('vraagbak');
+    document.getElementById('vraagTekst').textContent =
+        'Er staat nog een project in deze browser, met ' + aantal + (aantal === 1 ? ' pad' : ' pads') + '. Weer openen? Kies je leeg beginnen, dan gaat dat oude project uit de browser. Wil je het houden, open het dan eerst en klik op Project bewaren.';
+    const n = document.getElementById('vraagNieuw'), o = document.getElementById('vraagOver'), a = document.getElementById('vraagAnnuleer');
+    n.textContent = 'Vorig project openen'; o.textContent = 'Leeg beginnen'; a.hidden = true;
+    bak.hidden = false;
+    const keuze = await new Promise(res => { n.onclick = () => res('open'); o.onclick = () => res('leeg'); });
+    bak.hidden = true; a.hidden = false;
+    n.textContent = 'Als nieuw geluid'; o.textContent = 'Overschrijven';
+    if (keuze === 'open') { await laadAlles(); return; }
+    try {
+        const db = await openDb();
+        db.transaction(WINKEL, 'readwrite').objectStore(WINKEL).clear();
+    } catch (e) { console.warn('leegmaken mislukt', e); }
 }
 
 async function laadAlles() {
@@ -8825,6 +8879,23 @@ function bouwTransport() {
     };
     zet('tvakMaat', ['bpm', 'raster', 'knopQuant', 'knopKlik', 'telWaarde']);
     zet('tvakLus', ['knopLus', 'knopLusOp', 'maten', 'knopLusTerug', 'knopLusWis', 'lusBalk']);
+    // in vaste rijen, anders valt het rommelig uit elkaar
+    const rijen = (vak, groepen) => {
+        const doel = document.getElementById(vak);
+        if (!doel) return;
+        groepen.forEach(ids => {
+            const rij = document.createElement('div'); rij.className = 'trij';
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const lab = doel.querySelector('label[for="' + id + '"]');
+                if (lab) rij.appendChild(lab);
+                rij.appendChild(el);
+            });
+            doel.appendChild(rij);
+        });
+    };
+    rijen('tvakLus', [['knopLus', 'knopLusOp'], ['maten', 'knopLusTerug', 'knopLusWis'], ['lusBalk']]);
     zet('tvakMix', ['mixKnop', 'mixTijd', 'mixBeluister', 'mixWav']);
     zet('tvakUit', ['compAan', 'compMeter', 'kraakKnop', 'kraakVolume']);
     const bpm = document.getElementById('bpm'); if (bpm) bpm.title = 'Tempo in slagen per minuut';
@@ -11951,7 +12022,7 @@ bouwTransport();
 bouwFxModal();
 tekenLus();
 tekenAlles();
-laadAlles();
+vraagVorigProject();
 laadBiblio().then(laadSet);
 window.addEventListener('resize', () => { tekenAlles(); tekenLus(); tekenOram(); });
 </script>
