@@ -2960,7 +2960,11 @@ function zetCompressor() {
 }
 
 function zorgCtx() {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (!ctx) {
+        // Snelste reactie: kleinste buffer die de browser aandurft (kan op een zwakke computer kraken). Instelbaar op de plaat Uitgang.
+        let snel = false; try { snel = localStorage.getItem('swt-latentie') === 'snel'; } catch (e) {}
+        ctx = new (window.AudioContext || window.webkitAudioContext)(snel ? { latencyHint: 0 } : { latencyHint: 'interactive' });
+    }
     return ctx;
 }
 
@@ -4633,6 +4637,10 @@ function openUitgang() {
         elementen.push([c, k]); knoppen.appendChild(k);
     });
     plaat.appendChild(knoppen);
+    const lat = document.createElement('p'); lat.className = 'uitleg'; lat.style.margin = '0 14px 4px';
+    const zetLat = () => { const b = (ctx.baseLatency || 0) * 1000, o = (ctx.outputLatency || 0) * 1000; let snel = false; try { snel = localStorage.getItem('swt-latentie') === 'snel'; } catch (e) {} lat.textContent = 'Vertraging van klik tot geluid: ongeveer ' + Math.round(b + o) + ' ms (verwerking ' + Math.round(b) + ' ms, geluidskaart ' + Math.round(o) + ' ms)' + (o === 0 ? ', de browser meldt de geluidskaart niet' : '') + '. Stand: ' + (snel ? 'snelste' : 'normaal') + '. Quantize zet de aanslag bovendien op de tel, dat is extra wachten.'; };
+    zetLat(); setInterval(zetLat, 2000);
+    plaat.appendChild(lat);
     const meter = document.createElement('p'); meter.className = 'uitleg'; meter.style.margin = '0 14px 6px';
     const meterTimer = setInterval(() => { if (!compressor) return; const r = compressor.reduction; meter.textContent = 'De compressor houdt nu ' + (Math.abs(r) < 0.05 ? '0,0' : (-r).toFixed(1).replace('.', ',')) + ' dB tegen' + (comp.aan ? '' : ' (staat uit)') + '.'; }, 120);
     plaat.appendChild(meter);
@@ -4646,6 +4654,11 @@ function openUitgang() {
     const terug = document.createElement('button'); terug.textContent = 'Standaard';
     terug.onclick = () => { Object.assign(comp, { drempel: -20, ratio: 4, knie: 12, aanslag: 8, loslaten: 180, volume: 1.0 }); zetCompressor(); elementen.forEach(([c, k]) => k.zet(comp[c.sleutel])); };
     voet.appendChild(terug);
+    let snelNu = false; try { snelNu = localStorage.getItem('swt-latentie') === 'snel'; } catch (e) {}
+    const snelKnop = document.createElement('button'); snelKnop.textContent = snelNu ? 'Snelste reactie: aan' : 'Snelste reactie'; snelKnop.classList.toggle('aan', snelNu);
+    snelKnop.title = 'De kleinste geluidsbuffer die de browser aandurft. Kan kraken op een zwakke computer. Werkt na herladen, je project blijft staan';
+    snelKnop.onclick = () => { try { localStorage.setItem('swt-latentie', snelNu ? 'normaal' : 'snel'); sessionStorage.setItem('swt-project-open', '1'); } catch (e) {} if (bewaarTimer) { clearTimeout(bewaarTimer); bewaarNu(); } setTimeout(() => location.reload(), 300); };
+    voet.appendChild(snelKnop);
     const uitleg = document.createElement('span'); uitleg.className = 'uitleg';
     uitleg.textContent = 'Drempel is vanaf welk niveau hij ingrijpt, verhouding hoe hard, knie hoe geleidelijk, aanslag hoe snel hij reageert en loslaten hoe snel hij weer loslaat. Sleep een knop omhoog of omlaag, dubbelklik zet hem terug.';
     voet.appendChild(uitleg);
